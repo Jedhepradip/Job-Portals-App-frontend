@@ -63,7 +63,7 @@ const Home: React.FC = () => {
         <div className='w-full flex items-center justify-center mt-4'>
           <input
             type="text"
-            className='md:w-[42%] w-[70%] bg-white rounded-full py-[6px] px-4 shadow-md shadow-gray-400'
+            className='md:w-[42%] w-[70%] bg-white rounded-full py-[6px] px-4 shadow-md shadow-gray-400 outline-none'
             placeholder='Find Your Dream Jobs' />
 
           <div className='flex justify-center items-center w-10 h-[36px] absolute bg-purple-800 rounded-r-full text-white md:ml-[490px] ml-[300px]'>
