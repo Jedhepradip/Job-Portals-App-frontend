@@ -110,11 +110,11 @@ const Home: React.FC = () => {
       </div>
 
       <div className='px-24'>
-        <h1 className='text-purple-600 font-bold text-3xl'>Latest and Top <span className='text-black'>Job Openings</span></h1>
+        <h1 className='text-purple-600 font-bold text-4xl'>Latest and Top <span className='text-black'>Job Openings</span></h1>
 
-        <div className='w-full grid grid-cols-3 mt-5 gap-5'>
+        <div className='w-full grid md:grid-cols-3 sm:grid-cols-1 mt-10 gap-5'>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-400'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -127,7 +127,7 @@ const Home: React.FC = () => {
             </div>
           </div>   
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-400'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -140,7 +140,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-400'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-400'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -166,7 +166,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-400'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -179,7 +179,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-400'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
