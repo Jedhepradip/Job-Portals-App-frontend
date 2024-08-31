@@ -6,18 +6,20 @@ import Home from './Pages/Home'
 import Jobs from './Pages/Jobs'
 import Browse from './Pages/Browse'
 import Footer from './components/Footer'
+import Profile from './Pages/Profile'
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Navbar/>
+      <Navbar />
       <Routes>
         <Route path='*' element={<NotFound />} />
         <Route path='/' element={<Home />} />
-        <Route path='/Jobs' element={<Jobs/>} />
-        <Route path='/Browse' element={<Browse/>} />
+        <Route path='/Jobs' element={<Jobs />} />
+        <Route path='/Browse' element={<Browse />} />
+        <Route path='/Profile' element={<Profile />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </BrowserRouter >
   )
 }

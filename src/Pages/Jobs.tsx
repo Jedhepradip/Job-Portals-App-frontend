@@ -73,13 +73,15 @@ const Jobs: React.FC = () => {
             </div>
           </div>
 
-          <div className='md:col-span-9 col-span-12 bg-white p-6 rounded-lg'>
-            <div className='grid grid-cols-12 gap-4 p-4 '>
+          <div className='md:col-span-9 col-span-12 bg-white shadow-gray-300 p-5 rounded-lg'>
+            <div className='grid grid-cols-12'>
               <div className='col-span-12 grid md:grid-cols-3 gap-5 '>
-                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-6'>
-                  <div className='flex justify-between items-center mb-4'>
+                <div className='py-3 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
+                  <div className='flex justify-between items-center mb-3'>
                     <h1 className='font-medium'>Today</h1>
-                    <FaRegBookmark />
+                    <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100  rounded-full'>
+                      <FaRegBookmark className='text-[18px]' />
+                    </div>
                   </div>
                   <div className='flex'>
                     <div>
@@ -107,10 +109,12 @@ const Jobs: React.FC = () => {
 
                 </div>
 
-                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-6'>
+                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
                   <div className='flex justify-between items-center mb-4'>
                     <h1 className='font-medium'>Today</h1>
-                    <FaRegBookmark />
+                    <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100  rounded-full'>
+                      <FaRegBookmark className='text-[18px]' />
+                    </div>
                   </div>
                   <div className='flex'>
                     <div>
@@ -139,10 +143,12 @@ const Jobs: React.FC = () => {
                 </div>
 
 
-                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-6'>
+                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
                   <div className='flex justify-between items-center mb-4'>
                     <h1 className='font-medium'>Today</h1>
-                    <FaRegBookmark />
+                    <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100  rounded-full'>
+                      <FaRegBookmark className='text-[18px]' />
+                    </div>
                   </div>
                   <div className='flex'>
                     <div>
@@ -171,10 +177,12 @@ const Jobs: React.FC = () => {
                 </div>
 
 
-                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-6'>
+                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
                   <div className='flex justify-between items-center mb-4'>
                     <h1 className='font-medium'>Today</h1>
-                    <FaRegBookmark />
+                    <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100  rounded-full'>
+                      <FaRegBookmark className='text-[18px]' />
+                    </div>
                   </div>
                   <div className='flex'>
                     <div>
@@ -203,10 +211,12 @@ const Jobs: React.FC = () => {
                 </div>
 
 
-                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-6'>
+                <div className='py-5 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
                   <div className='flex justify-between items-center mb-4'>
                     <h1 className='font-medium'>Today</h1>
-                    <FaRegBookmark />
+                    <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100  rounded-full'>
+                      <FaRegBookmark className='text-[18px]' />
+                    </div>
                   </div>
                   <div className='flex'>
                     <div>
