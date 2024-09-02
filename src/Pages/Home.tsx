@@ -109,7 +109,7 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className='px-24'>
+      <div className='px-14 py-1'>
         <h1 className='text-purple-600 font-bold text-4xl'>Latest and Top <span className='text-black'>Job Openings</span></h1>
 
         <div className='w-full grid md:grid-cols-3 sm:grid-cols-1 mt-10 gap-5'>

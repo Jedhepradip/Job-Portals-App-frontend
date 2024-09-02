@@ -7,6 +7,8 @@ import Jobs from './Pages/Jobs'
 import Browse from './Pages/Browse'
 import Footer from './components/Footer'
 import Profile from './Pages/Profile'
+import SignIn from './Pages/SignIn'
+import Login from './Pages/Login'
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
         <Route path='/Jobs' element={<Jobs />} />
         <Route path='/Browse' element={<Browse />} />
         <Route path='/Profile' element={<Profile />} />
+        <Route path='/SignIn' element={<SignIn />} />
+        <Route path='/Login' element={<Login />} />
       </Routes>
       <Footer />
     </BrowserRouter >
