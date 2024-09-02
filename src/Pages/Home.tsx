@@ -114,7 +114,7 @@ const Home: React.FC = () => {
 
         <div className='w-full grid md:grid-cols-3 sm:grid-cols-1 mt-10 gap-5'>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -140,7 +140,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -166,7 +166,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>
@@ -179,7 +179,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
+          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
             <h6 className='font-sans font-medium'>Googel</h6>
             <span className='text-[12px]'>india</span>
             <h1 className='font-bold '>FullStack Developer</h1>

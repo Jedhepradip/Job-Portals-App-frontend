@@ -5,17 +5,17 @@ import { MdOutlineMailOutline } from 'react-icons/md'
 import { RiContactsBook2Fill } from 'react-icons/ri'
 const Profile: React.FC = () => {
 
-    // interface JobDataInfo {
-    //     date: Date;
-    //     role: string;
-    //     company: string;
-    //     status: string;
-    // }
+    interface JobDataInfo {
+        date: Date;
+        role: string;
+        company: string;
+        status: string;
+    }
 
-    // const jobData: JobDataInfo[] = [
-    //     { date: new Date('2024-09-01'), role: 'Frontend Developer', company: 'TechCorp', status: 'Applied' },
-    //     { date: new Date('2024-09-02'), role: 'Backend Developer', company: 'WebSolutions', status: 'Interview' },
-    // ];
+    const jobData: JobDataInfo[] = [
+        { date: new Date('2024-09-01'), role: 'Frontend Developer', company: 'TechCorp', status: 'Applied' },
+        { date: new Date('2024-09-02'), role: 'Backend Developer', company: 'WebSolutions', status: 'Interview' },
+    ];
 
 
 
@@ -29,14 +29,14 @@ const Profile: React.FC = () => {
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center'>
                                 <FiEdit2 className='text-[20px]' />
                             </div>
-                            <h1 className='font-bold'>Nilesh </h1>
-                            <p className='font-serif'>Lorem ipsum dolor sit amet consectetur </p>
+                            <h1 className='font-bold'>Pradip Jedhe  </h1>
+                            <p className='font-serif'>I Am A Full Stack Devloper</p>
                         </div>
                     </div>
                     <div>
                         <div className='flex px-2 mt-2'>
                             <MdOutlineMailOutline className='mt-1 text-[20px]' />
-                            <h1 className='ml-2 font-medium'>Pradip@gmail.com</h1>
+                            <h1 className='ml-2 font-medium'>Pradipjedhe@gmail.com</h1>
                         </div>
                         <div className='flex px-2 mt-2'>
                             <RiContactsBook2Fill className='mt-1 text-[20px]' />
@@ -56,37 +56,26 @@ const Profile: React.FC = () => {
                 </div>
             </div>
 
-            <h1 className='font-bold text-[20px] ml-[300px] mt-10'>Applied Jobs</h1>
-
-            <div className="grid place-items-center">
-                <div className="shadow shadow-gray-200 rounded-lg bg-red-900 w-full ">
-                    <div className='shadow shadow-gray-200 rounded-lg bg-red-500 flex gap-6 py-5 px-5 w-full'>
-                        <h1 className='flex-1'>Date</h1>
-                        <h1 className='flex-1'>Job Role</h1>
-                        <h1 className='flex-1'>Company</h1>
-                        <h1 className='flex-1'>Status</h1>
+            <h1 className='font-bold text-2xl w-full md:px-[298px] px-2 mt-10'>Applied Jobs</h1>
+            <div className="grid place-items-center md:mt-5 mt-1">
+                <div className="md:shadow shadow-gray-200 rounded-lg w-full md:w-auto md:px-0 md:py-0 px-1 py-2">
+                    <div className='flex justify-between px-5 text-[18px] shadow shadow-gray-200 py-2 rounded-t-lg'>
+                        <h1 className="font-semibold">Date</h1>
+                        <h1 className="font-semibold">Role</h1>
+                        <h1 className="font-semibold">Company</h1>
+                        <h1 className="font-semibold">Status</h1>
                     </div>
+                    {jobData.map((job, index) => (
+                        <div key={index} className='shadow-sm shadow-gray-200 bg-white flex justify-between items-center py-2 px-5 mt-1 last:rounded-b-lg md:gap-[90px] gap-10'>
+                            <h1>{job.date.toLocaleDateString()}</h1>
+                            <h1>{job.role}</h1>
+                            <h1>{job.company}</h1>
+                            <h1 className='bg-gray-300 rounded-full px-2 text-black font-medium'>{job.status}</h1>
+                        </div>
+                    ))}
                 </div>
+                <h3 className='mt-2 text-gray-300'>A list of your recent applied jobs</h3>
             </div>
-            {/* <div className='grid place-items-center mt-10 grid-cols-1'>
-             
-                <div className='shadow shadow-gray-200 rounded-lg bg-red-500 flex gap-10 py-5 px-5 w-full'>
-                    <h1 className='flex-1'>Date</h1>
-                    <h1 className='flex-1'>Job Role</h1>
-                    <h1 className='flex-1'>Company</h1>
-                    <h1 className='flex-1'>Status</h1>
-                </div>
-
-             
-                {jobData.map((job, index) => (
-                    <div key={index} className='shadow shadow-gray-200 rounded-lg bg-white flex gap-10 py-5 px-5 w-full'>
-                        <h1 className='flex-1'>{job.date.toLocaleDateString()}</h1>
-                        <h1 className='flex-1'>{job.role}</h1>
-                        <h1 className='flex-1'>{job.company}</h1>
-                        <h1 className='flex-1'>{job.status}</h1>
-                    </div>
-                ))}
-            </div> */}
 
         </>
     )
