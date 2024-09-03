@@ -3,9 +3,10 @@ import png from "../assets/profile img.jpg"
 import { FiEdit2 } from 'react-icons/fi'
 import { MdOutlineMailOutline } from 'react-icons/md'
 import { RiContactsBook2Fill } from 'react-icons/ri'
+import { LiaTimesSolid } from 'react-icons/lia'
 const Profile: React.FC = () => {
 
-    const [EditFrom, setEditshowhidden] = useState(false)
+    const [isEditFormVisible, setEditFormVisible] = useState(false)
 
     interface JobDataInfo {
         date: Date;
@@ -21,12 +22,112 @@ const Profile: React.FC = () => {
 
 
     const EditPageShowhidden = (): void => {
-        setEditshowhidden(!EditFrom)
+        setEditFormVisible(!isEditFormVisible)
     }
 
     return (
         <>
-            <div className="grid place-items-center">
+            {
+                isEditFormVisible && (
+                    <>
+                        <div className='grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/50'>
+                            <div className='px-4 py-6 shadow-lg shadow-gray-300 rounded-lg bg-white max-w-sm mx-auto'>
+                                <LiaTimesSolid className='float-right text-[25px] cursor-pointer' onClick={() => EditPageShowhidden()} />
+                                <h1 className='text-center font-medium font-serif text-3xl mb-5 text-gray-800'>Update Profile</h1>
+                                <form>
+                                    <table className="w-full">
+                                        <tbody className='space-y-4'>
+                                            <tr className='flex items-center space-x-4'>
+                                                <td className="w-[19%]">
+                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Name</label>
+                                                </td>
+                                                <td className="w-[73%]">
+                                                    <input
+                                                        type="text"
+                                                        name='name'
+                                                        placeholder='Pradip Jedhe'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                    />
+                                                </td>
+                                            </tr>
+                                            <tr className='flex items-center space-x-4'>
+                                                <td className="w-[19%]">
+                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Email</label>
+                                                </td>
+                                                <td className="w-[73%]">
+                                                    <input
+                                                        type="text"
+                                                        name='email'
+                                                        placeholder='PradipJedhe@gmail.com'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                    />
+                                                </td>
+                                            </tr>
+                                            <tr className='flex items-center space-x-4'>
+                                                <td className="w-[19%]">
+                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Number</label>
+                                                </td>
+                                                <td className="w-[73%]">
+                                                    <input
+                                                        type="text"
+                                                        name='phone'
+                                                        placeholder='91+ 8459844605'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                    />
+                                                </td>
+                                            </tr>
+                                            <tr className='flex items-center space-x-4'>
+                                                <td className="w-[19%]">
+                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Bio</label>
+                                                </td>
+                                                <td className="w-[73%]">
+                                                    <input
+                                                        type="text"
+                                                        name='bio'
+                                                        placeholder='Tell us about yourself'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                    />
+                                                </td>
+                                            </tr>
+                                            <tr className='flex items-center space-x-4'>
+                                                <td className="w-[19%]">
+                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Skill</label>
+                                                </td>
+                                                <td className="w-[73%]">
+                                                    <input
+                                                        type="text"
+                                                        name='skill'
+                                                        placeholder='Your skills'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                    />
+                                                </td>
+                                            </tr>
+                                            <tr className='flex items-center space-x-4'>
+                                                <td className="w-[19%]">
+                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Resume</label>
+                                                </td>
+                                                <td className="w-[73%]">
+                                                    <input
+                                                        type="file"
+                                                        name='profile'
+                                                        className='w-full px-4 py-1 border border-gray-900 rounded-md focus:ring-2  outline-none font-serif'
+                                                    />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="button" className="mt-6 text-white w-[60%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
+                                        Update
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </>
+                )
+            }
+
+            <div className="grid place-items-center relative">
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
                         <img src={png} alt="" className='h-20 w-20 mt-3 rounded-full' />
@@ -86,103 +187,7 @@ const Profile: React.FC = () => {
             {/* Edit From show hidden */}
 
 
-            {
-                EditFrom && (
-                    <>
-                        <div className='grid grid-cols-1 place-items-center mt-5'>
-                            <div className='px-8 py-6 shadow-lg shadow-gray-300 rounded-lg bg-white'>
-                                {/* <h1 className='text-center font-medium font-serif text-3xl mb-6 text-gray-800'>Sign In</h1> */}
-                                <form>
-                                    <table className="w-full">
-                                        <tbody className='space-y-4'>
-                                            <tr className='flex items-center space-x-4'>
-                                                <td className="w-[20%]">
-                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Name</label>
-                                                </td>
-                                                <td className="w-[80%]">
-                                                    <input
-                                                        type="text"
-                                                        name='name'
-                                                        placeholder='Pradip Jedhe'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none'
-                                                    />
-                                                </td>
-                                            </tr>
-                                            <tr className='flex items-center space-x-4'>
-                                                <td className="w-[20%]">
-                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Email</label>
-                                                </td>
-                                                <td className="w-[80%]">
-                                                    <input
-                                                        type="text"
-                                                        name='email'
-                                                        placeholder='PradipJedhe@gmail.com'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none'
-                                                    />
-                                                </td>
-                                            </tr>
-                                            <tr className='flex items-center space-x-4'>
-                                                <td className="w-[20%]">
-                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Number</label>
-                                                </td>
-                                                <td className="w-[80%]">
-                                                    <input
-                                                        type="text"
-                                                        name='phone'
-                                                        placeholder='91+ 8459844605'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none'
-                                                    />
-                                                </td>
-                                            </tr>
-                                            <tr className='flex items-center space-x-4'>
-                                                <td className="w-[20%]">
-                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Bio</label>
-                                                </td>
-                                                <td className="w-[80%]">
-                                                    <input
-                                                        type="text"
-                                                        name='bio'
-                                                        placeholder='Tell us about yourself'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none'
-                                                    />
-                                                </td>
-                                            </tr>
-                                            <tr className='flex items-center space-x-4'>
-                                                <td className="w-[20%]">
-                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Skill</label>
-                                                </td>
-                                                <td className="w-[80%]">
-                                                    <input
-                                                        type="text"
-                                                        name='skill'
-                                                        placeholder='Your skills'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none'
-                                                    />
-                                                </td>
-                                            </tr>
-                                            <tr className='flex items-center space-x-4'>
-                                                <td className="w-[20%]">
-                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Resume</label>
-                                                </td>
-                                                <td className="w-[80%]">
-                                                    <input
-                                                        type="file"
-                                                        name='profile'
-                                                        className='w-full px-4 py-1 border border-gray-900 rounded-md focus:ring-2  outline-none'
-                                                    />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button type="button" className="mt-6 text-white w-[50%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 ml-[25%]">
-                                        Sign Up
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </>
-                )
-            }
+
 
         </>
     )
