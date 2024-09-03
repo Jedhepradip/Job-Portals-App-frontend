@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const token = true;
+  const token = false;
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

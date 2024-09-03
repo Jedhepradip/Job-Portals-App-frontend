@@ -7,6 +7,7 @@ import { LiaTimesSolid } from 'react-icons/lia'
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
+    const [isProfileImg, setProfileimg] = useState(String)
 
     interface JobDataInfo {
         date: Date;
@@ -24,6 +25,15 @@ const Profile: React.FC = () => {
     const EditPageShowhidden = (): void => {
         setEditFormVisible(!isEditFormVisible)
     }
+
+    const profileimg = (img: string): void => {
+        if (img) {
+            setProfileimg(img)
+        } else {
+            setProfileimg(" ")
+        }
+    }
+    console.log(isProfileImg);
 
     return (
         <>
@@ -127,10 +137,16 @@ const Profile: React.FC = () => {
                 )
             }
 
+            <div className='grid grid-cols-1 place-items-center absolute'>
+                <div className='md:h-44 md:w-44 md:mt-40 rounded-full md:ml-20 h-28 w-28 ml-80 mt-28'>
+                    <img src={isProfileImg} alt="" className='rounded-full' />
+                </div>
+            </div>
+
             <div className="grid place-items-center relative">
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
-                        <img src={png} alt="" className='h-20 w-20 mt-3 rounded-full' />
+                        <img src={png} alt="" className='h-20 w-20 mt-3 rounded-full bg-black' onMouseOver={() => profileimg(png)} onMouseOut={() => profileimg("")}/>
                         <div className='px-3'>
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
                                 <FiEdit2 className='text-[20px]' />
