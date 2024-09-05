@@ -316,8 +316,8 @@ const SignIn: React.FC = () => {
                                 <input
                                     {...register("mobile", {
                                         required: { value: true, message: "Phone Number is required" },
-                                        min: { value: 1000000000, message: "Phone number must be 10 digits" },
-                                        max: { value: 9999999999, message: "Phone number must be 10 digits" },
+                                        min: { value: 10, message: "Phone number must be 10 digits" },
+                                        max: { value: 10, message: "Phone number must be 10 digits" },
                                     })}
                                     type="number"
                                     name='mobile'

@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import profile from "../assets/profile img.jpg"
 import { NavLink } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const token = false;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userrole, setUserRole] = useState(String)
+
+  useEffect(() => {
+    setUserRole("require");
+  }, [])
+
+
+  const token = true;
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -40,21 +47,49 @@ const Navbar: React.FC = () => {
           </button>
           <div className={`w-full md:block md:w-auto ${isMenuOpen ? '' : 'hidden'}`} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <NavLink to={"/"} >
-                <li onClick={() => toggleMenu()}>
-                  <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Home</a>
-                </li>
-              </NavLink>
-              <NavLink to={"/Jobs"} >
-                <li onClick={() => toggleMenu()}>
-                  <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
-                </li>
-              </NavLink>
-              <NavLink to={"/Browse"} >
-                <li onClick={() => toggleMenu()}>
-                  <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Browse</a>
-                </li>
-              </NavLink>
+
+
+
+              {userrole == "student" ?
+                <>
+
+                  <NavLink to={"/"} >
+                    <li onClick={() => toggleMenu()}>
+                      <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Home</a>
+                    </li>
+                  </NavLink>
+                  <NavLink to={"/Jobs"} >
+                    <li onClick={() => toggleMenu()}>
+                      <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
+                    </li>
+                  </NavLink>
+                  <NavLink to={"/Browse"} >
+                    <li onClick={() => toggleMenu()}>
+                      <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Browse</a>
+                    </li>
+                  </NavLink>
+                </>
+
+
+                :
+
+
+                <>
+                  <NavLink to={"/Company"} >
+                    <li onClick={() => toggleMenu()}>
+                      <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Company</a>
+                    </li>
+                  </NavLink>
+                  <NavLink to={"/AdminJons"} >
+                    <li onClick={() => toggleMenu()}>
+                      <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
+                    </li>
+                  </NavLink>
+                </>
+              }
+
+
+
               {token ?
                 <>
                   <NavLink to="/Profile">

@@ -4,10 +4,55 @@ import { FiEdit2 } from 'react-icons/fi'
 import { MdOutlineMailOutline } from 'react-icons/md'
 import { RiContactsBook2Fill } from 'react-icons/ri'
 import { LiaTimesSolid } from 'react-icons/lia'
+import { useForm, SubmitHandler } from "react-hook-form"
+import axios from 'axios'
+
+{/* <BsThreeDots /> */ }
+{/* <IoArrowBack /> */ }
+{/* <IoEye /> */ }
+
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
     const [isProfileImg, setProfileimg] = useState(String)
+    const [file, setfile] = useState(String)
+
+    interface InputFrom {
+        profile: string,
+        name: string,
+        email: string,
+        mobile: string,
+        password: string,
+        bio: string,
+        skill: string,
+    }
+
+    const { register, handleSubmit } = useForm<InputFrom>()
+
+
+    const onSubmit: SubmitHandler<InputFrom> = async (data) => {
+        const formData = new FormData();
+        formData.append("file", file)
+        formData.append("name", data.name);
+        formData.append("email", data.email);
+        formData.append("mobile", data.mobile);
+        formData.append("bio", data.bio);
+        formData.append("skill", data.skill);
+
+        console.log(formData);
+
+        try {
+            const response = await axios.put("http://localhost:8000", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const responsedata = await response.data;
+            console.log(responsedata);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     interface JobDataInfo {
         date: Date;
@@ -33,7 +78,6 @@ const Profile: React.FC = () => {
             setProfileimg(" ")
         }
     }
-    console.log(isProfileImg);
 
     return (
         <>
@@ -44,19 +88,19 @@ const Profile: React.FC = () => {
                             <div className='px-4 py-6 shadow-lg shadow-gray-300 rounded-lg bg-white max-w-sm mx-auto'>
                                 <LiaTimesSolid className='float-right text-[25px] cursor-pointer' onClick={() => EditPageShowhidden()} />
                                 <h1 className='text-center font-medium font-serif text-3xl mb-5 text-gray-800'>Update Profile</h1>
-                                <form>
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                     <table className="w-full">
-                                        <tbody className='space-y-4'>
+                                        <div className='space-y-4'>
                                             <tr className='flex items-center space-x-4'>
                                                 <td className="w-[19%]">
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Name</label>
                                                 </td>
                                                 <td className="w-[73%]">
-                                                    <input
+                                                    <input {...register("name")}
                                                         type="text"
                                                         name='name'
                                                         placeholder='Pradip Jedhe'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
                                             </tr>
@@ -65,11 +109,11 @@ const Profile: React.FC = () => {
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Email</label>
                                                 </td>
                                                 <td className="w-[73%]">
-                                                    <input
-                                                        type="text"
+                                                    <input {...register("email")}
+                                                        type="email"
                                                         name='email'
                                                         placeholder='PradipJedhe@gmail.com'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
                                             </tr>
@@ -79,10 +123,10 @@ const Profile: React.FC = () => {
                                                 </td>
                                                 <td className="w-[73%]">
                                                     <input
-                                                        type="text"
-                                                        name='phone'
-                                                        placeholder='91+ 8459844605'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                        type="number"
+                                                        name='mobile'
+                                                        placeholder='8459844605'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none'
                                                     />
                                                 </td>
                                             </tr>
@@ -91,11 +135,11 @@ const Profile: React.FC = () => {
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Bio</label>
                                                 </td>
                                                 <td className="w-[73%]">
-                                                    <input
+                                                    <input {...register("bio")}
                                                         type="text"
                                                         name='bio'
                                                         placeholder='Tell us about yourself'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
                                             </tr>
@@ -104,11 +148,11 @@ const Profile: React.FC = () => {
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Skill</label>
                                                 </td>
                                                 <td className="w-[73%]">
-                                                    <input
+                                                    <input {...register('skill')}
                                                         type="text"
                                                         name='skill'
                                                         placeholder='Your skills'
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2  focus:border-transparent outline-none font-serif'
+                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
                                             </tr>
@@ -120,13 +164,13 @@ const Profile: React.FC = () => {
                                                     <input
                                                         type="file"
                                                         name='profile'
-                                                        className='w-full px-4 py-1 border border-gray-900 rounded-md focus:ring-2  outline-none font-serif'
-                                                    />
+                                                        className='w-full px-4 py-1 border border-gray-300 rounded-md focus:ring-black focus:border-transparent outline-none font-serif'
+                                                        onChange={(e) => setfile(e.target.value)} />
                                                 </td>
                                             </tr>
-                                        </tbody>
+                                        </div>
                                     </table>
-                                    <button type="button" className="mt-6 text-white w-[60%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
+                                    <button type="submit" className="mt-6 text-white w-[60%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
                                         Update
                                     </button>
                                 </form>
@@ -146,7 +190,7 @@ const Profile: React.FC = () => {
             <div className="grid place-items-center relative">
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
-                        <img src={png} alt="" className='h-20 w-20 mt-3 rounded-full bg-black' onMouseOver={() => profileimg(png)} onMouseOut={() => profileimg("")}/>
+                        <img src={png} alt="" className='h-20 w-20 mt-3 rounded-full bg-black' onMouseOver={() => profileimg(png)} onMouseOut={() => profileimg("")} />
                         <div className='px-3'>
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
                                 <FiEdit2 className='text-[20px]' />
