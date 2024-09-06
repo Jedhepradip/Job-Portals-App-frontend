@@ -233,7 +233,7 @@ const Profile: React.FC = () => {
                     </div>
                     {jobData.map((job, index) => (
                         <div key={index} className='shadow-sm shadow-gray-200 bg-white flex justify-between items-center py-2 px-5 mt-1 last:rounded-b-lg md:gap-[90px] gap-10 font-serif'>
-                            <h1>{job.date.toLocaleDateString()}</h1>
+                            <h1>{job.date.toDateString()}</h1>
                             <h1>{job.role}</h1>
                             <h1>{job.company}</h1>
                             <h1 className='bg-gray-100 rounded-full px-2 text-black font-serif'>{job.status}</h1>

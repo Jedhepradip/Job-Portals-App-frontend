@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useForm, SubmitHandler, FieldError } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 
 const SignIn: React.FC = () => {
 
     const [file, setFile] = useState(String)
+    const Navigate = useNavigate();
 
     interface IFormInput {
         file: string,
@@ -27,20 +31,51 @@ const SignIn: React.FC = () => {
         formData.append("password", data.password);
         formData.append("role", data.role);
 
+        console.log(data.role);
+
+
         try {
             const response = await axios.post("http://localhost:8000/User/Registration", formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(response.data.message);
-        } catch (error) {
-            console.log(error);
+
+            const UserResponse = response.data;
+
+            console.log(response);
+
+
+            if (response.status == 200) {
+                console.log("User registered successfully", UserResponse);
+                toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse}</div>)
+                Navigate("/")
+                const Token = UserResponse.token
+                localStorage.setItem("Token", Token)
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
         }
-    }
+    };
+
+
 
     return (
         <>
+            <ToastContainer />
             <div className='grid grid-cols-1 place-items-center'>
                 <div className='px-5 py-0 shadow-lg shadow-gray-300 rounded-lg '>
                     <h1 className='text-center font-medium font-serif text-[30px]'>SignIn</h1>
@@ -178,7 +213,7 @@ const SignIn: React.FC = () => {
                                             {...register("role", { required: "Please select a user type" })}
                                             type="radio"
                                             id="recruiter"
-                                            value="recruiter"
+                                            value="Recruiter"
                                             name='role'
                                             className="form-radio text-black focus:ring-black"
                                         />
