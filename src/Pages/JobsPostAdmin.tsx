@@ -3,7 +3,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 
-const AdminJobs: React.FC = () => {
+const JobsPostAdmin: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
 
@@ -59,7 +59,7 @@ const AdminJobs: React.FC = () => {
 
             {isEditFormVisible &&
                 <>
-                    <NavLink to="/AdminCompanyEditForm" >
+                    <NavLink to="/" >
                         <div className='px-80 w-full absolute'>
                             <span className='py-1 px-2.5 ml-20 gap-1 flex rounded-lg float-right text-black font-serif shadow shadow-gray-300 text-[20px] cursor-pointer'> <FiEdit2 className='text-[18px] mt-1' /> Edit</span>
                         </div></NavLink>
@@ -69,4 +69,4 @@ const AdminJobs: React.FC = () => {
     )
 }
 
-export default AdminJobs
+export default JobsPostAdmin

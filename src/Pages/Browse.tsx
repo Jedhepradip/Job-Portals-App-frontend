@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaRegBookmark } from 'react-icons/fa'
 
-const Browse = () => {
+const Browse:React.FC = () => {
   return (
     <>
     <h1 className='px-20 font-bold text-[30px] mt-10'>Search Results(6)</h1>

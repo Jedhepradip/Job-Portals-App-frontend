@@ -9,12 +9,12 @@ import Footer from './components/Footer'
 import Profile from './Pages/Profile'
 import SignIn from './Pages/SignIn'
 import Login from './Pages/Login'
-import Company from './Pages/AdminCompany'
-import AdminJons from './Pages/AdminJobs'
-import AdminCreateCompany from './Pages/AdminCreateCompany'
-import AdminCompanysetupPage from "./Pages/AdminCompanysetupPage"
-import AdminCompanyEditForm from './Pages/AdminCompanyEditForm'
-import AdminNewJobsPost from './Pages/AdminNewJobsPost'
+import Company from './Pages/Companyesshow'
+import AdminJons from './Pages/JobsPostAdmin'
+import AdminCreateCompany from './Pages/CreateCompanyAdmin'
+import AdminCompanysetupPage from "./Pages/SetUpCompanyPage"
+import AdminCompanyEditForm from './Pages/EditCompany'
+import AdminNewJobsPost from './Pages/PostJobsAdmin'
 
 const App = () => {
   return (

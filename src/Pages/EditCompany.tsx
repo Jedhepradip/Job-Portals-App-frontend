@@ -2,7 +2,7 @@ import React from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
 
-const AdminCompanyEditForm = () => {
+const EditCompany: React.FC = () => {
     return (
         <>
             <div className='grid grid-cols-1 place-items-center'>
@@ -76,4 +76,4 @@ const AdminCompanyEditForm = () => {
     )
 }
 
-export default AdminCompanyEditForm
+export default EditCompany
