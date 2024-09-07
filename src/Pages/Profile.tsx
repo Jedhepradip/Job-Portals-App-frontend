@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect } from 'react'
 import png from "../assets/profile img.jpg"
 import { FiEdit2 } from 'react-icons/fi'
 import { MdOutlineMailOutline } from 'react-icons/md'
@@ -14,8 +15,43 @@ import axios from 'axios'
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
+    const [UserData, setUserData] = useState(Object)
     const [isProfileImg, setProfileimg] = useState(String)
     const [file, setfile] = useState(String)
+
+
+
+    useEffect(() => {
+        const GetDataUser = async () => {
+            try {
+                const User = await axios.get("http://localhost:8000/User/Information", {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("Token")}`,
+                    }
+                })
+
+                if (User.status == 200) {
+                    const UserData = await User.data;
+                    setUserData(UserData)
+                }
+
+            } catch (error: any) {
+                if (error.User) {
+                    const errorMessage = error.User.data.message;
+
+                    if (error.User.status === 409 || errorMessage == "User not Found") {
+                        console.log("Error: User already exists.");
+                    }
+                    else {
+                        console.log(errorMessage);
+                    }
+                } else {
+                    console.log("Error: Network issue or server not responding", error);
+                }
+            }
+        }
+        GetDataUser()
+    }, [])
 
     interface InputFrom {
         profile: string,
@@ -38,17 +74,19 @@ const Profile: React.FC = () => {
         formData.append("mobile", data.mobile);
         formData.append("bio", data.bio);
         formData.append("skill", data.skill);
+        console.log(data);
 
         console.log(formData);
 
         try {
-            const response = await axios.put("http://localhost:8000", formData, {
+            const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    authorization: `Baera ${localStorage.getItem("Token")}`
                 }
             });
             const responsedata = await response.data;
-            console.log(responsedata);
+            console.log("responsedata :", responsedata);
         } catch (error) {
             console.log(error);
         }
@@ -99,7 +137,7 @@ const Profile: React.FC = () => {
                                                     <input {...register("name")}
                                                         type="text"
                                                         name='name'
-                                                        placeholder='Pradip Jedhe'
+                                                        defaultValue={UserData.name}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -112,7 +150,7 @@ const Profile: React.FC = () => {
                                                     <input {...register("email")}
                                                         type="email"
                                                         name='email'
-                                                        placeholder='PradipJedhe@gmail.com'
+                                                        defaultValue={UserData.email}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -125,7 +163,7 @@ const Profile: React.FC = () => {
                                                     <input
                                                         type="number"
                                                         name='mobile'
-                                                        placeholder='8459844605'
+                                                        defaultValue={UserData.mobile}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none'
                                                     />
                                                 </td>
@@ -138,7 +176,7 @@ const Profile: React.FC = () => {
                                                     <input {...register("bio")}
                                                         type="text"
                                                         name='bio'
-                                                        placeholder='Tell us about yourself'
+                                                        defaultValue={UserData.bio}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -151,7 +189,7 @@ const Profile: React.FC = () => {
                                                     <input {...register('skill')}
                                                         type="text"
                                                         name='skill'
-                                                        placeholder='Your skills'
+                                                        defaultValue={UserData.skills}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -195,29 +233,31 @@ const Profile: React.FC = () => {
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
                                 <FiEdit2 className='text-[20px]' />
                             </div>
-                            <h1 className='font-bold'>Pradip Jedhe  </h1>
-                            <p className='font-serif'>I Am A Full Stack Devloper</p>
+                            <h1 className='font-bold'>{UserData.name}</h1>
+                            <p className='font-serif'>I Am a Full stack Devloper{UserData.bio}</p>
                         </div>
                     </div>
                     <div>
                         <div className='flex px-2 mt-2'>
                             <MdOutlineMailOutline className='mt-1 text-[20px]' />
-                            <h1 className='ml-2 font-medium'>Pradipjedhe@gmail.com</h1>
+                            <h1 className='ml-2 font-medium'>{UserData.email}</h1>
                         </div>
                         <div className='flex px-2 mt-2'>
                             <RiContactsBook2Fill className='mt-1 text-[20px]' />
-                            <h1 className='ml-2 font-medium'>91+ 8459844605</h1>
+                            <h1 className='ml-2 font-medium'>{UserData.mobile}</h1>
                         </div>
                         <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
                         <div className='flex gap-4 mt-2'>
-                            <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Node.js</h3>
-                            <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Express.js</h3>
-                            <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Mongodb</h3>
-                            <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>React.js</h3>
-                            <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Typescript</h3>
+                            {UserData.skills?.map((val: any, index: any) => (
+                                <h3 key={index} className='bg-black text-white text-[14px] px-2 rounded-full'>Node.js{val}</h3>
+                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Express.js</h3>
+                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Mongodb</h3>
+                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>React.js</h3>
+                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Typescript</h3>
+                            ))}
                         </div>
                         <h1 className='font-bold mt-2 text-[19px]'>Resume</h1>
-                        <h2 className='text-blue-600 mt-1 hover:underline'>Pradip Jedhe Resime.pdf</h2>
+                        <h2 className='text-blue-600 mt-1 hover:underline'>Pradip Jedhe Resime.pdf {UserData.ResumeFile}</h2>
                     </div>
                 </div>
             </div>

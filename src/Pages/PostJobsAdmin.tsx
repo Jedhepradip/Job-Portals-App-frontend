@@ -31,9 +31,13 @@ const PostJobsAdmin: React.FC = () => {
         formData.append("position", data.NoOfPosition);
         formData.append("experienceLevel", data.ExperienceLevel);
         formData.append("company", CompanyName);
-
+        console.log(data);
         try {
-            const response = await axios.post("http://localhost:8000/Admin/PostJobs", formData);
+            const response = await axios.post("http://localhost:8000/Admin/PostJobs", formData, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            });
             const responsedata = await response.data;
             if (!response.data.ok) {
                 console.log(response.status);
