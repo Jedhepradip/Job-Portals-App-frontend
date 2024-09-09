@@ -60,23 +60,24 @@ const Profile: React.FC = () => {
         mobile: string,
         password: string,
         bio: string,
-        skill: string,
+        skills: string,
     }
 
     const { register, handleSubmit } = useForm<InputFrom>()
 
 
     const onSubmit: SubmitHandler<InputFrom> = async (data) => {
+
+
+        const skillsSplit: any = data.skills.split(" ")
+
         const formData = new FormData();
         formData.append("file", file)
         formData.append("name", data.name);
         formData.append("email", data.email);
         formData.append("mobile", data.mobile);
         formData.append("bio", data.bio);
-        formData.append("skill", data.skill);
-        console.log(data);
-
-        console.log(formData);
+        formData.append("skills", skillsSplit);
 
         try {
             const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
@@ -160,7 +161,7 @@ const Profile: React.FC = () => {
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Number</label>
                                                 </td>
                                                 <td className="w-[73%]">
-                                                    <input
+                                                    <input {...register("mobile")}
                                                         type="number"
                                                         name='mobile'
                                                         defaultValue={UserData.mobile}
@@ -186,9 +187,9 @@ const Profile: React.FC = () => {
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Skill</label>
                                                 </td>
                                                 <td className="w-[73%]">
-                                                    <input {...register('skill')}
+                                                    <input {...register('skills')}
                                                         type="text"
-                                                        name='skill'
+                                                        name='skills'
                                                         defaultValue={UserData.skills}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
@@ -208,7 +209,7 @@ const Profile: React.FC = () => {
                                             </tr>
                                         </div>
                                     </table>
-                                    <button type="submit" className="mt-6 text-white w-[60%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
+                                    <button type="submit" className="mt-6 text-white w-[100%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
                                         Update
                                     </button>
                                 </form>
@@ -234,7 +235,7 @@ const Profile: React.FC = () => {
                                 <FiEdit2 className='text-[20px]' />
                             </div>
                             <h1 className='font-bold'>{UserData.name}</h1>
-                            <p className='font-serif'>I Am a Full stack Devloper{UserData.bio}</p>
+                            <p className='font-serif'>{UserData.bio}</p>
                         </div>
                     </div>
                     <div>
@@ -247,13 +248,9 @@ const Profile: React.FC = () => {
                             <h1 className='ml-2 font-medium'>{UserData.mobile}</h1>
                         </div>
                         <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
-                        <div className='flex gap-4 mt-2'>
+                        <div className='gap-4 mt-2 grid grid-cols-7'>
                             {UserData.skills?.map((val: any, index: any) => (
-                                <h3 key={index} className='bg-black text-white text-[14px] px-2 rounded-full'>Node.js{val}</h3>
-                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Express.js</h3>
-                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Mongodb</h3>
-                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>React.js</h3>
-                                //   <h3 className='bg-black text-white text-[14px] px-2 rounded-full'>Typescript</h3>
+                                <h3 key={index} className='bg-black text-white text-[14px] px-1.5 rounded-full text-center'>{val}</h3>
                             ))}
                         </div>
                         <h1 className='font-bold mt-2 text-[19px]'>Resume</h1>

@@ -34,7 +34,7 @@ const Companyesshow: React.FC = () => {
             placeholder='Filter by name'
             className='px-4 py-2 border md:w-[27%] w-[60%] border-gray-300 rounded-md focus:ring-black  font-serif'
           />
-          <NavLink to="/AdminCreateCompany" > <button className='bg-black text-white py-1.5 px-4 md:px-6 md:py-1.5 text-[18px] float-right rounded-lg font-serif'>New Company</button></NavLink>
+          <NavLink to="/CreateCompanyAdmin" > <button className='bg-black text-white py-1.5 px-4 md:px-6 md:py-1.5 text-[18px] float-right rounded-lg font-serif'>New Company</button></NavLink>
         </div>
 
         {/* Table Headers */}

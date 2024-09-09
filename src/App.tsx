@@ -11,8 +11,8 @@ import SignIn from './Pages/SignIn'
 import Login from './Pages/Login'
 import Company from './Pages/Companyesshow'
 import AdminJons from './Pages/JobsPostAdmin'
-import AdminCreateCompany from './Pages/CreateCompanyAdmin'
-import AdminCompanysetupPage from "./Pages/SetUpCompanyPage"
+import CreateCompanyAdmin from './Pages/CreateCompanyAdmin'
+import SetUpCompanyPage from "./Pages/SetUpCompanyPage"
 import AdminCompanyEditForm from './Pages/EditCompany'
 import AdminNewJobsPost from './Pages/PostJobsAdmin'
 
@@ -30,10 +30,10 @@ const App = () => {
         <Route path='/Login' element={<Login />} />
         <Route path='/Company' element={<Company />} />
         <Route path='/AdminJons' element={<AdminJons />} />
-        <Route path='/AdminCreateCompany' element={<AdminCreateCompany />} />
-        <Route path='/AdminCompanysetupPage' element={<AdminCompanysetupPage />} />
+        <Route path='/CreateCompanyAdmin' element={<CreateCompanyAdmin />} />
+        <Route path='/SetUpCompanyPage/:id' element={<SetUpCompanyPage />} />
         <Route path='/AdminCompanyEditForm' element={<AdminCompanyEditForm />} />
-        <Route path='/AdminNewJobsPost' element={<AdminNewJobsPost/>} />
+        <Route path='/AdminNewJobsPost' element={<AdminNewJobsPost />} />
       </Routes>
       <Footer />
     </BrowserRouter >

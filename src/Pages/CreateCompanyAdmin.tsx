@@ -2,87 +2,66 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { SubmitHandler, useForm } from "react-hook-form"
-// import { useNavigate } from 'react-router-dom';
-// import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const CreateCompanyAdmin: React.FC = () => {
 
-    // const Navigate = useNavigate();
+    const Navigate = useNavigate();
     interface Inputform {
         CompanyName: string;
     }
     const { register, handleSubmit, formState: { errors } } = useForm<Inputform>();
 
-    // const onsubmit: SubmitHandler<Inputform> = async (data) => {
-    //     console.log(data);
-    //     const Token = localStorage.getItem("Token")
-    //     console.log(Token);
-    //     try {
-    //         const response = await axios.post("http://localhost:8000/Company/Registration", data, {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 authorization: `Bearer ${Token}`,
-    //             }
-    //         })
-
-    //         const UserResponse = response.data;
-
-    //         if (response.status == 200) {
-    //             console.log("User registered successfully", UserResponse);
-    //             toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse}</div>)
-    //             Navigate("/AdminCompanysetupPage")
-    //         }
-    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //     } catch (error: any) {
-    //         if (error.response) {
-    //             const errorMessage = error.response.data.message;
-    //             if (error.response.status === 409 || errorMessage === "User already exists") {
-    //                 console.log("Error: User already exists.");
-    //                 toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-    //             } else {
-    //                 toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-    //                 console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-    //             }
-    //         } else {
-    //             console.log("Error: Network issue or server not responding", error);
-    //         }
-    //     }
-    // };
-
     const onsubmit: SubmitHandler<Inputform> = async (data) => {
-        console.log("Form submitted", data);  // Add this line
-        const Token = localStorage.getItem("Token");
+        // console.log(data);
+        const Token = localStorage.getItem("Token")
         console.log(Token);
         try {
-            const response = await axios.post("http://localhost:8000/Company/Registration", data, {
+            const response = await axios.post("http://localhost:8000/Company/Register/Admin/Company", data, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${Token}`,
                 }
-            });
-            console.log("Response received", response);  // Add this line
-            // ...
+            })
+
+            const CompanyResponse = response.data;
+
+            if (response.status == 200) {
+                console.log("User registered successfully", CompanyResponse);
+                toast.success(<div className='font-serif text-[15px] text-black'>{CompanyResponse.message}</div>)
+                console.log(CompanyResponse);
+
+                setTimeout(() => {
+                    Navigate(`/SetUpCompanyPage/${CompanyResponse.Companystord._id}`)
+                }, 2000)
+            }
+            else {
+                Navigate("/CreateCompanyAdmin")
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-            console.error("Error details", error);  // Log full error details
             if (error.response) {
-                console.log("Server responded with", error.response.status);
-                console.log("Response data:", error.response.data);
-            } else if (error.request) {
-                console.log("Request made but no response received");
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
             } else {
-                console.log("Error setting up the request", error.message);
+                console.log("Error: Network issue or server not responding", error);
             }
         }
-
     };
-
 
     return (
         <>
             <div className='grid place-items-start md:px-60 md:mt-10 md:p-0 p-12'>
-                {/* <ToastContainer /> */}
+                <ToastContainer />
                 <h1 className='font-bold font-serif text-[25px]'>Your Company Name</h1>
                 <p className='font-serif font-medium'>What Would you like to give your Comapny name? you can change this later</p>
 

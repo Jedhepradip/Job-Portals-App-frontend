@@ -1,15 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import axios from 'axios'
 
 const SetUpCompanyPage: React.FC = () => {
 
     const [file, setFile] = useState(String)
+    const { id } = useParams<{ id: string }>();
 
-    const Naviget = useNavigate();
+    const Navigate = useNavigate();
 
     interface InputForm {
         name: string,
@@ -19,7 +26,7 @@ const SetUpCompanyPage: React.FC = () => {
         Logo: string;
     }
 
-    const id: string = "1234";
+    // const id: string = "1234";
     const { register, handleSubmit, formState: { errors } } = useForm<InputForm>();
 
     const onsubmit: SubmitHandler<InputForm> = async (data) => {
@@ -36,24 +43,36 @@ const SetUpCompanyPage: React.FC = () => {
                 }
             })
             const responsedata = await response.data;
-            if (!response.data.ok) {
-                console.log(responsedata);
+
+            if (response.status == 200) {
+                console.log("Company registered successfully", responsedata);
+                toast.success(<div className='font-serif text-[15px] text-black'>{responsedata}</div>)
+                Navigate("/Company")
             }
-            if (response.data.ok) {
-                console.log(responsedata);
-                Naviget("/Company")
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
             }
-        } catch (error) {
-            console.log(error);
         }
     }
 
     return (
         <>
+            <ToastContainer />
             <div className='grid grid-cols-1 place-items-center'>
                 <div className='px-5 py-5 shadow-lg shadow-gray-300 rounded-lg'>
                     <div className='flex'>
-                        <NavLink to="/AdminCreateCompany" >
+                        <NavLink to="/CreateCompanyAdmin" >
                             <h1 className='flex text-[18px] mt-3 font-serif text-gray-500'><IoArrowBack className='text-[25px]' /><span className='ml-1.5 text-gray-500'>Back</span></h1>
                         </NavLink>
                         <h1 className='text-[30px] font-bold px-10 font-serif'><span className='font-serif text-[35px]'>C</span>ompany SetUp</h1>
