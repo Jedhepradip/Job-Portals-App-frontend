@@ -1,40 +1,73 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 
+interface CompanyData {
+  _id: string,
+  CompanyName: string,
+  UserId: string,
+  createdAt: Date,
+  updatedAt: Date,
+  description: string,
+  location: string,
+  website: string,
+}
+
 const Companyesshow: React.FC = () => {
-  const [isEditFormVisible, setEditFormVisible] = useState(false);
 
-  interface JobDataInfo {
-    Logo: string;
-    name: string;
-    date: Date;
-  }
+  // const [isEditFormVisible, setEditFormVisible] = useState(false);
 
-  const jobData: JobDataInfo[] = [
-    { date: new Date('2024-09-01'), Logo: 'xyzimg', name: 'google' },
-    // Add more company data as needed
-  ];
+  // const [companyId, setCompanyId] = useState<string>(String);
+  const [companyId, setCompanyId] = useState<string | null>(null);
 
-  const showEditButton = (data: string) => {
-    if (data === "EditPage") {
-      setEditFormVisible(!isEditFormVisible);
+  const [companies, setCompanies] = useState<CompanyData[]>([]);
+
+  console.log(companyId);
+
+
+
+  useEffect(() => {
+    const GetCompanydata = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/Company/get", {
+          headers: {
+            authorization: `Baera ${localStorage.getItem("Token")}`
+          }
+        })
+        setCompanies(response.data.companies)
+        console.log();
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    GetCompanydata();
+  }, [])
+
+  const showEditButton = (id: string) => {
+    if (id == id) {
+      setCompanyId(prevId => (prevId === id ? null : id));
     }
   };
 
+  console.log(companyId);
+
   return (
     <>
-      <div className='grid grid-cols-1 px-6 mt-7 mb-3'>
+      <div className='grid grid-cols-1 px-6 mt-7 mb-3' >
         {/* Search input and button */}
-        <div className="md:px-28 mt-7 mb-3 md:p-0 p-3 ">
+        <div className="md:px-28 mt-7 mb-3 md:p-0 p-3 " >
           <input
             type="email"
             name='email'
             placeholder='Filter by name'
             className='px-4 py-2 border md:w-[27%] w-[60%] border-gray-300 rounded-md focus:ring-black  font-serif'
           />
-          <NavLink to="/CreateCompanyAdmin" > <button className='bg-black text-white py-1.5 px-4 md:px-6 md:py-1.5 text-[18px] float-right rounded-lg font-serif'>New Company</button></NavLink>
+          <NavLink to="/CreateCompanyAdmin" >
+            <button className='bg-black text-white py-1.5 px-4 md:px-6 md:py-1.5 text-[18px] float-right rounded-lg font-serif'>New Company</button>
+          </NavLink>
         </div>
 
         {/* Table Headers */}
@@ -46,19 +79,22 @@ const Companyesshow: React.FC = () => {
         </div>
 
         {/* Data Rows */}
-        {jobData.map((val, index) => (
-          <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200'>
-            <h1 className='font-serif text-lg font-medium'>{val.Logo}</h1>
-            <h1 className='font-serif text-lg font-medium'>{val.name}</h1>
-            <h1 className='font-serif text-lg font-medium'>{val.date.toDateString()}</h1>
-            <h1 className='md:ml-32 ml-14 text-lg cursor-pointer' onClick={() => showEditButton("EditPage")}>
-              <BsThreeDots className='text-gray-500 hover:text-black transition-all' />
+        {companies?.map((val, index) => (
+          <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200' >
+            <h1 className='font-serif text-lg font-medium'>{"Xyz"}</h1>
+            <h1 className='font-serif text-lg font-medium'>{val?.CompanyName}</h1>
+            {/* <h1 className='font-serif text-lg font-medium'>{val?.createdAt?.toDateString()}</h1> */}
+            <h1 className='font-serif text-lg font-medium'>
+              {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
+            </h1>
 
-              {isEditFormVisible && (
-                <div className='absolute  shadow-lg rounded-lg bg-white z-50 mt-3 -ml-10'>
+            <h1 className='md:ml-32 ml-14 text-lg cursor-pointer' onClick={() => showEditButton(val?._id)}>
+              <BsThreeDots className='text-gray-500 hover:text-black transition-all' />
+              {companyId === val._id && (
+                <div className="absolute shadow-lg rounded-lg bg-white z-50 mt-3 -ml-10" onMouseOver={() => showEditButton(val?._id)}>
                   <NavLink to="/AdminCompanyEditForm">
-                    <span className='flex items-center gap-2 text-black py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all font-serif cursor-pointer'>
-                      <FiEdit2 className='text-xl' /> Edit
+                    <span className="flex items-center gap-2 text-black py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white">
+                      <FiEdit2 className="text-xl" /> Edit
                     </span>
                   </NavLink>
                 </div>
@@ -66,7 +102,7 @@ const Companyesshow: React.FC = () => {
             </h1>
           </div>
         ))}
-      </div>
+      </div >
 
       {/* Edit Form Visibility */}
 

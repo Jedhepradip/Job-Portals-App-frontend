@@ -1,12 +1,13 @@
-import React from 'react'
-// import {} from "app/hoo"
+// import React, { useState } from 'react'
 
-const CouterApp:React.FC = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+// import { useAppSelector, useAppDispatch } from 'app/hooks'
 
-export default CouterApp
+// import { decrement, increment } from './counterSlice'
+
+// export function Counter() {
+//     // The `state` arg is correctly typed as `RootState` already
+//     const count = useAppSelector((state) => state.counter.value)
+//     const dispatch = useAppDispatch()
+
+//     // omit rendering logic
+// }

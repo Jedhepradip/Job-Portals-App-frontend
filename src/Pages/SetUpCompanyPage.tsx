@@ -19,10 +19,10 @@ const SetUpCompanyPage: React.FC = () => {
     const Navigate = useNavigate();
 
     interface InputForm {
-        name: string,
-        Description: string,
-        Website: string,
-        Location: string,
+        CompanyName: string,
+        description: string,
+        website: string,
+        location: string,
         Logo: string;
     }
 
@@ -32,20 +32,22 @@ const SetUpCompanyPage: React.FC = () => {
     const onsubmit: SubmitHandler<InputForm> = async (data) => {
         const formdata = new FormData();
         formdata.append("file", file);
-        formdata.append("name", data.name);
-        formdata.append("Description", data.Description);
-        formdata.append("Website", data.Website);
-        formdata.append("Location", data.Location);
+        formdata.append("CompanyName", data.CompanyName);
+        formdata.append("description", data.description);
+        formdata.append("website", data.website);
+        formdata.append("location", data.location);
+
         try {
-            const response = await axios.put(`http://localhost:8000/UpdateCompany/${id}`, data, {
+            const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, data, {
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    authorization: `Baera ${localStorage.getItem("Token")}`
                 }
             })
             const responsedata = await response.data;
 
             if (response.status == 200) {
-                console.log("Company registered successfully", responsedata);
+                console.log("Company registered successfully company", responsedata);
                 toast.success(<div className='font-serif text-[15px] text-black'>{responsedata}</div>)
                 Navigate("/Company")
             }
@@ -83,31 +85,31 @@ const SetUpCompanyPage: React.FC = () => {
                                 <tr className='flex items-center space-x-4'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700  px-1'>Company Name</label>
-                                        <input {...register("name", {
+                                        <input {...register("CompanyName", {
                                             required: { value: true, message: "Name is required" }
                                         })}
                                             type="text"
-                                            name='name'
+                                            name='CompanyName'
                                             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.name && (
+                                        {errors.CompanyName && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.name.message}
+                                                {errors.CompanyName.message}
                                             </div>
                                         )}
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Description</label>
-                                        <input {...register("Description", {
+                                        <input {...register("description", {
                                             required: { value: true, message: "Description is required" }
                                         })}
                                             type="text"
-                                            name='Description'
+                                            name='description'
                                             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Description && (
+                                        {errors.description && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Description.message}
+                                                {errors.description.message}
                                             </div>
                                         )}
                                     </td>
@@ -115,31 +117,31 @@ const SetUpCompanyPage: React.FC = () => {
                                 <tr className='flex items-center space-x-4'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700  px-1'>Website</label>
-                                        <input {...register("Website", {
+                                        <input {...register("website", {
                                             required: { value: true, message: "Website is required" }
                                         })}
                                             type="text"
-                                            name='Website'
+                                            name='website'
                                             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Website && (
+                                        {errors.website && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Website.message}
+                                                {errors.website.message}
                                             </div>
                                         )}
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Location</label>
-                                        <input {...register("Location", {
+                                        <input {...register("location", {
                                             required: { value: true, message: "Location is required" }
                                         })}
                                             type="text"
-                                            name='Location'
+                                            name='location'
                                             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Location && (
+                                        {errors.location && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Location.message}
+                                                {errors.location.message}
                                             </div>
                                         )}
                                     </td>
