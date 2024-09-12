@@ -38,10 +38,10 @@ const SetUpCompanyPage: React.FC = () => {
         formdata.append("location", data.location);
 
         try {
-            const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, data, {
+            const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formdata, {
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: `Baera ${localStorage.getItem("Token")}`
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             })
             const responsedata = await response.data;

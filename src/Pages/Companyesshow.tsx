@@ -1,58 +1,51 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../App/store/store';
+import { FetchingCompanyData } from '../App/Features/CompanySlice';
 
 interface CompanyData {
-  _id: string,
-  CompanyName: string,
-  UserId: string,
-  createdAt: Date,
-  updatedAt: Date,
-  description: string,
-  location: string,
-  website: string,
+  _id: string;
+  CompanyName: string;
+  UserId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  description: string;
+  location: string;
+  website: string;
+  __v: number; // Add this field to match the MongoDB document structure
 }
+
 
 const Companyesshow: React.FC = () => {
 
-  // const [isEditFormVisible, setEditFormVisible] = useState(false);
-
-  // const [companyId, setCompanyId] = useState<string>(String);
   const [companyId, setCompanyId] = useState<string | null>(null);
-
   const [companies, setCompanies] = useState<CompanyData[]>([]);
 
-  console.log(companyId);
-
+  const CompanyRedux = useSelector((state: RootState) => state.Company.Company)
+  const dispatch: AppDispatch = useDispatch();
 
 
   useEffect(() => {
-    const GetCompanydata = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/Company/get", {
-          headers: {
-            authorization: `Baera ${localStorage.getItem("Token")}`
-          }
-        })
-        setCompanies(response.data.companies)
-        console.log();
+    dispatch(FetchingCompanyData());
+  }, [dispatch])
 
-      } catch (error) {
-        console.log(error);
-      }
+  useEffect(() => {
+    if (CompanyRedux.length) {
+      setCompanies(CompanyRedux)
     }
-    GetCompanydata();
-  }, [])
+  }, [CompanyRedux])
+
+
+
 
   const showEditButton = (id: string) => {
     if (id == id) {
       setCompanyId(prevId => (prevId === id ? null : id));
     }
   };
-
-  console.log(companyId);
 
   return (
     <>
@@ -91,8 +84,8 @@ const Companyesshow: React.FC = () => {
             <h1 className='md:ml-32 ml-14 text-lg cursor-pointer' onClick={() => showEditButton(val?._id)}>
               <BsThreeDots className='text-gray-500 hover:text-black transition-all' />
               {companyId === val._id && (
-                <div className="absolute shadow-lg rounded-lg bg-white z-50 mt-3 -ml-10" onMouseOver={() => showEditButton(val?._id)}>
-                  <NavLink to="/AdminCompanyEditForm">
+                <div className="absolute shadow-lg rounded-lg bg-white z-50 mt-3 -ml-10">
+                  <NavLink to={`/AdminCompanyEditForm/${val._id}`}>
                     <span className="flex items-center gap-2 text-black py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white">
                       <FiEdit2 className="text-xl" /> Edit
                     </span>
@@ -109,5 +102,4 @@ const Companyesshow: React.FC = () => {
     </>
   );
 };
-
 export default Companyesshow;

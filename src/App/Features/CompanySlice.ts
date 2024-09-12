@@ -1,38 +1,53 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../store/store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppDispatch } from '../store/store';
+import axios from 'axios';
 
-// Define a type for the slice state
-interface CounterState {
-    value: number
+
+interface CompanyData {
+    _id: string;
+    CompanyName: string;
+    UserId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    description: string;
+    location: string;
+    website: string;
+    __v: number; // Add this field to match the MongoDB document structure
 }
 
-// Define the initial state using that type
-const initialState: CounterState = {
-    value: 0,
+
+interface CompanyState {
+    Company: CompanyData[]
 }
 
-export const counterSlice = createSlice({
-    name: 'counter',
-    // `createSlice` will infer the state type from the `initialState` argument
+const initialState: CompanyState = {
+    Company: [],
+}
+
+
+export const FetchingCompanyData = () => async (dispatch: AppDispatch) => {
+    try {
+        const response = await axios.get("http://localhost:8000/Company/get", {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("Token")}`,
+            }
+        })
+        dispatch(setCompanyData(response.data.companies));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const CompanySlice = createSlice({
+    name: 'Company',
     initialState,
     reducers: {
-        increment: (state) => {
-            state.value += 1
-        },
-        decrement: (state) => {
-            state.value -= 1
-        },
-        // Use the PayloadAction type to declare the contents of `action.payload`
-        incrementByAmount: (state, action: PayloadAction<number>) => {
-            state.value += action.payload
+        setCompanyData: (state, action: PayloadAction<CompanyData[]>) => {
+            state.Company = action.payload;
         },
     },
-})
+});
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { setCompanyData } = CompanySlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.counter.value
-
-export default counterSlice.reducer
+export default CompanySlice.reducer;
