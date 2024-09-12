@@ -36,7 +36,7 @@ const CreateCompanyAdmin: React.FC = () => {
 
                 setTimeout(() => {
                     Navigate(`/SetUpCompanyPage/${CompanyResponse.Companystord._id}`)
-                }, 2000)
+                }, 1500)
             }
             else {
                 Navigate("/CreateCompanyAdmin")

@@ -75,7 +75,6 @@ const EditCompany: React.FC = () => {
 
         console.log(data);
 
-
         try {
             const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formdata, {
                 headers: {
@@ -87,10 +86,10 @@ const EditCompany: React.FC = () => {
 
             if (response.status === 200) {
                 console.log("Company registered successfully company", responsedata);
-                toast.success(<div className='font-serif text-[15px] text-black'>{responsedata}</div>);
+                toast.success(<div className='font-serif text-[15px] text-black'>{"Company Updated successfully"}</div>);
                 setTimeout(() => {
                     Navigate("/Company");
-                }, 2000);
+                }, 1600);
             }
 
         } catch (error: any) {
@@ -116,7 +115,7 @@ const EditCompany: React.FC = () => {
             <div className='grid grid-cols-1 place-items-center '>
                 <div className='px-8 py-10 shadow-lg shadow-gray-300 rounded-lg bg-white mt-4 mb-10'>
                     <div className='flex items-center mb-6'>
-                        <NavLink to="/CreateCompanyAdmin" className='flex items-center text-gray-500 hover:text-gray-700'>
+                        <NavLink to="/Company" className='flex items-center text-gray-500 hover:text-gray-700'>
                             <IoArrowBack className='text-[25px]' />
                             <span className='ml-1.5 text-[18px] font-serif'>Back</span>
                         </NavLink>

@@ -1,32 +1,60 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-
+import { RootState, AppDispatch } from '../App/store/store'
+import { useSelector, useDispatch } from 'react-redux'
+import { FetchingCompanyData } from '../App/Features/CompanySlice'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import axios from 'axios'
+
+interface InputForm {
+    CompanyName: string,
+    description: string,
+    website: string,
+    location: string,
+    Logo: string;
+}
+
+interface CompanyData {
+    _id: string;
+    CompanyName: string;
+    UserId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    description: string;
+    location: string;
+    website: string;
+    __v: number; // Add this field to match the MongoDB document structure
+}
 
 const SetUpCompanyPage: React.FC = () => {
 
     const [file, setFile] = useState(String)
+    const [companies, setCompanies] = useState<CompanyData[]>([]);
     const { id } = useParams<{ id: string }>();
+
+    const Company = useSelector((state: RootState) => state.Company.Company);
+    const dispatch: AppDispatch = useDispatch();
 
     const Navigate = useNavigate();
 
-    interface InputForm {
-        CompanyName: string,
-        description: string,
-        website: string,
-        location: string,
-        Logo: string;
-    }
+    useEffect(() => {
+        dispatch(FetchingCompanyData());
+    }, [dispatch])        
+    
+    useEffect(() => {
+        if(Company.length){
+            setCompanies(Company)
+        }
+    }, [Company, companies])
 
-    // const id: string = "1234";
+    const FilterCompany:any = companies.filter((e) => e._id == id)        
+            
     const { register, handleSubmit, formState: { errors } } = useForm<InputForm>();
 
     const onsubmit: SubmitHandler<InputForm> = async (data) => {
@@ -48,8 +76,10 @@ const SetUpCompanyPage: React.FC = () => {
 
             if (response.status == 200) {
                 console.log("Company registered successfully company", responsedata);
-                toast.success(<div className='font-serif text-[15px] text-black'>{responsedata}</div>)
-                Navigate("/Company")
+                toast.success(<div className='font-serif text-[15px] text-black'>{"Company Updated successfully"}</div>)
+                setTimeout(() => {
+                    Navigate("/Company")
+                }, 1300)
             }
         } catch (error: any) {
             if (error.response) {
@@ -85,18 +115,12 @@ const SetUpCompanyPage: React.FC = () => {
                                 <tr className='flex items-center space-x-4'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700  px-1'>Company Name</label>
-                                        <input {...register("CompanyName", {
-                                            required: { value: true, message: "Name is required" }
-                                        })}
+                                        <input {...register("CompanyName")}
                                             type="text"
                                             name='CompanyName'
+                                            value={FilterCompany[0]?.CompanyName}
                                             className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
-                                        />
-                                        {errors.CompanyName && (
-                                            <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.CompanyName.message}
-                                            </div>
-                                        )}
+                                        />                                     
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Description</label>

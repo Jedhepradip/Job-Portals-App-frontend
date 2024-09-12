@@ -15,7 +15,7 @@ import Company from './Pages/Companyesshow'
 import AdminJons from './Pages/JobsPostAdmin'
 import CreateCompanyAdmin from './Pages/CreateCompanyAdmin'
 import SetUpCompanyPage from "./Pages/SetUpCompanyPage"
-import AdminCompanyEditForm from './Pages/EditCompany'
+import EditCompany from './Pages/EditCompany'
 import AdminNewJobsPost from './Pages/PostJobsAdmin'
 
 const App: React.FC = () => {
@@ -35,7 +35,7 @@ const App: React.FC = () => {
           <Route path='/AdminJons' element={<AdminJons />} />
           <Route path='/CreateCompanyAdmin' element={<CreateCompanyAdmin />} />
           <Route path='/SetUpCompanyPage/:id' element={<SetUpCompanyPage />} />
-          <Route path='/AdminCompanyEditForm/:id' element={<AdminCompanyEditForm />} />
+          <Route path='/EditCompany/:id' element={<EditCompany />} />
           <Route path='/AdminNewJobsPost' element={<AdminNewJobsPost />} />
         </Routes>
         <Footer />

@@ -18,12 +18,11 @@ interface CompanyData {
   __v: number; // Add this field to match the MongoDB document structure
 }
 
-
 const Companyesshow: React.FC = () => {
 
   const [companyId, setCompanyId] = useState<string | null>(null);
   const [companies, setCompanies] = useState<CompanyData[]>([]);
-
+  const [Company, SetCompany] = useState<string | null>(null);
   const CompanyRedux = useSelector((state: RootState) => state.Company.Company)
   const dispatch: AppDispatch = useDispatch();
 
@@ -32,20 +31,24 @@ const Companyesshow: React.FC = () => {
     dispatch(FetchingCompanyData());
   }, [dispatch])
 
-  useEffect(() => {
-    if (CompanyRedux.length) {
-      setCompanies(CompanyRedux)
-    }
-  }, [CompanyRedux])
-
-
-
-
   const showEditButton = (id: string) => {
     if (id == id) {
       setCompanyId(prevId => (prevId === id ? null : id));
     }
   };
+
+  useEffect(() => {
+    const SearchCompany: CompanyData[] = companies.filter((e: CompanyData) => e.CompanyName.toLowerCase().includes(Company?.toLowerCase() ?? ""));
+    if (SearchCompany.length) {
+      setCompanies(SearchCompany)
+    }
+
+    if (!(Company))
+      if (CompanyRedux.length) {
+        setCompanies(CompanyRedux)
+      }
+  }, [CompanyRedux, Company, companies])
+
 
   return (
     <>
@@ -55,9 +58,9 @@ const Companyesshow: React.FC = () => {
           <input
             type="email"
             name='email'
-            placeholder='Filter by name'
+            placeholder='Search Company By Name '
             className='px-4 py-2 border md:w-[27%] w-[60%] border-gray-300 rounded-md focus:ring-black  font-serif'
-          />
+            onChange={(e) => SetCompany(e.target.value)} />
           <NavLink to="/CreateCompanyAdmin" >
             <button className='bg-black text-white py-1.5 px-4 md:px-6 md:py-1.5 text-[18px] float-right rounded-lg font-serif'>New Company</button>
           </NavLink>
@@ -85,7 +88,7 @@ const Companyesshow: React.FC = () => {
               <BsThreeDots className='text-gray-500 hover:text-black transition-all' />
               {companyId === val._id && (
                 <div className="absolute shadow-lg rounded-lg bg-white z-50 mt-3 -ml-10">
-                  <NavLink to={`/AdminCompanyEditForm/${val._id}`}>
+                  <NavLink to={`/EditCompany/${val._id}`}>
                     <span className="flex items-center gap-2 text-black py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white">
                       <FiEdit2 className="text-xl" /> Edit
                     </span>
