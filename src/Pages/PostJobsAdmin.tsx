@@ -1,58 +1,124 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../App/store/store';
+import { FetchingCompanyData } from '../App/Features/CompanySlice';
+
+interface InputPostJobs {
+    title: string,
+    description: string,
+    requirements: string,
+    salary: string,
+    location: string,
+    jobtype: string,
+    experienceLevel: string
+    position: string
+}
+
+interface CompanyData {
+    _id: string;
+    CompanyName: string;
+    UserId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    description: string;
+    location: string;
+    website: string;
+    __v: number; // Add this field to match the MongoDB document structure
+}
+
 const PostJobsAdmin: React.FC = () => {
 
-    const [CompanyName, setCompanyname] = useState(String);
+    const [company, setCompanyname] = useState(String);
+    const [companies, setCompanies] = useState<CompanyData[]>([]);
+    const [companyId, setCompanyId] = useState<string | null>(null);
+
     const Navigate = useNavigate();
 
-    interface InputPostJobs {
-        Title: string,
-        Description: string,
-        Requirements: string,
-        Salary: string,
-        Location: string,
-        JobType: string,
-        ExperienceLevel: string
-        NoOfPosition: string
-    }
+    const Companyinfo = useSelector((state: RootState) => state.Company.Company)
+    const dispatch: AppDispatch = useDispatch();
 
     const { register, handleSubmit, formState: { errors } } = useForm<InputPostJobs>();
 
+
+    useEffect(() => {
+        dispatch(FetchingCompanyData())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (Companyinfo.length) {
+            setCompanies(Companyinfo)
+        }
+    }, [Companyinfo])
+
+    useEffect(() => {
+        if (company.length) {
+            const SearchCompany: CompanyData[] = companies.filter((e: CompanyData) => e.CompanyName.toLowerCase() == company.toLowerCase());
+            setCompanyId(SearchCompany[0]._id)
+        }
+    }, [companies, company])
+
+    console.log(companyId);
+
     const onsubmit: SubmitHandler<InputPostJobs> = async (data) => {
         const formData = new FormData();
-        formData.append("title", data.Title);
-        formData.append("description", data.Description);
-        formData.append("requirements", data.Requirements);
-        formData.append("salary", data.Salary);
-        formData.append("location", data.Location);
-        formData.append("jobtype", data.JobType);
-        formData.append("position", data.NoOfPosition);
-        formData.append("experienceLevel", data.ExperienceLevel);
-        formData.append("company", CompanyName);
-        console.log(data);
+        formData.append("title", data.title);
+        formData.append("description", data.description);
+        formData.append("requirements", data.requirements);
+        formData.append("salary", data.salary);
+        formData.append("location", data.location);
+        formData.append("jobtype", data.jobtype);
+        formData.append("position", data.position);
+        formData.append("experienceLevel", data.experienceLevel);
+        formData.append("companyName", company);
+
+        if (!(companyId?.length)) {
+            console.log("Error");
+
+            toast.error(<div className='font-serif text-[15px] text-black'>{"Select The Company"}</div>)
+            return;
+        }
+
         try {
-            const response = await axios.post("http://localhost:8000/Admin/PostJobs", formData, {
+            const response = await axios.post(`http://localhost:8000/Jobs/Admin/PostJobs/${companyId}`, formData, {
                 headers: {
+                    "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             });
-            const responsedata = await response.data;
-            if (!response.data.ok) {
-                console.log(response.status);
+            const JobsResponses = await response.data;
+            if (response.status == 200) {
+                console.log("User registered successfully", JobsResponses);
+                toast.success(<div className='font-serif text-[15px] text-black'>{JobsResponses.message}</div>)
+                setTimeout(() => {
+                    Navigate("/AdminJons")
+                }, 1500)
             }
-            if (response.data.ok) {
-                console.log(responsedata);
-                Navigate("/AdminJons")
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
             }
-        } catch (error) {
-            console.log(error);
         }
     }
     return (
         <>
             <div className='grid place-items-center'>
+                <ToastContainer />
                 <div className='grid grid-cols-1 shadow shadow-gray-300 rounded-lg'>
                     <form onSubmit={handleSubmit(onsubmit)}>
                         <table className='w-full mt-1'>
@@ -60,31 +126,31 @@ const PostJobsAdmin: React.FC = () => {
                                 <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Title</label>
-                                        <input {...register("Title", {
+                                        <input {...register("title", {
                                             required: { value: true, message: "Title is required" }
                                         })}
                                             type="text"
-                                            name='Title'
+                                            name='title'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Title && (
+                                        {errors.title && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Title.message}
+                                                {errors.title.message}
                                             </div>
                                         )}
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Description</label>
-                                        <input {...register("Description", {
+                                        <input {...register("description", {
                                             required: { value: true, message: "Description is required" }
                                         })}
                                             type="text"
-                                            name='Description'
+                                            name='description'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Description && (
+                                        {errors.description && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Description.message}
+                                                {errors.description.message}
                                             </div>
                                         )}
                                     </td>
@@ -93,108 +159,106 @@ const PostJobsAdmin: React.FC = () => {
                                 <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Requirements</label>
-                                        <input {...register("Requirements", {
+                                        <input {...register("requirements", {
                                             required: { value: true, message: "Requirements is required" }
                                         })}
                                             type="text"
-                                            name='Requirements'
+                                            name='requirements'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Requirements && (
+                                        {errors.requirements && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Requirements.message}
+                                                {errors.requirements.message}
                                             </div>
                                         )}
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Salary <span className='text-[12px] text-gray-400'>(in LPA)</span></label>
-                                        <input  {...register("Salary", {
+                                        <input  {...register("salary", {
                                             required: { value: true, message: "Salary is required" }
                                         })}
                                             type="number"
-                                            name='Salary'
+                                            name='salary'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Salary && (
+                                        {errors.salary && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Salary.message}
+                                                {errors.salary.message}
                                             </div>
                                         )}
                                     </td>
                                 </tr> <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Location</label>
-                                        <input {...register("Location", {
+                                        <input {...register("location", {
                                             required: { value: true, message: "Location is required" }
                                         })}
                                             type="text"
-                                            name='Location'
+                                            name='location'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.Location && (
+                                        {errors.location && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.Location.message}
+                                                {errors.location.message}
                                             </div>
                                         )}
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Job Type</label>
-                                        <input {...register("JobType", {
+                                        <input {...register("jobtype", {
                                             required: { value: true, message: "Jobs Type is required" }
                                         })}
                                             type="text"
-                                            name='JobType'
+                                            name='jobtype'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.JobType && (
+                                        {errors.jobtype && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.JobType.message}
+                                                {errors.jobtype.message}
                                             </div>
                                         )}
                                     </td>
                                 </tr> <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Experience Level <span className='text-[12px] text-gray-400'>(in Years)</span></label>
-                                        <input {...register("ExperienceLevel", {
+                                        <input {...register("experienceLevel", {
                                             required: { value: true, message: "Experience Level is required" }
                                         })}
                                             type="number"
-                                            name='ExperienceLevel'
+                                            name='experienceLevel'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.ExperienceLevel && (
+                                        {errors.experienceLevel && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.ExperienceLevel.message}
+                                                {errors.experienceLevel.message}
                                             </div>
                                         )}
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>No Of Position</label>
-                                        <input {...register("NoOfPosition", {
+                                        <input {...register("position", {
                                             required: { value: true, message: "No Of Position is required" }
                                         })}
                                             type="number"
-                                            name='NoOfPosition'
+                                            name='position'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
-                                        {errors.NoOfPosition && (
+                                        {errors.position && (
                                             <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.NoOfPosition.message}
+                                                {errors.position.message}
                                             </div>
                                         )}
                                     </td>
                                 </tr> <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
-                                        {/* <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Select a Company</label>
-                                        <input
-                                            type="text"
-                                            name='name'
-                                            className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
-                                        /> */}
-                                        <select className='block text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg' onChange={(e) => setCompanyname(e.target.value)}>
+                                        <select
+                                            className="block w-full text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            onChange={(e) => setCompanyname(e.target.value)}
+                                        >companies
                                             <option>Select a Company</option>
-                                            <option className='w-full px-4 py-1.5 border hover:bg-gray-400  rounded-md focus:ring-black  font-serif'>Google</option>
-                                            <option className='w-full px-4 py-1.5 border hover:bg-gray-400  rounded-md focus:ring-black  font-serif'>Microsoft</option>
+                                            {companies.map((val, index) => (
+                                                <option value={val.CompanyName} key={index}>{val.CompanyName}</option>
+                                            ))}
                                         </select>
                                     </td>
                                 </tr>

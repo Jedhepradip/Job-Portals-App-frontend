@@ -31,8 +31,7 @@ const CreateCompanyAdmin: React.FC = () => {
 
             if (response.status == 200) {
                 console.log("User registered successfully", CompanyResponse);
-                toast.success(<div className='font-serif text-[15px] text-black'>{CompanyResponse.message}</div>)
-                console.log(CompanyResponse);
+                toast.success(<div className='font-serif text-[15px] text-black'>{CompanyResponse.message}</div>)            
 
                 setTimeout(() => {
                     Navigate(`/SetUpCompanyPage/${CompanyResponse.Companystord._id}`)
