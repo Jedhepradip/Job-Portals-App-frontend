@@ -6,6 +6,7 @@ interface JobsData {
     _id: string,
     description: string,
     requirements: [],
+    title:string,
     salary: string,
     location: string,
     jobtype: string,
