@@ -61,11 +61,11 @@ const CreateCompanyAdmin: React.FC = () => {
         <>
             <div className='grid place-items-start md:px-60 md:mt-10 md:p-0 p-12'>
                 <ToastContainer />
-                <h1 className='font-bold font-serif text-[25px]'>Your Company Name</h1>
-                <p className='font-serif font-medium'>What Would you like to give your Comapny name? you can change this later</p>
+                <h1 className='font-medium font-serif text-[30px]'>Your Company Name</h1>
+                <p className='font-serif font-medium mb-2'>What Would you like to give your Comapny name? you can change this later</p>
 
                 <form onSubmit={handleSubmit(onsubmit)} className='w-full'>
-                    <label className='mt-7 font-serif mb-2 text-[25px] font-medium'>Company Name</label>
+                    <label className='mt-7 font-serif mb-2 text-[23px] font-medium'>Company Name</label>
                     <input {...register("CompanyName", {
                         required: { value: true, message: "Name is required" }
                     })}
@@ -85,7 +85,7 @@ const CreateCompanyAdmin: React.FC = () => {
                             <button className='ml-0 shadow shadow-gray-300 py-1.5 px-6 rounded-lg font-serif text-[20px]'>Cancel</button>
                         </NavLink>
                         {/* <NavLink to="/AdminCompanysetupPage" > */}
-                        <button type='submit' className='ml-5 bg-gray-500 text-white py-1.5 px-6 rounded-lg font-serif text-[20px] hover:bg-gray-900'>Coutinue</button>
+                        <button type='submit' className='ml-5 bg-gray-500 text-white py-1.5 px-6 rounded-lg font-serif text-[20px] hover:bg-gray-900' >Coutinue</button>
                         {/* </NavLink> */}
                     </div>
                 </form>

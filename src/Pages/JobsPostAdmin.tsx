@@ -1,22 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FiEdit2 } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../App/store/store';
+import { FetchingJobsData } from '../App/Features/JobsSlice';
 
+interface JobsData {
+    _id: string,
+    description: string,
+    requirements: [],
+    title: string,
+    salary: string,
+    location: string,
+    jobtype: string,
+    position: string,
+    experienceLevel: string,
+    companyName: string,
+    company: string,
+    CreatedBy: string,
+    applications: [],
+    JobPostDate: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: string,
+
+}
 
 const JobsPostAdmin: React.FC = () => {
+
     const [isEditFormVisible, setEditFormVisible] = useState(false);
+    const [JobsData, setJobsData] = useState<JobsData[]>([]);
 
-    interface JobDataInfo {
-        CompanyName: string;
-        role: string;
-        date: Date;
-    }
+    const jobs = useSelector((state: RootState) => state.Jobs.Jobs)
 
-    const jobData: JobDataInfo[] = [
-        { date: new Date('2024-09-01'), CompanyName: 'Google', role: 'Backend Devloper' },
-        // Add more company data as needed
-    ];
+    const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(FetchingJobsData());
+    }, [dispatch])
+
+    useEffect(() => {
+        if (jobs.length) {
+            setJobsData(jobs)
+        }
+    }, [jobs])
+
+    console.log(JobsData);
+
+
+    // interface JobDataInfo {
+    //     CompanyName: string;
+    //     role: string;
+    //     date: Date;
+    // }
+
+    // const jobData: JobDataInfo[] = [
+    //     { date: new Date('2024-09-01'), CompanyName: 'Google', role: 'Backend Devloper' },
+    //     // Add more company data as needed
+    // ];
 
     const showEditButton = (data: string) => {
         if (data === "EditPage") {
@@ -46,11 +88,13 @@ const JobsPostAdmin: React.FC = () => {
                 </div>
 
                 {/* Data Rows */}
-                {jobData.map((val, index) => (
+                {JobsData.map((val, index) => (
                     <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200'>
-                        <h1 className='font-serif text-lg font-medium'>{val.CompanyName}</h1>
-                        <h1 className='font-serif text-lg font-medium'>{val.role}</h1>
-                        <h1 className='font-serif text-lg font-medium'>{val.date.toDateString()}</h1>
+                        <h1 className='font-serif text-lg font-medium'>{val.companyName}</h1>
+                        <h1 className='font-serif text-lg font-medium'>{val.title}</h1>
+                        <h1 className='font-serif text-lg font-medium'>
+                            {val?.updatedAt ? new Date(val.updatedAt).toLocaleDateString() : 'N/A'}
+                        </h1>
                         <h1 className='md:ml-32 ml-14 text-lg cursor-pointer' onClick={() => showEditButton("EditPage")}>
                             <BsThreeDots className='text-gray-500 hover:text-black transition-all' />
                             {isEditFormVisible && (

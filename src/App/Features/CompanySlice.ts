@@ -44,7 +44,7 @@ const CompanySlice = createSlice({
     reducers: {
         setCompanyData: (state, action: PayloadAction<CompanyData[]>) => {
             state.Company = action.payload;
-        },
+        },        
     },
 });
 

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../Features/CompanySlice';
+import ComopanyReducer from '../Features/CompanySlice';
+import JobsReducer from "../Features/JobsSlice"
 
 export const store = configureStore({
     reducer: {
-        Company: counterReducer,
+        Company: ComopanyReducer,
+        Jobs:JobsReducer,
     },
 });
 

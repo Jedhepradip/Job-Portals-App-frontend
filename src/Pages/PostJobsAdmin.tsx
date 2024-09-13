@@ -1,13 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../App/store/store';
 import { FetchingCompanyData } from '../App/Features/CompanySlice';
+import { IoArrowBack } from 'react-icons/io5';
 
 interface InputPostJobs {
     title: string,
@@ -97,7 +98,7 @@ const PostJobsAdmin: React.FC = () => {
                 toast.success(<div className='font-serif text-[15px] text-black'>{JobsResponses.message}</div>)
                 setTimeout(() => {
                     Navigate("/AdminJons")
-                }, 1500)
+                }, 1800)
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -120,9 +121,16 @@ const PostJobsAdmin: React.FC = () => {
             <div className='grid place-items-center'>
                 <ToastContainer />
                 <div className='grid grid-cols-1 shadow shadow-gray-300 rounded-lg'>
+                    <div className='flex items-center gap-24 py-2 px-5'>
+                        <NavLink to="/AdminJons" className='flex items-center text-gray-500 hover:text-gray-700'>
+                            <IoArrowBack className='text-[25px]' />
+                            <span className='ml-1.5 text-[20px] font-serif'>Back</span>
+                        </NavLink>
+                        <h1 className='text-center font-serif text-[30px]'>Jobs Post</h1>
+                    </div>
                     <form onSubmit={handleSubmit(onsubmit)}>
-                        <table className='w-full mt-1'>
-                            <div className='space-y-2 py-6 px-4'>
+                        <table className='w-full'>
+                            <div className='space-y-2.5 py-2 px-4'>
                                 <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Title</label>
@@ -131,6 +139,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="text"
                                             name='title'
+                                            placeholder='Backend Developer'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.title && (
@@ -146,6 +155,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="text"
                                             name='description'
+                                            placeholder='I need Backend Developer'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.description && (
@@ -164,6 +174,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="text"
                                             name='requirements'
+                                            placeholder='Node.js, React.js, express.js'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.requirements && (
@@ -179,6 +190,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="number"
                                             name='salary'
+                                            placeholder='12 LPA'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.salary && (
@@ -195,6 +207,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="text"
                                             name='location'
+                                            placeholder='Pune'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.location && (
@@ -210,6 +223,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="text"
                                             name='jobtype'
+                                            placeholder='Part Time'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.jobtype && (
@@ -226,6 +240,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="number"
                                             name='experienceLevel'
+                                            placeholder='12 Years'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.experienceLevel && (
@@ -241,6 +256,7 @@ const PostJobsAdmin: React.FC = () => {
                                         })}
                                             type="number"
                                             name='position'
+                                            placeholder='12 Postions'
                                             className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                         />
                                         {errors.position && (
