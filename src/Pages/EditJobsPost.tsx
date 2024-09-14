@@ -66,6 +66,11 @@ const EditJobsPost: React.FC = () => {
 
     const { register, handleSubmit } = useForm<InputPostJobs>();
     const onsubmit: SubmitHandler<InputPostJobs> = async (data) => {
+
+        const datasplit = data.requirements.split(" ")
+
+        console.log(datasplit);
+        
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("description", data.description);
@@ -77,6 +82,9 @@ const EditJobsPost: React.FC = () => {
         formData.append("experienceLevel", data.experienceLevel);
 
         console.log([...formData]);
+
+        console.log("data.requirements.split(",") :",data.requirements.split(" "));
+
 
         try {
             const response = await axios.put(`http://localhost:8000/Jobs/Admin/Jobs/Update/${id}`, formData, {

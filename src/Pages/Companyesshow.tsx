@@ -82,7 +82,7 @@ const Companyesshow: React.FC = () => {
           <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200' >
             <h1 className="font-serif text-lg font-medium">
               <img src={`http://localhost:8000/${val.CompanyLogo}`} alt={`${val.CompanyName} logo`} />
-              <img src={`${val.CompanyLogo}`} />
+              <img src={`${val.CompanyLogo}`} alt="" />
             </h1>
             <h1 className='font-serif text-lg font-medium'>{val?.CompanyName}</h1>
             {/* <h1 className='font-serif text-lg font-medium'>{val?.createdAt?.toDateString()}</h1> */}
