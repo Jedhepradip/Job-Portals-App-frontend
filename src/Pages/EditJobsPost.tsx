@@ -76,8 +76,10 @@ const EditJobsPost: React.FC = () => {
         formData.append("position", data.position);
         formData.append("experienceLevel", data.experienceLevel);
 
+        console.log([...formData]);
+
         try {
-            const response = await axios.post(`http://localhost:8000/Jobs/Admin/PostJobs/${id}`, formData, {
+            const response = await axios.put(`http://localhost:8000/Jobs/Admin/Jobs/Update/${id}`, formData, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -204,7 +206,7 @@ const EditJobsPost: React.FC = () => {
                                     </td>
                                 </tr> <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
-                                    <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Company Name</label>
+                                        <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Company Name</label>
                                         <span
                                             className="block w-full text-lg font-medium py-1.5 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
                                             <span>{Jobsdefualt[0]?.companyName}</span>
@@ -212,7 +214,7 @@ const EditJobsPost: React.FC = () => {
                                     </td>
                                 </tr>
                                 <div className='w-full flex justify-center items-center'>
-                                    <button className='bg-black text-white py-1 w-full mt-2 rounded-lg font-serif text-[20px]'>Post New Jobs</button>
+                                    <button className='bg-black text-white py-1 w-full mt-2 rounded-lg font-serif text-[20px]'>Jobs Update</button>
                                 </div>
                             </div>
                         </table>
