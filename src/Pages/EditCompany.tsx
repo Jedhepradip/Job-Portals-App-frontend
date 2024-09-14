@@ -175,7 +175,7 @@ const EditCompany: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" className="px-5 py-2 rounded-lg text-[22px] font-serif text-white bg-black w-full mt-6 hover:bg-gray-800">
+                        <button type="submit" className="px-5 py-1.5 rounded-lg text-[22px] font-serif text-white bg-black w-full mt-6 hover:bg-gray-800">
                             Update
                         </button>
                     </form>
