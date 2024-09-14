@@ -6,6 +6,7 @@ import axios from 'axios';
 interface CompanyData {
     _id: string;
     CompanyName: string;
+    CompanyLogo:string,
     UserId: string;
     createdAt: Date;
     updatedAt: Date;

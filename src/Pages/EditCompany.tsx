@@ -156,7 +156,7 @@ const EditCompany: React.FC = () => {
                             <div className='flex flex-col md:flex-row md:space-x-4'>
                                 <div className="w-full md:w-1/2">
                                     <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Logo</label>
-                                    <input {...register('CompanyLogo', { required: { value: true, message: 'Logo is required' } })}
+                                    <input {...register('CompanyLogo')}
                                         type="file"
                                         name="CompanyLogo"
                                         className="w-full px-4 py-1 border border-gray-300 rounded-md focus:ring-black focus:border-transparent outline-none font-serif mb-1" onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} />

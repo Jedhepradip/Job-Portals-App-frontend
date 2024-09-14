@@ -9,6 +9,7 @@ import { FetchingCompanyData } from '../App/Features/CompanySlice';
 interface CompanyData {
   _id: string;
   CompanyName: string;
+  CompanyLogo: string,
   UserId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -49,6 +50,8 @@ const Companyesshow: React.FC = () => {
       }
   }, [CompanyRedux, Company, companies])
 
+  console.log(companies);
+
 
   return (
     <>
@@ -77,7 +80,10 @@ const Companyesshow: React.FC = () => {
         {/* Data Rows */}
         {companies?.map((val, index) => (
           <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200' >
-            <h1 className='font-serif text-lg font-medium'>{"Xyz"}</h1>
+            <h1 className="font-serif text-lg font-medium">
+              <img src={`http://localhost:8000/${val.CompanyLogo}`} alt={`${val.CompanyName} logo`} />
+              <img src={`${val.CompanyLogo}`} />
+            </h1>
             <h1 className='font-serif text-lg font-medium'>{val?.CompanyName}</h1>
             {/* <h1 className='font-serif text-lg font-medium'>{val?.createdAt?.toDateString()}</h1> */}
             <h1 className='font-serif text-lg font-medium'>
