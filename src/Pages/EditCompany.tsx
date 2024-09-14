@@ -18,7 +18,7 @@ interface InputForm {
     description: string,
     website: string,
     location: string,
-    Logo: string;
+    CompanyLogo: string;
 }
 
 interface CompanyData {
@@ -35,7 +35,7 @@ interface CompanyData {
 
 const EditCompany: React.FC = () => {
 
-    const [file, setFile] = useState(String)
+    const [file, setFile] = useState<File | null>(null);
     const [companies, setCompanies] = useState<CompanyData[]>([]);
     const [filterComapny, SetCompanyFilter] = useState<CompanyData[]>([]);
     const { id } = useParams<{ id: string }>();
@@ -65,49 +65,39 @@ const EditCompany: React.FC = () => {
 
     const { register, handleSubmit } = useForm<InputForm>();
 
-    const onsubmit: SubmitHandler<InputForm> = async (data) => {
-        const formdata = new FormData();
-        formdata.append("file", file);
-        formdata.append("CompanyName", data.CompanyName);
-        formdata.append("description", data.description);
-        formdata.append("website", data.website);
-        formdata.append("location", data.location);
-
-        console.log(data);
+    const onSubmit: SubmitHandler<InputForm> = async (data) => {
+        const formData = new FormData();
+        if (file) {
+            formData.append('CompanyLogo', file); // Appending the file if selected
+        }
+        formData.append('CompanyName', data.CompanyName);
+        formData.append('description', data.description);
+        formData.append('website', data.website);
+        formData.append('location', data.location);
 
         try {
-            const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formdata, {
+            const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formData, {
                 headers: {
-                    "Content-Type": "application/json",
-                    authorization: `Bearer ${localStorage.getItem("Token")}`,
-                }
-            })
-            const responsedata = await response.data;
+                    'Content-Type': 'multipart/form-data',
+                    authorization: `Bearer ${localStorage.getItem('Token')}`,
+                },
+            });
+
+            const responseData = await response.data;
 
             if (response.status === 200) {
-                console.log("Company registered successfully company", responsedata);
-                toast.success(<div className='font-serif text-[15px] text-black'>{"Company Updated successfully"}</div>);
+                console.log('Company updated successfully', responseData);
+                toast.success(<div className="font-serif text-[15px] text-black">{"Company updated successfully"}</div>);
                 setTimeout(() => {
-                    Navigate("/Company");
+                    Navigate('/Company');
                 }, 1600);
             }
-
         } catch (error: any) {
-            if (error.response) {
-                const errorMessage = error.response.data.message;
-
-                if (error.response.status === 409 || errorMessage === "User already exists") {
-                    console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-                }
-            } else {
-                console.log("Error: Network issue or server not responding", error);
-            }
+            const errorMessage = error.response?.data?.message || 'Unexpected error occurred.';
+            toast.error(<div className="font-serif text-[15px] text-black">{errorMessage}</div>);
+            console.error('Error: ', errorMessage);
         }
-    }
+    };
 
     return (
         <>
@@ -121,7 +111,7 @@ const EditCompany: React.FC = () => {
                         </NavLink>
                         <h1 className='text-[30px] font-bold px-10 font-serif'><span className='font-serif text-[35px]'>C</span>ompany Edit</h1>
                     </div>
-                    <form onSubmit={handleSubmit(onsubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className='space-y-4'>
                             <div className='flex flex-col md:flex-row md:space-x-4'>
                                 <div className="w-full md:w-1/2">
@@ -166,12 +156,10 @@ const EditCompany: React.FC = () => {
                             <div className='flex flex-col md:flex-row md:space-x-4'>
                                 <div className="w-full md:w-1/2">
                                     <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Logo</label>
-                                    <input {...register("Logo")}
+                                    <input {...register('CompanyLogo', { required: { value: true, message: 'Logo is required' } })}
                                         type="file"
-                                        name='Logo'
-                                        className='w-full px-4 py-1 border border-gray-300 rounded-md focus:ring-black focus:border-black outline-none font-serif mb-1'
-                                        onChange={(e) => setFile(e.target.value)}
-                                    />
+                                        name="CompanyLogo"
+                                        className="w-full px-4 py-1 border border-gray-300 rounded-md focus:ring-black focus:border-transparent outline-none font-serif mb-1" onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} />
                                 </div>
                             </div>
                         </div>
