@@ -18,6 +18,7 @@ import SetUpCompanyPage from "./Pages/SetUpCompanyPage"
 import EditCompany from './Pages/EditCompany'
 import AdminNewJobsPost from './Pages/PostJobsAdmin'
 import EditJobsPost from './Pages/EditJobsPost'
+import JobsDetails from './Pages/JobsDetails'
 
 const App: React.FC = () => {
   return (
@@ -38,7 +39,8 @@ const App: React.FC = () => {
           <Route path='/SetUpCompanyPage/:id' element={<SetUpCompanyPage />} />
           <Route path='/EditCompany/:id' element={<EditCompany />} />
           <Route path='/AdminNewJobsPost' element={<AdminNewJobsPost />} />
-          <Route path='/EditJobsPost/:id' element={<EditJobsPost />} />       
+          <Route path='/EditJobsPost/:id' element={<EditJobsPost />} />
+          <Route path='/JobsDetails/:id' element={<JobsDetails />} />
         </Routes>
         <Footer />
       </BrowserRouter >

@@ -1,9 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import { RootState, AppDispatch } from '../App/store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { FetchingJobsData } from '../App/Features/JobsSlice';
+import { NavLink } from 'react-router-dom';
+
+interface Job {
+  _id: string,
+  description: string,
+  requirements: [],
+  salary: string,
+  location: string,
+  jobtype: string,
+  position: string,
+  experienceLevel: string,
+  companyName: string,
+  company: string,
+  CreatedBy: string,
+  title: string,
+  applications: [],
+  JobPostDate: string,
+  createdAt: string,
+  updatedAt: string,
+  __v: string,
+}
 
 const Home: React.FC = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
+  const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
+
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(FetchingJobsData())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (JobsData.length) {
+      SetupCompanyJobs(JobsData)
+    }
+  }, [JobsData])
+
+  console.log(Jobsdefualt);
 
   interface Developer {
     text: string;
@@ -77,7 +117,7 @@ const Home: React.FC = () => {
               className="flex transition-transform duration-500"
               style={{ transform: `translateX(-${(currentIndex * 100) / slidesToShow}%)` }}
             >
-              {slides.map((slide, index) => (
+              {Jobsdefualt.map((slide, index) => (
                 <div
                   key={index}
                   className="flex-shrink-0"
@@ -85,7 +125,7 @@ const Home: React.FC = () => {
                 >
                   <div className="relative w-full h-32 flex items-center justify-around">
                     <div className="absolute bottom-11 left-7 bg-opacity-50 text-black py-2 px-4 rounded-lg shadow-lg">
-                      <p className="text-center font-medium">{slide.text}</p>
+                      <p className="text-center font-medium font-serif">{slide.title}</p>
                     </div>
                   </div>
                 </div>
@@ -114,83 +154,23 @@ const Home: React.FC = () => {
 
         <div className='w-full grid md:grid-cols-3 sm:grid-cols-1 mt-10 gap-5'>
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
-            <h6 className='font-sans font-medium'>Googel</h6>
-            <span className='text-[12px]'>india</span>
-            <h1 className='font-bold '>FullStack Developer</h1>
-            <h1 className='text-[13px] font-sans mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe neque error quaerat culpa accusamus </h1>
-            <hr />
-            <div className='flex gap-5 mt-1 items-center'>
-              <h1 className='text-blue-700 font-medium text-[13px]'>2 Position</h1>
-              <h1 className='font-bold text-red-500 text-[13px]'>Full Time</h1>
-              <h1 className='text-purple-600 font-bold text-[13px]'>45LPA</h1>
+          {Jobsdefualt.map((val, index) => (
+            <div key={index} className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
+              <NavLink to={`/JobsDetails/${val._id}`} >
+                <h6 className='font-sans font-medium'>{val.companyName}</h6>
+                <span className='text-[12px]'>{val.location}</span>
+                <h1 className='font-bold '>{val.title}</h1>
+                <h1 className='text-[13px] font-sans mb-3'>{val.description}</h1>
+                <hr />
+                <div className='flex gap-5 mt-1 items-center'>
+                  <h1 className='text-blue-700 font-medium text-[13px]'>{val.position}Position</h1>
+                  <h1 className='font-bold text-red-500 text-[13px]'>{val.jobtype}</h1>
+                  <h1 className='text-purple-600 font-bold text-[13px]'>{val.salary}LPA</h1>
+                </div>
+              </NavLink>
             </div>
-          </div>   
+          ))}
 
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
-            <h6 className='font-sans font-medium'>Googel</h6>
-            <span className='text-[12px]'>india</span>
-            <h1 className='font-bold '>FullStack Developer</h1>
-            <h1 className='text-[13px] font-sans mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe neque error quaerat culpa accusamus </h1>
-            <hr />
-            <div className='flex gap-5 mt-1 items-center'>
-              <h1 className='text-blue-700 font-medium text-[13px]'>2 Position</h1>
-              <h1 className='font-bold text-red-500 text-[13px]'>Full Time</h1>
-              <h1 className='text-purple-600 font-bold text-[13px]'>45LPA</h1>
-            </div>
-          </div>
-
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
-            <h6 className='font-sans font-medium'>Googel</h6>
-            <span className='text-[12px]'>india</span>
-            <h1 className='font-bold '>FullStack Developer</h1>
-            <h1 className='text-[13px] font-sans mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe neque error quaerat culpa accusamus </h1>
-            <hr />
-            <div className='flex gap-5 mt-1 items-center'>
-              <h1 className='text-blue-700 font-medium text-[13px]'>2 Position</h1>
-              <h1 className='font-bold text-red-500 text-[13px]'>Full Time</h1>
-              <h1 className='text-purple-600 font-bold text-[13px]'>45LPA</h1>
-            </div>
-          </div>
-
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-lg'>
-            <h6 className='font-sans font-medium'>Googel</h6>
-            <span className='text-[12px]'>india</span>
-            <h1 className='font-bold '>FullStack Developer</h1>
-            <h1 className='text-[13px] font-sans mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe neque error quaerat culpa accusamus </h1>
-            <hr />
-            <div className='flex gap-5 mt-1 items-center'>
-              <h1 className='text-blue-700 font-medium text-[13px]'>2 Position</h1>
-              <h1 className='font-bold text-red-500 text-[13px]'>Full Time</h1>
-              <h1 className='text-purple-600 font-bold text-[13px]'>45LPA</h1>
-            </div>
-          </div>
-
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
-            <h6 className='font-sans font-medium'>Googel</h6>
-            <span className='text-[12px]'>india</span>
-            <h1 className='font-bold '>FullStack Developer</h1>
-            <h1 className='text-[13px] font-sans mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe neque error quaerat culpa accusamus </h1>
-            <hr />
-            <div className='flex gap-5 mt-1 items-center'>
-              <h1 className='text-blue-700 font-medium text-[13px]'>2 Position</h1>
-              <h1 className='font-bold text-red-500 text-[13px]'>Full Time</h1>
-              <h1 className='text-purple-600 font-bold text-[13px]'>45LPA</h1>
-            </div>
-          </div>
-
-          <div className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
-            <h6 className='font-sans font-medium'>Googel</h6>
-            <span className='text-[12px]'>india</span>
-            <h1 className='font-bold '>FullStack Developer</h1>
-            <h1 className='text-[13px] font-sans mb-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe neque error quaerat culpa accusamus </h1>
-            <hr />
-            <div className='flex gap-5 mt-1 items-center'>
-              <h1 className='text-blue-700 font-medium text-[13px]'>2 Position</h1>
-              <h1 className='font-bold text-red-500 text-[13px]'>Full Time</h1>
-              <h1 className='text-purple-600 font-bold text-[13px]'>45LPA</h1>
-            </div>
-          </div>
         </div>
       </div>
     </>

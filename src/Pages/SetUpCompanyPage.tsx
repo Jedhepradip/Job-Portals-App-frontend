@@ -41,7 +41,7 @@ const SetUpCompanyPage: React.FC = () => {
     const Company = useSelector((state: RootState) => state.Company.Company);
     const dispatch: AppDispatch = useDispatch();
 
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(FetchingCompanyData());

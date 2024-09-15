@@ -27,7 +27,6 @@ const Companyesshow: React.FC = () => {
   const CompanyRedux = useSelector((state: RootState) => state.Company.Company)
   const dispatch: AppDispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(FetchingCompanyData());
   }, [dispatch])
@@ -48,11 +47,10 @@ const Companyesshow: React.FC = () => {
       if (CompanyRedux.length) {
         setCompanies(CompanyRedux)
       }
-  }, [CompanyRedux, Company, companies])
+  }, [CompanyRedux, Company, companies]) 
 
   console.log(companies);
-
-
+  
   return (
     <>
       <div className='grid grid-cols-1 px-6 mt-7 mb-3' >
@@ -80,9 +78,8 @@ const Companyesshow: React.FC = () => {
         {/* Data Rows */}
         {companies?.map((val, index) => (
           <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200' >
-            <h1 className="font-serif text-lg font-medium">
-              <img src={`http://localhost:8000/${val.CompanyLogo}`} alt={`${val.CompanyName} logo`} />
-              <img src={`${val.CompanyLogo}`} alt="" />
+            <h1 className="font-serif text-lg font-medium flex justify-center items-center ">
+              <img src={`http://localhost:8000/${val.CompanyLogo}`} alt={`${val.CompanyName} logo`} className='h-12 w-12 rounded-full border border-black border-x-2' />
             </h1>
             <h1 className='font-serif text-lg font-medium'>{val?.CompanyName}</h1>
             {/* <h1 className='font-serif text-lg font-medium'>{val?.createdAt?.toDateString()}</h1> */}
