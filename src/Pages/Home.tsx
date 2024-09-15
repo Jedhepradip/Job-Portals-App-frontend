@@ -45,34 +45,34 @@ const Home: React.FC = () => {
 
   console.log(Jobsdefualt);
 
-  interface Developer {
-    text: string;
-  }
-  const slides: Developer[] = [
-    { text: 'Frontend Developer' },
-    { text: 'Backend Developer' },
-    { text: 'Full Stack Developer' },
-    { text: 'DevOps Engineer' },
-    { text: 'UI/UX Designer' },
-    { text: 'Data Scientist' },
-    { text: 'Software Engineer' },
-    { text: 'Mobile Developer' },
-    { text: 'Database Administrator' },
-    { text: 'Security Specialist' },
-    { text: 'Cloud Engineer' },
-    { text: 'System Analyst' },
-    { text: 'Game Developer' },
-    { text: 'Technical Writer' },
-    { text: 'Research Scientist' },
-    { text: 'Business Analyst' },
-    { text: 'Network Engineer' },
-    { text: 'Automation Engineer' },
-    { text: 'Web Developer' },
-    { text: 'Product Manager' },
-  ];
+  // interface Developer {
+  //   text: string;
+  // }
+  // const slides: Developer[] = [
+  //   { text: 'Frontend Developer' },
+  //   { text: 'Backend Developer' },
+  //   { text: 'Full Stack Developer' },
+  //   { text: 'DevOps Engineer' },
+  //   { text: 'UI/UX Designer' },
+  //   { text: 'Data Scientist' },
+  //   { text: 'Software Engineer' },
+  //   { text: 'Mobile Developer' },
+  //   { text: 'Database Administrator' },
+  //   { text: 'Security Specialist' },
+  //   { text: 'Cloud Engineer' },
+  //   { text: 'System Analyst' },
+  //   { text: 'Game Developer' },
+  //   { text: 'Technical Writer' },
+  //   { text: 'Research Scientist' },
+  //   { text: 'Business Analyst' },
+  //   { text: 'Network Engineer' },
+  //   { text: 'Automation Engineer' },
+  //   { text: 'Web Developer' },
+  //   { text: 'Product Manager' },
+  // ];
 
   const slidesToShow = 3;
-  const totalSlides = slides.length;
+  const totalSlides = Jobsdefualt.length;
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? Math.max(totalSlides - slidesToShow, 0) : prevIndex - 1));
@@ -125,7 +125,9 @@ const Home: React.FC = () => {
                 >
                   <div className="relative w-full h-32 flex items-center justify-around">
                     <div className="absolute bottom-11 left-7 bg-opacity-50 text-black py-2 px-4 rounded-lg shadow-lg">
-                      <p className="text-center font-medium font-serif">{slide.title}</p>
+                      <NavLink to={`/JobsDetails/${slide._id}`} >
+                        <p className="text-center font-medium font-serif">{slide.title}</p>
+                      </NavLink>
                     </div>
                   </div>
                 </div>

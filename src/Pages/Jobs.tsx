@@ -3,7 +3,7 @@ import { FaRegBookmark } from 'react-icons/fa'
 import { RootState, AppDispatch } from '../App/store/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { FetchingJobsData } from '../App/Features/JobsSlice'
-
+import { NavLink } from 'react-router-dom'
 
 interface Job {
   _id: string,
@@ -115,10 +115,11 @@ const Jobs: React.FC = () => {
 
           <div className='md:col-span-9 col-span-12 bg-white shadow-gray-300 p-5 rounded-lg'>
             <div className='grid grid-cols-12'>
-              <div className='col-span-12 grid md:grid-cols-3 gap-5'>
+              <div className='col-span-12 grid md:grid-cols-3 gap-5 cursor-pointer'>
 
                 {Jobsdefualt.map((val, index) => (
                   <div key={index} className='py-3 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
+
                     <div className='flex justify-between items-center mb-3'>
                       <h1 className='font-medium'>Today</h1>
                       <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100  rounded-full'>
@@ -144,17 +145,21 @@ const Jobs: React.FC = () => {
                     </div>
 
                     <div className='mt-3'>
-                      <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Details</button>
+
+                      <NavLink to={`/JobsDetails/${val._id}`} >
+                        <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Details</button>
+                      </NavLink>
 
                       <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Save For Later</button>
                     </div>
+
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   )
 }
