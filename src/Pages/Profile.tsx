@@ -6,52 +6,46 @@ import { MdOutlineMailOutline } from 'react-icons/md'
 import { RiContactsBook2Fill } from 'react-icons/ri'
 import { LiaTimesSolid } from 'react-icons/lia'
 import { useForm, SubmitHandler } from "react-hook-form"
+import { RootState, AppDispatch } from '../App/store/store'
+import { useSelector, useDispatch } from 'react-redux'
+import { FetchingUserData } from '../App/Features/UserSlice'
 import axios from 'axios'
 
-{/* <BsThreeDots /> */ }
-{/* <IoArrowBack /> */ }
-{/* <IoEye /> */ }
+interface UserInfo {
+    _id: string,
+    ProfileImg: string,
+    name: string,
+    email: string,
+    mobile: string,
+    password: string,
+    role: string,
+    bio: string,
+    skills: [],
+    ResumeFile: string,
+    Company: [],
+    JobPost: [],
+    createdAt: string,
+    updatedAt: string,
+    __v: string,
+}
 
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
-    const [UserData, setUserData] = useState(Object)
+    const [UserData, setUserData] = useState<UserInfo[]>([]);
     const [isProfileImg, setProfileimg] = useState(String)
     const [file, setfile] = useState(String)
 
-
+    const Userinfo = useSelector((state: RootState) => state.User.User)
+    const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
-        const GetDataUser = async () => {
-            try {
-                const User = await axios.get("http://localhost:8000/User/Information", {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem("Token")}`,
-                    }
-                })
+        dispatch(FetchingUserData())
+    }, [dispatch])
 
-                if (User.status == 200) {
-                    const UserData = await User.data;
-                    setUserData(UserData)
-                }
-
-            } catch (error: any) {
-                if (error.User) {
-                    const errorMessage = error.User.data.message;
-
-                    if (error.User.status === 409 || errorMessage == "User not Found") {
-                        console.log("Error: User already exists.");
-                    }
-                    else {
-                        console.log(errorMessage);
-                    }
-                } else {
-                    console.log("Error: Network issue or server not responding", error);
-                }
-            }
-        }
-        GetDataUser()
-    }, [])
+    useEffect(() => {
+        setUserData(Userinfo)
+    }, [Userinfo])
 
     interface InputFrom {
         profile: string,
@@ -116,7 +110,7 @@ const Profile: React.FC = () => {
         } else {
             setProfileimg(" ")
         }
-    }
+    }    
 
     return (
         <>
@@ -138,7 +132,7 @@ const Profile: React.FC = () => {
                                                     <input {...register("name")}
                                                         type="text"
                                                         name='name'
-                                                        defaultValue={UserData.name}
+                                                        defaultValue={UserData[0]?.name}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -151,7 +145,7 @@ const Profile: React.FC = () => {
                                                     <input {...register("email")}
                                                         type="email"
                                                         name='email'
-                                                        defaultValue={UserData.email}
+                                                        defaultValue={UserData[0]?.email}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -164,7 +158,7 @@ const Profile: React.FC = () => {
                                                     <input {...register("mobile")}
                                                         type="number"
                                                         name='mobile'
-                                                        defaultValue={UserData.mobile}
+                                                        defaultValue={UserData[0]?.mobile}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none'
                                                     />
                                                 </td>
@@ -177,7 +171,7 @@ const Profile: React.FC = () => {
                                                     <input {...register("bio")}
                                                         type="text"
                                                         name='bio'
-                                                        defaultValue={UserData.bio}
+                                                        defaultValue={UserData[0]?.bio}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -190,7 +184,7 @@ const Profile: React.FC = () => {
                                                     <input {...register('skills')}
                                                         type="text"
                                                         name='skills'
-                                                        defaultValue={UserData.skills}
+                                                        defaultValue={UserData[0]?.skills}
                                                         className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
@@ -234,27 +228,27 @@ const Profile: React.FC = () => {
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
                                 <FiEdit2 className='text-[20px]' />
                             </div>
-                            <h1 className='font-bold'>{UserData.name}</h1>
-                            <p className='font-serif'>{UserData.bio}</p>
+                            <h1 className='font-bold'>{UserData[0].name}</h1>
+                            <p className='font-serif'>{UserData[0].bio}</p>
                         </div>
                     </div>
                     <div>
                         <div className='flex px-2 mt-2'>
                             <MdOutlineMailOutline className='mt-1 text-[20px]' />
-                            <h1 className='ml-2 font-medium'>{UserData.email}</h1>
+                            <h1 className='ml-2 font-medium'>{UserData[0]?.email}</h1>
                         </div>
                         <div className='flex px-2 mt-2'>
                             <RiContactsBook2Fill className='mt-1 text-[20px]' />
-                            <h1 className='ml-2 font-medium'>{UserData.mobile}</h1>
+                            <h1 className='ml-2 font-medium'>{UserData[0]?.mobile}</h1>
                         </div>
                         <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
                         <div className='gap-4 mt-2 grid grid-cols-7'>
-                            {UserData.skills?.map((val: any, index: any) => (
+                            {/* {UserData?.map((val: any, index: any) => (
                                 <h3 key={index} className='bg-black text-white text-[14px] px-1.5 rounded-full text-center'>{val}</h3>
-                            ))}
+                            ))} */}
                         </div>
                         <h1 className='font-bold mt-2 text-[19px]'>Resume</h1>
-                        <h2 className='text-blue-600 mt-1 hover:underline'>Pradip Jedhe Resime.pdf {UserData.ResumeFile}</h2>
+                        <h2 className='text-blue-600 mt-1 hover:underline'>Pradip Jedhe Resime.pdf {UserData[0]?.ResumeFile}</h2>
                     </div>
                 </div>
             </div>
@@ -279,13 +273,6 @@ const Profile: React.FC = () => {
                 </div>
                 <h3 className='mt-2 text-gray-300'>A list of your recent applied jobs</h3>
             </div>
-
-
-            {/* Edit From show hidden */}
-
-
-
-
         </>
     )
 }
