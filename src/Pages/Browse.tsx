@@ -29,6 +29,7 @@ const Browse: React.FC = () => {
 
   const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
   const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
+  const searchresults = useSelector((state: RootState) => state.Jobs.searchResults)
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -36,13 +37,22 @@ const Browse: React.FC = () => {
     dispatch(FetchingJobsData())
   }, [dispatch])
 
+  // useEffect(() => {
+  //   if (JobsData.length) {
+  //     SetupCompanyJobs(JobsData)
+  //   }
+  // }, [JobsData])
+
   useEffect(() => {
-    if (JobsData.length) {
+    if (searchresults.length) {
+      const searchedjob: Job[] = JobsData.filter((e: Job) => e.title == searchresults[0]?.title)
+      SetupCompanyJobs(searchedjob)
+    } else {
       SetupCompanyJobs(JobsData)
     }
-  }, [JobsData])
+  }, [JobsData, searchresults])
 
-  console.log(Jobsdefualt);
+
 
   return (
     <>
@@ -83,7 +93,7 @@ const Browse: React.FC = () => {
                   <NavLink to={`/JobsDetails/${val._id}`} >
                     <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Details</button>
                   </NavLink>
-                  
+
                   <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Save For Later</button>
                 </div>
               </div>

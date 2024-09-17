@@ -20,16 +20,18 @@ interface JobsData {
     createdAt: string,
     updatedAt: string,
     __v: string,
-
 }
 
 interface jobsState {
-    Jobs: JobsData[]
+    Jobs: JobsData[] 
+    searchResults: JobsData[];    
 }
 
 const initialState: jobsState = {
-    Jobs: []
+    Jobs: [],
+    searchResults:[]
 }
+
 
 export const FetchingJobsData = () => async (dispatch: AppDispatch) => {
     try {
@@ -38,7 +40,7 @@ export const FetchingJobsData = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         })
-        dispatch(setJobsData(response.data))     
+        dispatch(setJobsData(response.data))
     } catch (error) {
         console.log(error);
     }
@@ -51,9 +53,12 @@ const JobSlice = createSlice({
         setJobsData: (state, action: PayloadAction<JobsData[]>) => {
             state.Jobs = action.payload;
         },
+        setJobs(state, action: PayloadAction<JobsData[]>) {
+            state.searchResults = action.payload;
+          },
     },
 });
 
-export const { setJobsData } = JobSlice.actions;
+export const { setJobsData,setJobs } = JobSlice.actions;
 
 export default JobSlice.reducer;

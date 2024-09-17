@@ -4,6 +4,7 @@ import { RootState, AppDispatch } from '../App/store/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { FetchingJobsData } from '../App/Features/JobsSlice';
 import { NavLink } from 'react-router-dom';
+import { setJobs } from '../App/Features/JobsSlice';
 
 interface Job {
   _id: string,
@@ -29,6 +30,8 @@ const Home: React.FC = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
+  const [searchJobs, SetSeachdataJobs] = useState<Job[]>([]);
+  const [Search, SearchJobs] = useState(String);
   const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
 
   const dispatch: AppDispatch = useDispatch();
@@ -43,7 +46,20 @@ const Home: React.FC = () => {
     }
   }, [JobsData])
 
-  console.log(Jobsdefualt);
+
+  useEffect(() => {
+    const SearchJobsShow: Job[] = JobsData.filter((e: Job) =>
+      e.title.toLowerCase().includes(Search.toLowerCase())
+    );
+    SetSeachdataJobs(SearchJobsShow)
+  }, [JobsData, Search])
+
+
+  const handelJobsId = (id: string) => {
+    const Jobstroed: Job[] = JobsData.filter((e: Job) => e._id == id)
+    console.log(Jobstroed);
+    dispatch(setJobs(Jobstroed))
+  }
 
   // interface Developer {
   //   text: string;
@@ -100,11 +116,23 @@ const Home: React.FC = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem quae laboriosam odit aperiam ipsam sit fugit maiores modi error a saepe neque,
         </p>
 
-        <div className='w-full flex items-center justify-center mt-4'>
+        <div className='w-full flex items-center justify-center mt-4 relative'>
           <input
             type="text"
             className='md:w-[42%] w-[70%] bg-white rounded-full py-[6px] px-4 shadow-md shadow-gray-400 outline-none'
-            placeholder='Find Your Dream Jobs' />
+            placeholder='Find Your Dream Jobs' onChange={(e) => SearchJobs(e.target.value)} />
+          ,
+          {Search && <>
+            <div className=' py-1 bg-white text-black absolute rounded-lg overflow-hidden z-50 mt-28'>
+              {searchJobs?.map((val, index) => (
+                <NavLink to={"/Browse"} >
+                  <h1 key={index} className='font-serif text-[22px] mt-1 p-1 shadow shadow-gray-300 px-10 py-2 rounded-lg' onClick={() => handelJobsId(val._id)}>
+                    {val?.title}
+                  </h1>
+                </NavLink>
+              ))}
+            </div>
+          </>}
 
           <div className='flex justify-center items-center w-10 h-[36px] absolute bg-purple-800 rounded-r-full text-white md:ml-[490px] ml-[300px]'>
             <FaSearch size={18} />
