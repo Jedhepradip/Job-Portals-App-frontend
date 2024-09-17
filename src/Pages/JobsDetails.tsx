@@ -36,6 +36,9 @@ const JobsDetails: React.FC = () => {
         dispatch(FetchingJobsData())
     }, [dispatch])
 
+    console.log("Jobsdefualt :", Jobsdefualt);
+
+
     useEffect(() => {
         if (JobsData.length) {
             const FilterJobsById = JobsData.filter((e: Job) => e._id == id)
@@ -76,7 +79,7 @@ const JobsDetails: React.FC = () => {
                     <h1 className='font-bold'>Total Applicants:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.applications.length}</span></h1>
                     <h1 className='font-bold'>Posted Date:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.updatedAt ? new Date(Jobsdefualt[0]?.updatedAt).toLocaleDateString() : 'N/A'}</span></h1>
                 </div>
-            {/* </div> */}
+                {/* </div> */}
             </div>
         </>
     )

@@ -11,32 +11,46 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FetchingUserData } from '../App/Features/UserSlice'
 import axios from 'axios'
 
-interface UserInfo {
-    _id: string,
-    ProfileImg: string,
-    name: string,
-    email: string,
-    mobile: string,
-    password: string,
-    role: string,
-    bio: string,
-    skills: [],
-    ResumeFile: string,
-    Company: [],
-    JobPost: [],
-    createdAt: string,
-    updatedAt: string,
-    __v: string,
+interface CompanyData {
+    id: string;
+    name: string;
+    logo: string;
+    // other fields...
+}
+
+interface JobPostData {
+    id: string;
+    title: string;
+    description: string;
+    // other fields...
+}
+
+interface UserInterfase {
+    _id: string;
+    ProfileImg: string;
+    name: string;
+    email: string;
+    mobile: string;
+    password: string;
+    role: string;
+    bio: string;
+    skills: string[]; // assuming it's an array of skill strings
+    ResumeFile: string;
+    Company: CompanyData[]; // replace with actual Company structure
+    JobPost: JobPostData[]; // replace with actual JobPost structure
+    createdAt: string;
+    updatedAt: string;
+    __v: string;
 }
 
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
-    const [UserData, setUserData] = useState<UserInfo[]>([]);
+    const [UserData, setUserData] = useState<UserInterfase[]>([]);
     const [isProfileImg, setProfileimg] = useState(String)
     const [file, setfile] = useState(String)
 
-    const Userinfo = useSelector((state: RootState) => state.User.User)
+    const Userinfo:any = useSelector((state: RootState) => state.User.User)
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
@@ -44,9 +58,13 @@ const Profile: React.FC = () => {
     }, [dispatch])
 
     useEffect(() => {
-        setUserData(Userinfo)
+        if (Userinfo) {
+            setUserData(Userinfo)                        
+        }
     }, [Userinfo])
 
+    console.log("Userinfo :",Userinfo.name);
+    
     interface InputFrom {
         profile: string,
         name: string,
@@ -59,12 +77,8 @@ const Profile: React.FC = () => {
 
     const { register, handleSubmit } = useForm<InputFrom>()
 
-
     const onSubmit: SubmitHandler<InputFrom> = async (data) => {
-
-
         const skillsSplit: any = data.skills.split(" ")
-
         const formData = new FormData();
         formData.append("file", file)
         formData.append("name", data.name);
@@ -110,7 +124,7 @@ const Profile: React.FC = () => {
         } else {
             setProfileimg(" ")
         }
-    }    
+    }
 
     return (
         <>
@@ -228,8 +242,8 @@ const Profile: React.FC = () => {
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
                                 <FiEdit2 className='text-[20px]' />
                             </div>
-                            <h1 className='font-bold'>{UserData[0].name}</h1>
-                            <p className='font-serif'>{UserData[0].bio}</p>
+                            <h1 className='font-bold'>{UserData[0]?.name}</h1>
+                            <p className='font-serif'>{UserData[0]?.bio}</p>
                         </div>
                     </div>
                     <div>
@@ -243,7 +257,7 @@ const Profile: React.FC = () => {
                         </div>
                         <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
                         <div className='gap-4 mt-2 grid grid-cols-7'>
-                            {/* {UserData?.map((val: any, index: any) => (
+                            {/* {UserData[0].skills?.map((val: any, index: any) => (
                                 <h3 key={index} className='bg-black text-white text-[14px] px-1.5 rounded-full text-center'>{val}</h3>
                             ))} */}
                         </div>
@@ -278,3 +292,170 @@ const Profile: React.FC = () => {
 }
 
 export default Profile
+
+
+// import React, { useState, useEffect } from 'react';
+// // import png from "../assets/profile img.jpg";
+// import { FiEdit2 } from 'react-icons/fi';
+// // import { MdOutlineMailOutline } from 'react-icons/md';
+// // import { RiContactsBook2Fill } from 'react-icons/ri';
+// import { LiaTimesSolid } from 'react-icons/lia';
+// import { useForm, SubmitHandler } from "react-hook-form";
+// import { RootState, AppDispatch } from '../App/store/store';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { FetchingUserData } from '../App/Features/UserSlice';
+// import axios from 'axios';
+
+// interface CompanyData {
+//     id: string;
+//     name: string;
+//     logo: string;
+//     // other fields...
+// }
+
+// interface JobPostData {
+//     id: string;
+//     title: string;
+//     description: string;
+//     // other fields...
+// }
+
+// interface UserInterfase {
+//     _id: string;
+//     ProfileImg: string;
+//     name: string;
+//     email: string;
+//     mobile: string;
+//     password: string;
+//     role: string;
+//     bio: string;
+//     skills: string[]; // assuming it's an array of skill strings
+//     ResumeFile: string;
+//     Company: CompanyData[]; // replace with actual Company structure
+//     JobPost: JobPostData[]; // replace with actual JobPost structure
+//     createdAt: string;
+//     updatedAt: string;
+//     __v: string;
+// }
+
+// const Profile: React.FC = () => {
+
+//     const [isEditFormVisible, setEditFormVisible] = useState(false);
+//     const [UserData, setUserData] = useState<UserInterfase[]>([]);
+//     // const [isProfileImg, setProfileimg] = useState<string>("");
+//     // const [file, setfile] = useState<string>("");
+
+//     const Userinfo: UserInterfase[] = useSelector((state: RootState) => state.User.User);
+//     const dispatch: AppDispatch = useDispatch();
+
+//     useEffect(() => {
+//         dispatch(FetchingUserData());
+//     }, [dispatch]);
+
+//     useEffect(() => {
+//         if (Userinfo && Userinfo.length > 0) {
+//             setUserData(Userinfo);
+//         }
+//     }, [Userinfo]);
+
+//     console.log(Userinfo);
+
+//     interface InputFrom {
+//         profile: string;
+//         name: string;
+//         email: string;
+//         mobile: string;
+//         password: string;
+//         bio: string;
+//         skills: string;
+//     }
+
+//     const { register, handleSubmit } = useForm<InputFrom>();
+
+//     const onSubmit: SubmitHandler<InputFrom> = async (data) => {
+//         const skillsSplit: string[] = data.skills.split(" ");
+//         const formData = new FormData();
+//         // formData.append("file", file);
+//         formData.append("name", data.name);
+//         formData.append("email", data.email);
+//         formData.append("mobile", data.mobile);
+//         formData.append("bio", data.bio);
+//         formData.append("skills", JSON.stringify(skillsSplit));
+
+//         try {
+//             const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                     authorization: `Bearer ${localStorage.getItem("Token")}`
+//                 }
+//             });
+//             const responsedata = await response.data;
+//             console.log("responsedata :", responsedata);
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     };
+
+//     const EditPageShowhidden = (): void => {
+//         setEditFormVisible(!isEditFormVisible);
+//     };
+
+//     // const profileimg = (img: string): void => {
+//     //     if (img) {
+//     //         setProfileimg(img);
+//     //     } else {
+//     //         setProfileimg(" ");
+//     //     }
+//     // };
+
+//     return (
+//         <>
+//             {isEditFormVisible && (
+//                 <>
+//                     <div className='grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/50'>
+//                         <div className='px-4 py-6 shadow-lg shadow-gray-300 rounded-lg bg-white max-w-sm mx-auto'>
+//                             <LiaTimesSolid className='float-right text-[25px] cursor-pointer' onClick={() => EditPageShowhidden()} />
+//                             <h1 className='text-center font-medium font-serif text-3xl mb-5 text-gray-800'>Update Profile</h1>
+//                             <form onSubmit={handleSubmit(onSubmit)}>
+//                                 {/* Form Fields */}
+//                                 <div className='space-y-4'>
+//                                     <div className='flex items-center space-x-4'>
+//                                         <label className='block text-lg font-medium font-serif text-gray-700'>Name</label>
+//                                         <input {...register("name")} type="text" defaultValue={UserData[0]?.name || ''} className='w-full px-4 py-2 border border-gray-300 rounded-md' />
+//                                     </div>
+//                                     <div className='flex items-center space-x-4'>
+//                                         <label className='block text-lg font-medium font-serif text-gray-700'>Email</label>
+//                                         <input {...register("email")} type="email" defaultValue={UserData[0]?.email || ''} className='w-full px-4 py-2 border border-gray-300 rounded-md' />
+//                                     </div>
+//                                     {/* Add more input fields as needed */}
+//                                 </div>
+//                                 <button type="submit" className="mt-6 text-white w-full bg-gray-800 hover:bg-gray-900 px-5 py-2 rounded-md">Update</button>
+//                             </form>
+//                         </div>
+//                     </div>
+//                 </>
+//             )}
+
+//             {/* Profile Display */}
+//             <div className='grid grid-cols-1 place-items-center'>
+//                 {/* Profile Image */}
+//                 <div className='rounded-full'>
+//                     {/* <img src={isProfileImg || png} alt="Profile" className='rounded-full' /> */}
+//                 </div>
+//                 {/* Profile Info */}
+//                 <div>
+//                     <div onClick={() => EditPageShowhidden()}>
+//                         <FiEdit2 className='text-[20px]' />
+//                     </div>
+//                     <h1>{UserData[0]?.name}</h1>
+//                     <p>{UserData[0]?.bio}</p>
+//                     <h1>{UserData[0]?.email}</h1>
+//                     <h1>{UserData[0]?.mobile}</h1>
+//                     <h2>Skills: {UserData[0]?.skills?.join(', ')}</h2>
+//                 </div>
+//             </div>
+//         </>
+//     );
+// };
+
+// export default Profile;

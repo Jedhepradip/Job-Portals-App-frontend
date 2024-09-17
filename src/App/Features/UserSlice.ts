@@ -2,26 +2,40 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store/store";
 import axios from "axios";
 
-interface UserData {
-    _id:string,
-    ProfileImg:string,
-    name: string,
-    email: string,
-    mobile: string,
-    password:string,
-    role:string,
-    bio:string,
-    skills:[],
-    ResumeFile:string,
-    Company:[],
-    JobPost:[],
-    createdAt:string,
-    updatedAt:string,
-    __v:string,
+interface CompanyData {
+    id: string;
+    name: string;
+    logo: string;
+    // other fields...
+}
+
+interface JobPostData {
+    id: string;
+    title: string;
+    description: string;
+    // other fields...
+}
+
+interface UserInterFaceData {
+    _id: string;
+    ProfileImg: string;
+    name: string;
+    email: string;
+    mobile: string;
+    password: string;
+    role: string;
+    bio: string;
+    skills: string[]; // assuming it's an array of skill strings
+    ResumeFile: string;
+    Company: CompanyData[]; // replace with actual Company structure
+    JobPost: JobPostData[]; // replace with actual JobPost structure
+    createdAt: string;
+    updatedAt: string;
+    __v: string;
 }
 
 interface UserState {
-    User: UserData[];
+    User: UserInterFaceData[];
 }
 
 const initialState: UserState = {
@@ -45,7 +59,7 @@ const UserSlice = createSlice({
     name: "User",
     initialState,
     reducers: {
-        setUserData: (state, action: PayloadAction<UserData[]>) => {
+        setUserData: (state, action: PayloadAction<UserInterFaceData[]>) => {
             state.User = action.payload;
         },
     },
@@ -53,3 +67,4 @@ const UserSlice = createSlice({
 export const { setUserData } = UserSlice.actions;
 
 export default UserSlice.reducer;
+

@@ -6,7 +6,7 @@ interface JobsData {
     _id: string,
     description: string,
     requirements: [],
-    title:string,
+    title: string,
     salary: string,
     location: string,
     jobtype: string,
@@ -23,24 +23,24 @@ interface JobsData {
 
 }
 
-interface jobsState  {
-Jobs:JobsData[]
+interface jobsState {
+    Jobs: JobsData[]
 }
 
-const initialState : jobsState = {
-    Jobs:[]
+const initialState: jobsState = {
+    Jobs: []
 }
 
-export const FetchingJobsData = () => async (dispatch:AppDispatch) => {
+export const FetchingJobsData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs",{
-            headers:{
-                authorization:`Bearer ${localStorage.getItem("Token")}`
+        const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs", {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         })
-        dispatch(setJobsData(response.data)) 
+        dispatch(setJobsData(response.data))     
     } catch (error) {
-        console.log(error);       
+        console.log(error);
     }
 }
 
@@ -54,6 +54,6 @@ const JobSlice = createSlice({
     },
 });
 
-export const {setJobsData} = JobSlice.actions;
+export const { setJobsData } = JobSlice.actions;
 
 export default JobSlice.reducer;
