@@ -3,6 +3,9 @@ import { RootState, AppDispatch } from '../App/store/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { FetchingJobsData } from '../App/Features/JobsSlice';
 import { useParams } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 interface Job {
     _id: string,
@@ -25,7 +28,6 @@ interface Job {
 }
 
 const JobsDetails: React.FC = () => {
-
     const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
     const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
     const { id } = useParams<{ id: string }>();
@@ -36,9 +38,6 @@ const JobsDetails: React.FC = () => {
         dispatch(FetchingJobsData())
     }, [dispatch])
 
-    console.log("Jobsdefualt :", Jobsdefualt);
-
-
     useEffect(() => {
         if (JobsData.length) {
             const FilterJobsById = JobsData.filter((e: Job) => e._id == id)
@@ -46,11 +45,40 @@ const JobsDetails: React.FC = () => {
         }
     }, [JobsData, id])
 
+    const hadnelApplyNow = async () => {
+        try {
+            const response = await axios.post(`http://localhost:8000/ApplyJobs/${id}`, {
+                Headers: {
+                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+                }
+            })
+            const Userapplyresponse = await response.data;
+            if (response.status == 200) {
+                toast.success(<div className='font-serif text-[15px] text-black'>{Userapplyresponse}</div>)
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
     return (
         <>
             {/* <div className='grid grid-cols-1 fixed inset-0 z-50 bg-white'> */}
             <div className='grid grid-cols-1 place-items-center md:px-28 md:mt-10 p-6'>
-
+                <ToastContainer />
                 <div className='w-full'>
                     <div className='flex justify-between'>
                         <div>
@@ -62,7 +90,7 @@ const JobsDetails: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]'>Apply Now</button>
+                            <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={() => hadnelApplyNow()}>Apply Now</button>
                         </div>
                     </div>
 

@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../App/store/store';
 import { FetchingJobsData } from '../App/Features/JobsSlice';
+import { FaEye } from 'react-icons/fa';
 
 interface Job {
     _id: string,
@@ -61,7 +62,7 @@ const JobsPostAdmin: React.FC = () => {
     }, [searchTerm, jobsinfo]);
 
     console.log(jobData);
-    
+
     return (
         <>
             <div className='grid grid-cols-1 px-6 mt-7 mb-3'>
@@ -98,10 +99,16 @@ const JobsPostAdmin: React.FC = () => {
                         <h1 className='md:ml-32 ml-14 text-lg cursor-pointer' onClick={() => showEditButton(val?._id)}>
                             <BsThreeDots className='text-gray-500 hover:text-black transition-all' />
                             {companyId === val._id && (
-                                <div className="absolute shadow-lg rounded-lg bg-white z-50 mt-3 -ml-10">
+                                <div className="absolute shadow shadow-gray-300 rounded-lg bg-white z-50 mt-3 -ml-10 ">
                                     <NavLink to={`/EditJobsPost/${val._id}`}>
-                                        <span className="flex items-center gap-2 text-black py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white">
+                                        <span className="flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white ">
                                             <FiEdit2 className="text-xl" /> Edit
+                                        </span>
+                                    </NavLink>
+
+                                    <NavLink to={`/ApplicantsJobs/${val._id}`}>
+                                        <span className="my-1 flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white">
+                                            <FaEye className="text-xl" /> Applicants
                                         </span>
                                     </NavLink>
                                 </div>

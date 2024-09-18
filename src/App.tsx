@@ -19,6 +19,7 @@ import EditCompany from './Pages/EditCompany'
 import AdminNewJobsPost from './Pages/PostJobsAdmin'
 import EditJobsPost from './Pages/EditJobsPost'
 import JobsDetails from './Pages/JobsDetails'
+import ApplicantsJobs from './Pages/ApplicantsJobs'
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           <Route path='/AdminNewJobsPost' element={<AdminNewJobsPost />} />
           <Route path='/EditJobsPost/:id' element={<EditJobsPost />} />
           <Route path='/JobsDetails/:id' element={<JobsDetails />} />
+          <Route path='/ApplicantsJobs/:id' element={<ApplicantsJobs />} />
         </Routes>
         <Footer />
       </BrowserRouter >

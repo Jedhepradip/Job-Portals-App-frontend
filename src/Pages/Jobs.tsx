@@ -120,7 +120,7 @@ const Jobs: React.FC = () => {
               <label htmlFor="fullstack" className="font-medium">FullStack Developer</label>
             </div>
             <div className='px-3'>
-              <input type="radio" id="nextjs" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Nextjs Developer")} />
+              <input type="radio" id="nextjs" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Next.js Developer")} />
               <label htmlFor="nextjs" className="font-medium">Nextjs Developer</label>
             </div>
 
@@ -163,7 +163,7 @@ const Jobs: React.FC = () => {
                           </div>
                         </div>
                         <h1 className='py-1 font-bold text-[19px]'>{val.title}</h1>
-                        <p className='font-sans'>{val.description}</p>
+                        <p className='font-serif'>{val.description}</p>
                         <div className='flex justify-between items-center mt-3'>
                           <h1 className='text-blue-800 px-2 font-bold rounded-lg text-[13px] shadow shadow-gray-300'>{`${val.position} Position`}</h1>
                           <h1 className='text-red-500 px-3 font-bold rounded-lg text-[13px] shadow shadow-gray-300'>{val.jobtype}</h1>
