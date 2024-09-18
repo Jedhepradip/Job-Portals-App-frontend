@@ -9,6 +9,9 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { RootState, AppDispatch } from '../App/store/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { FetchingUserData } from '../App/Features/UserSlice'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 interface CompanyData {
@@ -49,6 +52,8 @@ const Profile: React.FC = () => {
     const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
     const [isProfileImg, setProfileimg] = useState(String)
     const [file, setfile] = useState(String)
+
+    const Navigate = useNavigate();
 
     const Userinfo: any = useSelector((state: RootState) => state.User.User)
     const dispatch: AppDispatch = useDispatch();
@@ -92,12 +97,21 @@ const Profile: React.FC = () => {
                     authorization: `Baera ${localStorage.getItem("Token")}`
                 }
             });
-            const responsedata = await response.data;
-            console.log("responsedata :", responsedata);
-        } catch (error) {
-            console.log(error);
+            if (response.status === 200) {
+                toast.success(<div className="font-serif text-[15px] text-black">Company updated successfully</div>);
+                setTimeout(() => {
+                    Navigate('/Company');
+                }, 1300);
+            }
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                toast.error(<div className="font-serif text-[15px] text-black">{errorMessage}</div>);
+            } else {
+                toast.error(<div className="font-serif text-[15px] text-black">Unexpected error occurred</div>);
+            }
         }
-    }
+    };
 
     interface JobDataInfo {
         date: Date;
@@ -131,6 +145,7 @@ const Profile: React.FC = () => {
                     <>
                         <div className='grid grid-cols-1 place-items-center fixed inset-0 z-50 bg-black/60 '>
                             <div className='px-4 py-6 shadow-lg shadow-gray-300 rounded-lg bg-white max-w-sm mx-auto'>
+                                <ToastContainer />
                                 <LiaTimesSolid className='float-right text-[25px] cursor-pointer' onClick={() => EditPageShowhidden()} />
                                 <h1 className='text-center font-medium font-serif text-3xl mb-5 text-gray-800'>Update Profile</h1>
                                 <form onSubmit={handleSubmit(onSubmit)}>

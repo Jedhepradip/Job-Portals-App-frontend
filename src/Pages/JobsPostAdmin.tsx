@@ -60,6 +60,8 @@ const JobsPostAdmin: React.FC = () => {
         setJobData(filteredJobs);
     }, [searchTerm, jobsinfo]);
 
+    console.log(jobData);
+    
     return (
         <>
             <div className='grid grid-cols-1 px-6 mt-7 mb-3'>
