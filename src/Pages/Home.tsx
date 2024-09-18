@@ -100,7 +100,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className='flex flex-col justify-center items-center px-4 text-center'>
+      <div className='flex flex-col justify-center items-center px-4 text-center relative'>
         <div className='mb-6'>
           <h1 className='bg-slate-100 text-red-500 py-1.5 px-4 font-medium rounded-full'>
             No. 1 Job Hunt Website

@@ -46,21 +46,30 @@ interface UserInterfase1 {
     __v: string;
 }
 
+interface applicants {
+    applicant: string,
+    createdAt: string,
+    job: [],
+    status: string,
+    updatedAt: string,
+    __v: string,
+    _id: string,
+}
+
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
     const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
+    const [appyjobs, setapplyjobs] = useState<applicants | []>([]);
     const [isProfileImg, setProfileimg] = useState(String)
     const [file, setfile] = useState(String)
-
     const Navigate = useNavigate();
-
     const Userinfo: any = useSelector((state: RootState) => state.User.User)
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         dispatch(FetchingUserData())
-    }, [dispatch])
+    }, [dispatch, Userinfo])
 
     useEffect(() => {
         if (Userinfo) {
@@ -97,34 +106,61 @@ const Profile: React.FC = () => {
                     authorization: `Baera ${localStorage.getItem("Token")}`
                 }
             });
+            const UpdateUser = await response.data;
             if (response.status === 200) {
-                toast.success(<div className="font-serif text-[15px] text-black">Company updated successfully</div>);
+                toast.success(<div className="font-serif text-[15px] text-black">{UpdateUser.message}</div>);
                 setTimeout(() => {
-                    Navigate('/Company');
-                }, 1300);
+                    Navigate('/Profile');
+                    setEditFormVisible(!isEditFormVisible)
+                }, 1800);
             }
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data.message;
-                toast.error(<div className="font-serif text-[15px] text-black">{errorMessage}</div>);
+
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
             } else {
-                toast.error(<div className="font-serif text-[15px] text-black">Unexpected error occurred</div>);
+                console.log("Error: Network issue or server not responding", error);
             }
         }
     };
 
-    interface JobDataInfo {
-        date: Date;
-        role: string;
-        company: string;
-        status: string;
-    }
 
-    const jobData: JobDataInfo[] = [
-        { date: new Date('2024-09-01'), role: 'Frontend Developer', company: 'TechCorp', status: 'Applied' },
-        { date: new Date('2024-09-02'), role: 'Backend Developer', company: 'WebSolutions', status: 'Interview' },
-    ];
+    useEffect(() => {
+        const getApplyJobsdata = async () => {
+            try {
+                const response = await axios.get("http://localhost:8000/Application/ApplyJob/Show/Student", {
+                    headers: {
+                        authorization: `Baera ${localStorage.getItem("Token")}`
+                    }
+                })
+                const applyJobsData = await response.data;
+                console.log(applyJobsData);
+                setapplyjobs(applyJobsData)
+            } catch (error: any) {
+                if (error.response) {
+                    const errorMessage = error.response.data.message;
 
+                    if (error.response.status === 409 || errorMessage === "User already exists") {
+                        console.log("Error: User already exists.");
+                        toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    } else {
+                        toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                        console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                    }
+                } else {
+                    console.log("Error: Network issue or server not responding", error);
+                }
+            }
+        }
+        getApplyJobsdata();
+    }, [])
 
     const EditPageShowhidden = (): void => {
         setEditFormVisible(!isEditFormVisible)
@@ -281,7 +317,7 @@ const Profile: React.FC = () => {
             </div>
 
             <h1 className='font-bold text-2xl w-full md:px-[298px] px-2 mt-10'>Applied Jobs</h1>
-            <div className="grid place-items-center md:mt-5 mt-1">
+            {/* <div className="grid place-items-center md:mt-5 mt-1">
                 <div className="md:shadow shadow-gray-200 rounded-lg w-full md:w-auto md:px-0 md:py-0 px-1 py-2">
                     <div className='flex justify-between px-5 text-[18px] shadow shadow-gray-200 py-2 rounded-t-lg font-serif'>
                         <h1 className="font-semibold">Date</h1>
@@ -289,17 +325,46 @@ const Profile: React.FC = () => {
                         <h1 className="font-semibold">Company</h1>
                         <h1 className="font-semibold">Status</h1>
                     </div>
-                    {jobData.map((job, index) => (
+                    {appyjobs.map((val, index) => (
                         <div key={index} className='shadow-sm shadow-gray-200 bg-white flex justify-between items-center py-2 px-5 mt-1 last:rounded-b-lg md:gap-[90px] gap-10 font-serif'>
-                            <h1>{job.date.toDateString()}</h1>
-                            <h1>{job.role}</h1>
-                            <h1>{job.company}</h1>
-                            <h1 className='bg-gray-100 rounded-full px-2 text-black font-serif'>{job.status}</h1>
+                            <h1 className='font-serif text-lg font-medium'>
+                                {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
+                            </h1>
+                            <h1>{val?.job?.title}</h1>
+                            <h1>{val?.job?.companyName}</h1>
+                            <h1 className='bg-gray-100 rounded-full px-2 text-black font-serif'>{val.status}</h1>
                         </div>
                     ))}
                 </div>
                 <h3 className='mt-2 text-gray-300'>A list of your recent applied jobs</h3>
+            </div> */}
+
+            <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 mt-2 shadow shadow-gray-300 py-2 text-[21px] font-serif'>
+                <h1 className="font-medium">Date</h1>
+                <h1 className="font-medium">Role</h1>
+                <h1 className="font-medium">Company</h1>
+                <h1 className="font-medium">Status</h1>
             </div>
+
+            
+                {appyjobs.map((val, index) => (
+                    <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 py-1 shadow shadow-gray-300'>
+                        <div className='font-serif mb-1 mt-1  py-1.5'>
+                            <h1 key={index} className='font-serif text-lg font-medium '>
+                                {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
+                            </h1>
+                        </div>
+                        <div className='font-serif mb-1 mt-1  py-1.5'>
+                            <h1 className=''>{val?.job?.title}</h1>
+                        </div>
+                        <div className='font-serif mb-1 mt-1  py-1.5'>
+                            <h1>{val?.job?.companyName}</h1>
+                        </div>
+                        <div className='font-serif mb-1 mt-1  bg-gray-300 w-[45%] justify-center flex items-center rounded-lg py-1'>
+                            <h1>{val.status}</h1>
+                        </div>
+                    </div>
+                ))}
         </>
     )
 }

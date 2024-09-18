@@ -41,10 +41,7 @@ const SignIn: React.FC = () => {
                 }
             });
 
-            const UserResponse = response.data;
-
-            console.log(response);
-
+            const UserResponse = response.data;            
 
             if (response.status == 200) {
                 console.log("User registered successfully", UserResponse);

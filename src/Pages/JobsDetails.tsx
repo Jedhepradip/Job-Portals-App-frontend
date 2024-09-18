@@ -2,10 +2,45 @@ import React, { useState, useEffect } from 'react'
 import { RootState, AppDispatch } from '../App/store/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { FetchingJobsData } from '../App/Features/JobsSlice';
+import { FetchingUserData } from '../App/Features/UserSlice';
 import { useParams } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+
+
+interface CompanyData {
+    id: string;
+    name: string;
+    logo: string;
+    // other fields...
+}
+
+interface JobPostData {
+    id: string;
+    title: string;
+    description: string;
+    // other fields...
+}
+
+interface UserInterfase1 {
+    _id: string;
+    ProfileImg: string;
+    name: string;
+    email: string;
+    mobile: string;
+    password: string;
+    role: string;
+    bio: string;
+    skills: string[]; // assuming it's an array of skill strings
+    ResumeFile: string;
+    Company: CompanyData[]; // replace with actual Company structure
+    JobPost: JobPostData[]; // replace with actual JobPost structure
+    createdAt: string;
+    updatedAt: string;
+    __v: string;
+}
+
 
 interface Job {
     _id: string,
@@ -29,14 +64,26 @@ interface Job {
 
 const JobsDetails: React.FC = () => {
     const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
-    const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
+    const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
+    const [ApplyJobs, setapplyJobs] = useState(String)
+    const JobsData: Job[] = useSelector((state: RootState) => state.Jobs.Jobs);
+    const Userinfo: UserInterfase1[] = useSelector((state: RootState) => state.User.User)
     const { id } = useParams<{ id: string }>();
 
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         dispatch(FetchingJobsData())
-    }, [dispatch])
+        dispatch(FetchingUserData());
+    }, [dispatch, ApplyJobs])
+
+    useEffect(() => {
+        if (Userinfo) {
+            setUserData(Userinfo)
+        }
+    }, [Userinfo, UserData])
+
+    console.log("UserData :", UserData);
 
     useEffect(() => {
         if (JobsData.length) {
@@ -47,14 +94,35 @@ const JobsDetails: React.FC = () => {
 
     const hadnelApplyNow = async () => {
         try {
-            const response = await axios.post(`http://localhost:8000/ApplyJobs/${id}`, {
-                Headers: {
-                    authorization: `Bearer ${localStorage.getItem("Token")}`,
+            const token = localStorage.getItem("Token");
+
+            if (!token) {
+                toast.error(<div className='font-serif text-[15px] text-black'>No authentication token found</div>);
+                return;
+            }
+
+            if (!UserData.bio == "" || !UserData.ResumeFile == "" || !UserData.skills == "") {
+                toast.error(<div className='font-serif text-[15px] text-black'>ResumeFile Bio and Skills is required</div>);
+                console.log("error");
+
+                return;
+            }
+
+            const response = await axios.post(
+                `http://localhost:8000/Application/ApplyJobs/${id}`,
+                {}, // Request body (empty in this case)
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
                 }
-            })
+            );
+
             const Userapplyresponse = await response.data;
-            if (response.status == 200) {
-                toast.success(<div className='font-serif text-[15px] text-black'>{Userapplyresponse}</div>)
+
+            if (response.status === 200) {
+                toast.success(<div className='font-serif text-[15px] text-black'>{Userapplyresponse.message}</div>);
+                setapplyJobs(Userapplyresponse.applyjobs.status)
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -63,16 +131,21 @@ const JobsDetails: React.FC = () => {
 
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
                 } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error: ", errorMessage || "Unexpected error occurred.");
                 }
             } else {
                 console.log("Error: Network issue or server not responding", error);
             }
         }
-    }
+    };
+
+
+    console.log("ApplyJobs :", ApplyJobs);
+
+    console.log(Jobsdefualt);
 
     return (
         <>
@@ -90,7 +163,20 @@ const JobsDetails: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={() => hadnelApplyNow()}>Apply Now</button>
+
+                            <>
+                                <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={() => hadnelApplyNow()}>Apply Now</button>
+                            </>
+                            {/* {ApplyJobs == "pending" ?
+                                <>
+                                    <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={() => hadnelApplyNow()}>Apply Now</button>
+                                </>
+                                :
+                                <>
+                                    <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-gray-500 rounded-lg font-serif font-medium md:text-[20px] text-[15px]'>Already Applied</button>
+                                </>
+                            } */}
+
                         </div>
                     </div>
 
@@ -100,11 +186,17 @@ const JobsDetails: React.FC = () => {
                     </div>
 
                     <h1 className='font-bold mt-2'>Role:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.title}</span></h1>
+
                     <h1 className='font-bold'>Location:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.location}</span></h1>
+
                     <h1 className='font-bold'>Description:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.description}</span></h1>
+
                     <h1 className='font-bold'>Experience:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.experienceLevel}Years</span></h1>
+
                     <h1 className='font-bold'>salary:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.salary}LPA</span></h1>
+
                     <h1 className='font-bold'>Total Applicants:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.applications.length}</span></h1>
+
                     <h1 className='font-bold'>Posted Date:<span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.updatedAt ? new Date(Jobsdefualt[0]?.updatedAt).toLocaleDateString() : 'N/A'}</span></h1>
                 </div>
                 {/* </div> */}
