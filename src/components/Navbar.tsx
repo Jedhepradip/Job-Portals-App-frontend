@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const user:any = useSelector((state: RootState) => state.User.User)
+  const user: any = useSelector((state: RootState) => state.User.User)
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -53,10 +53,11 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("user?.role pradip:",user?.role);      
-      setUserData(user?.role)
+      setUserData(user)
     }
-  }, [])
+  }, [user])
+
+  console.log("UserData :", UserData?.role === "student");
 
   const token = localStorage.getItem("Token");
 
@@ -91,7 +92,7 @@ const Navbar: React.FC = () => {
           <div className={`w-full md:block md:w-auto ${isMenuOpen ? '' : 'hidden'}`} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {/* Conditional Links based on Role */}
-              {UserData === "student" ? (
+              {UserData?.role === "student" ? (
                 <>
                   <NavLink to="/" >
                     <li onClick={toggleMenu}>
