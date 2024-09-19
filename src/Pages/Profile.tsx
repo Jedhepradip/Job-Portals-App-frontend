@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react'
-import png from "../assets/profile img.jpg"
+// import png from "../assets/profile img.jpg"
 import { FiEdit2 } from 'react-icons/fi'
 import { MdOutlineMailOutline } from 'react-icons/md'
 import { RiContactsBook2Fill } from 'react-icons/ri'
@@ -24,7 +24,7 @@ interface CompanyData {
 interface JobPostData {
     id: string;
     title: string;
-    description: string;
+    companyName: string
     // other fields...
 }
 
@@ -49,7 +49,7 @@ interface UserInterfase1 {
 interface applicants {
     applicant: string,
     createdAt: string,
-    job: [],
+    job: JobPostData,
     status: string,
     updatedAt: string,
     __v: string,
@@ -59,17 +59,17 @@ interface applicants {
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
+    const [file, setFile] = useState<File | null>(null);
     const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
-    const [appyjobs, setapplyjobs] = useState<applicants | []>([]);
-    const [isProfileImg, setProfileimg] = useState(String)
-    const [file, setfile] = useState(String)
+    const [appyjobs, setapplyjobs] = useState<applicants[]>([]);
+    // const [isProfileImg, setProfileImg] = useState<string | null>(null);    
     const Navigate = useNavigate();
     const Userinfo: any = useSelector((state: RootState) => state.User.User)
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         dispatch(FetchingUserData())
-    }, [dispatch, Userinfo])
+    }, [dispatch, isEditFormVisible])
 
     useEffect(() => {
         if (Userinfo) {
@@ -77,8 +77,11 @@ const Profile: React.FC = () => {
         }
     }, [Userinfo])
 
+    console.log(Userinfo);
+
+
     interface InputFrom {
-        profile: string,
+        ResumeFile: string,
         name: string,
         email: string,
         mobile: string,
@@ -90,9 +93,10 @@ const Profile: React.FC = () => {
     const { register, handleSubmit } = useForm<InputFrom>()
 
     const onSubmit: SubmitHandler<InputFrom> = async (data) => {
+
         const skillsSplit: any = data.skills.split(" ")
         const formData = new FormData();
-        formData.append("file", file)
+        formData.append("ResumeFile", file!)
         formData.append("name", data.name);
         formData.append("email", data.email);
         formData.append("mobile", data.mobile);
@@ -102,7 +106,6 @@ const Profile: React.FC = () => {
         try {
             const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
                 headers: {
-                    "Content-Type": "application/json",
                     authorization: `Baera ${localStorage.getItem("Token")}`
                 }
             });
@@ -166,13 +169,15 @@ const Profile: React.FC = () => {
         setEditFormVisible(!isEditFormVisible)
     }
 
-    const profileimg = (img: string): void => {
-        if (img) {
-            setProfileimg(img)
-        } else {
-            setProfileimg(" ")
-        }
-    }
+    // const profileimg = (img: string): void => {
+    //     if (img) {
+    //         setProfileImg(img)
+    //     } else {
+    //         setProfileImg(" ")
+    //     }
+    // }
+
+    console.log("appyjobs :", appyjobs);
 
     return (
         <>
@@ -257,11 +262,11 @@ const Profile: React.FC = () => {
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Resume</label>
                                                 </td>
                                                 <td className="w-[73%]">
-                                                    <input
+                                                    <input {...register('ResumeFile')}
                                                         type="file"
-                                                        name='profile'
+                                                        name='ResumeFile'
                                                         className='w-full px-4 py-1 border border-gray-300 rounded-md focus:ring-black focus:border-transparent outline-none font-serif'
-                                                        onChange={(e) => setfile(e.target.value)} />
+                                                        onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} />
                                                 </td>
                                             </tr>
                                         </div>
@@ -277,16 +282,22 @@ const Profile: React.FC = () => {
                 )
             }
 
-            <div className='grid grid-cols-1 place-items-center absolute'>
+            {/* <div className='grid grid-cols-1 place-items-center absolute'>
                 <div className='md:h-44 md:w-44 md:mt-40 rounded-full md:ml-20 h-28 w-28 ml-80 mt-28'>
                     <img src={isProfileImg} alt="" className='rounded-full' />
                 </div>
-            </div>
+            </div> */}
 
             <div className="grid place-items-center relative">
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
-                        <img src={png} alt="" className='h-20 w-20 mt-3 rounded-full bg-black' onMouseOver={() => profileimg(png)} onMouseOut={() => profileimg("")} />
+                        <img
+                            src={`http://localhost:8000/${UserData?.ProfileImg}`}
+                            alt=""
+                            className='h-20 w-20 mt-3 rounded-full bg-black'
+                        // onMouseOver={() => profileimg(UserData?.ProfileImg)}
+                        // onMouseOut={() => profileimg("")}
+                        />
                         <div className='px-3'>
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
                                 <FiEdit2 className='text-[20px]' />
@@ -311,7 +322,7 @@ const Profile: React.FC = () => {
                             ))}
                         </div>
                         <h1 className='font-bold mt-2 text-[19px]'>Resume</h1>
-                        <h2 className='text-blue-600 mt-1 hover:underline'>Pradip Jedhe Resime.pdf {UserData?.ResumeFile}</h2>
+                        <h2 className='text-blue-600 mt-1 hover:underline'>{UserData?.ResumeFile}</h2>
                     </div>
                 </div>
             </div>
@@ -346,25 +357,25 @@ const Profile: React.FC = () => {
                 <h1 className="font-medium">Status</h1>
             </div>
 
-            
-                {appyjobs.map((val, index) => (
-                    <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 py-1 shadow shadow-gray-300'>
-                        <div className='font-serif mb-1 mt-1  py-1.5'>
-                            <h1 key={index} className='font-serif text-lg font-medium '>
-                                {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
-                            </h1>
-                        </div>
-                        <div className='font-serif mb-1 mt-1  py-1.5'>
-                            <h1 className=''>{val?.job?.title}</h1>
-                        </div>
-                        <div className='font-serif mb-1 mt-1  py-1.5'>
-                            <h1>{val?.job?.companyName}</h1>
-                        </div>
-                        <div className='font-serif mb-1 mt-1  bg-gray-300 w-[45%] justify-center flex items-center rounded-lg py-1'>
-                            <h1>{val.status}</h1>
-                        </div>
+
+            {appyjobs.map((val, index) => (
+                <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 py-1 shadow shadow-gray-300'>
+                    <div className='font-serif mb-1 mt-1  py-1.5'>
+                        <h1 key={index} className='font-serif text-lg font-medium '>
+                            {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
+                        </h1>
                     </div>
-                ))}
+                    <div className='font-serif mb-1 mt-1  py-1.5'>
+                        <h1 className=''>{val?.job?.title}</h1>
+                    </div>
+                    <div className='font-serif mb-1 mt-1  py-1.5'>
+                        <h1>{val?.job?.companyName}</h1>
+                    </div>
+                    <div className='font-serif mb-1 mt-1  bg-gray-300 w-[45%] justify-center flex items-center rounded-lg py-1'>
+                        <h1>{val.status}</h1>
+                    </div>
+                </div>
+            ))}
         </>
     )
 }

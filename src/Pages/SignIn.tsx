@@ -6,69 +6,121 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 
+interface IFormInput {
+    ProfileImg: string,
+    name: string,
+    email: string,
+    mobile: number,
+    password: string,
+    role: string,
+}
+
 const SignIn: React.FC = () => {
 
-    const [file, setFile] = useState(String)
+    const [file, setFile] = useState<File | null>(null);
     const Navigate = useNavigate();
-
-    interface IFormInput {
-        file: string,
-        name: string,
-        email: string,
-        mobile: number,
-        password: string,
-        role: string,
-    }
-
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
 
+    // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+      
+    //     if (!file) {
+    //         toast.error('Please select a logo file');
+    //         return;
+    //     }
+
+    //     const formData = new FormData();
+    //     formData.append("ProfileImg", file); // Ensure file is not null
+    //     formData.append("name", data.name);
+    //     formData.append("email", data.email);
+    //     formData.append("mobile", data.mobile.toString());
+    //     formData.append("password", data.password);
+    //     formData.append("role", data.role);
+    //     console.log(file);
+    //     try {
+    //         const response = await axios.post("http://localhost:8000/User/Registration", formData, {
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         });
+
+    //         const UserResponse = response.data;
+
+    //         if (response.status == 200) {
+    //             console.log("User registered successfully", UserResponse);
+    //             toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse}</div>)
+    //             setTimeout(() => {
+    //                 Navigate("/")
+    //                 const Token = UserResponse.token
+    //                 localStorage.setItem("Token", Token)
+    //             }, 1600)
+    //         }
+    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //     } catch (error: any) {
+    //         if (error.response) {
+    //             const errorMessage = error.response.data.message;
+
+    //             if (error.response.status === 409 || errorMessage === "User already exists") {
+    //                 console.log("Error: User already exists.");
+    //                 toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+    //             } else {
+    //                 toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+    //                 console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+    //             }
+    //         } else {
+    //             console.log("Error: Network issue or server not responding", error);
+    //         }
+    //     }
+    // };
+
+
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+        if (!file) {
+            toast.error('Please select a logo file');
+            return;
+        }
+    
         const formData = new FormData();
-        formData.append("file", file); // Ensure file is not null
+        formData.append("ProfileImg", file); // Ensure file is not null
         formData.append("name", data.name);
         formData.append("email", data.email);
         formData.append("mobile", data.mobile.toString());
         formData.append("password", data.password);
         formData.append("role", data.role);
-
-        console.log(data.role);
-
-
+    
+        console.log(file);
+    
         try {
-            const response = await axios.post("http://localhost:8000/User/Registration", formData, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const UserResponse = response.data;            
-
-            if (response.status == 200) {
+            const response = await axios.post("http://localhost:8000/User/Registration", formData);
+    
+            const UserResponse = response.data;
+    
+            if (response.status === 200) {
                 console.log("User registered successfully", UserResponse);
-                toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse}</div>)
-                Navigate("/")
-                const Token = UserResponse.token
-                localStorage.setItem("Token", Token)
+                toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
+                setTimeout(() => {
+                    Navigate("/");
+                    const Token = UserResponse.token;
+                    localStorage.setItem("Token", Token);
+                }, 1600);
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data.message;
-
+    
                 if (error.response.status === 409 || errorMessage === "User already exists") {
                     console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
                 } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error: ", errorMessage || "Unexpected error occurred.");
                 }
             } else {
                 console.log("Error: Network issue or server not responding", error);
             }
         }
     };
-
-
+    
 
     return (
         <>
@@ -81,17 +133,16 @@ const SignIn: React.FC = () => {
                             <div>
                                 <label className='block text-lg font-serif text-gray-700 mb-1'>Profile</label>
                                 <input
-                                    {...register("file", {
+                                    {...register("ProfileImg", {
                                         required: { value: true, message: "File is required" },
                                     })}
                                     type="file"
+                                    name='ProfileImg'
                                     className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent'
-                                    onChange={(e) => {
-                                        setFile(e.target.value);
-                                    }} />
-                                {errors.file && (
+                                    onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} />
+                                {errors.ProfileImg && (
                                     <div className="text-red-500 text-lg font-serif mt-0 text-center">
-                                        {errors.file.message}
+                                        {errors.ProfileImg.message}
                                     </div>
                                 )}
                             </div>
