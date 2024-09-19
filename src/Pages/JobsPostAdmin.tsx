@@ -4,7 +4,7 @@ import { FiEdit2 } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../App/store/store';
-import { FetchingJobsData } from '../App/Features/JobsSlice';
+import { AdminCreatedJobsdata } from '../App/Features/JobsSlice';
 import { FaEye } from 'react-icons/fa';
 
 interface Job {
@@ -32,20 +32,22 @@ const JobsPostAdmin: React.FC = () => {
     const [companyId, setCompanyId] = useState<string | null>(null);
     const [jobData, setJobData] = useState<Job[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-
-    const jobsinfo = useSelector((state: RootState) => state.Jobs.Jobs);
+    const AdminCreatedJobs: Job[] = useSelector((state: RootState) => state.Jobs.AdminCreated);
 
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(FetchingJobsData());
+        dispatch(AdminCreatedJobsdata());
     }, [dispatch]);
 
     useEffect(() => {
-        if (jobsinfo.length) {
-            setJobData(jobsinfo);
+        if (AdminCreatedJobs.length) {
+            setJobData(AdminCreatedJobs);
         }
-    }, [jobsinfo]);
+    }, [AdminCreatedJobs]);
+
+    console.log("AdminCreatedJobs :", AdminCreatedJobs);
+
 
     const showEditButton = (id: string) => {
         if (id == id) {
@@ -54,12 +56,12 @@ const JobsPostAdmin: React.FC = () => {
     };
 
     useEffect(() => {
-        const filteredJobs = jobsinfo.filter((job: Job) =>
+        const filteredJobs = AdminCreatedJobs.filter((job: Job) =>
             job.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             job.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setJobData(filteredJobs);
-    }, [searchTerm, jobsinfo]);
+    }, [searchTerm, AdminCreatedJobs]);
 
     console.log(jobData);
 

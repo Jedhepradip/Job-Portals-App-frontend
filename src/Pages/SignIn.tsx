@@ -86,8 +86,8 @@ const SignIn: React.FC = () => {
         formData.append("mobile", data.mobile.toString());
         formData.append("password", data.password);
         formData.append("role", data.role);
-    
-        console.log(file);
+
+        console.log(data.role);
     
         try {
             const response = await axios.post("http://localhost:8000/User/Registration", formData);
@@ -261,7 +261,7 @@ const SignIn: React.FC = () => {
                                             {...register("role", { required: "Please select a user type" })}
                                             type="radio"
                                             id="recruiter"
-                                            value="Recruiter"
+                                            value="recruiter"
                                             name='role'
                                             className="form-radio text-black focus:ring-black"
                                         />

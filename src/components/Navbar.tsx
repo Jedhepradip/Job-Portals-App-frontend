@@ -1,15 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import profile from "../assets/profile img.jpg"
 import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../App/store/store';
+import { FetchingUserData } from '../App/Features/UserSlice';
+
+
+interface CompanyData {
+  id: string;
+  name: string;
+  logo: string;
+  // other fields...
+}
+
+interface JobPostData {
+  id: string;
+  title: string;
+  companyName: string
+  // other fields...
+}
+
+interface UserInterfase1 {
+  _id: string;
+  ProfileImg: string;
+  name: string;
+  email: string;
+  mobile: string;
+  password: string;
+  role: string;
+  bio: string;
+  skills: string[]; // assuming it's an array of skill strings
+  ResumeFile: string;
+  Company: CompanyData[]; // replace with actual Company structure
+  JobPost: JobPostData[]; // replace with actual JobPost structure
+  createdAt: string;
+  updatedAt: string;
+  __v: string;
+}
 
 const Navbar: React.FC = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userrole, setUserRole] = useState<string | null>(null); // Initialize as null
+  const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const user:any = useSelector((state: RootState) => state.User.User)
+
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    // Assuming you get the user role from localStorage
-    setUserRole("Admin");
+    dispatch(FetchingUserData());
+  }, [dispatch])
+
+  useEffect(() => {
+    if (user) {
+      console.log("user?.role pradip:",user?.role);      
+      setUserData(user?.role)
+    }
   }, [])
 
   const token = localStorage.getItem("Token");
@@ -45,7 +91,7 @@ const Navbar: React.FC = () => {
           <div className={`w-full md:block md:w-auto ${isMenuOpen ? '' : 'hidden'}`} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {/* Conditional Links based on Role */}
-              {!(userrole === "student") ? (
+              {UserData === "student" ? (
                 <>
                   <NavLink to="/" >
                     <li onClick={toggleMenu}>

@@ -23,15 +23,29 @@ interface JobsData {
 }
 
 interface jobsState {
-    Jobs: JobsData[] 
-    searchResults: JobsData[];    
+    Jobs: JobsData[]
+    searchResults: JobsData[];
+    AdminCreated: JobsData[];
 }
 
 const initialState: jobsState = {
     Jobs: [],
-    searchResults:[]
+    searchResults: [],
+    AdminCreated: [],
 }
 
+export const AdminCreatedJobsdata = () => async (dispatch: AppDispatch) => {
+    try {
+        const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs/Admin", {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("Token")}`
+            }
+        })
+        dispatch(setAdminCreatedJobs(response.data));
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const FetchingJobsData = () => async (dispatch: AppDispatch) => {
     try {
@@ -55,10 +69,13 @@ const JobSlice = createSlice({
         },
         setJobs(state, action: PayloadAction<JobsData[]>) {
             state.searchResults = action.payload;
-          },
+        },
+        setAdminCreatedJobs: (state, action: PayloadAction<JobsData[]>) => {
+            state.AdminCreated = action.payload;
+        }
     },
 });
 
-export const { setJobsData,setJobs } = JobSlice.actions;
+export const { setJobsData, setJobs, setAdminCreatedJobs } = JobSlice.actions;
 
 export default JobSlice.reducer;

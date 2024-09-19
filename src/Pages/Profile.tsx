@@ -56,6 +56,16 @@ interface applicants {
     _id: string,
 }
 
+interface InputFrom {
+    ResumeFile: string,
+    name: string,
+    email: string,
+    mobile: string,
+    password: string,
+    bio: string,
+    skills: string,
+}
+
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
@@ -78,17 +88,6 @@ const Profile: React.FC = () => {
     }, [Userinfo])
 
     console.log(Userinfo);
-
-
-    interface InputFrom {
-        ResumeFile: string,
-        name: string,
-        email: string,
-        mobile: string,
-        password: string,
-        bio: string,
-        skills: string,
-    }
 
     const { register, handleSubmit } = useForm<InputFrom>()
 
@@ -169,15 +168,7 @@ const Profile: React.FC = () => {
         setEditFormVisible(!isEditFormVisible)
     }
 
-    // const profileimg = (img: string): void => {
-    //     if (img) {
-    //         setProfileImg(img)
-    //     } else {
-    //         setProfileImg(" ")
-    //     }
-    // }
-
-    console.log("appyjobs :", appyjobs);
+    console.log(UserData?.ProfileImg);
 
     return (
         <>
@@ -292,7 +283,8 @@ const Profile: React.FC = () => {
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
                         <img
-                            src={`http://localhost:8000/${UserData?.ProfileImg}`}
+                            // src={`http://localhost:8000/${UserData?.ProfileImg}`}
+                            src={UserData?.ProfileImg}
                             alt=""
                             className='h-20 w-20 mt-3 rounded-full bg-black'
                         // onMouseOver={() => profileimg(UserData?.ProfileImg)}
