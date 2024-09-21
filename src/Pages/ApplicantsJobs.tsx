@@ -38,6 +38,7 @@ interface Applicants {
 }
 
 const ApplicantsJobs: React.FC = () => {
+
     const [jobsDefault, setJobsDefault] = useState<Applicants[]>([]);
     const [companyId, setCompanyId] = useState<string | null>(null);
 
@@ -112,8 +113,8 @@ const ApplicantsJobs: React.FC = () => {
                 console.log("Error: Network issue or server not responding", error);
             }
         }
-    }
-
+    }    
+    
     return (
         <>
             <div className='grid grid-cols-1'>

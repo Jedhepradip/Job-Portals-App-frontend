@@ -147,7 +147,7 @@ const Home: React.FC = () => {
   return (
     <>
       <div>
-        {UserData?.role == "student" ?
+        {!(UserData?.role == "student") ?
           <>
             <div className='flex flex-col justify-center items-center px-4 text-center relative'>
               <div className='mb-6'>

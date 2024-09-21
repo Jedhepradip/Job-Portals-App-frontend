@@ -33,19 +33,19 @@ interface CompanyData {
     __v: number; // Add this field to match the MongoDB document structure
 }
 
-const PostJobsAdmin: React.FC = () => {
+interface location {
+    city: string;
+}
 
+const PostJobsAdmin: React.FC = () => {
     const [company, setCompanyname] = useState(String);
+    const [location, setlocation] = useState(String);
     const [companies, setCompanies] = useState<CompanyData[]>([]);
     const [companyId, setCompanyId] = useState<string | null>(null);
-
     const Navigate = useNavigate();
-
     const Companyinfo = useSelector((state: RootState) => state.Company.Company)
     const dispatch: AppDispatch = useDispatch();
-
     const { register, handleSubmit, formState: { errors } } = useForm<InputPostJobs>();
-
 
     useEffect(() => {
         dispatch(FetchingCompanyData())
@@ -64,19 +64,17 @@ const PostJobsAdmin: React.FC = () => {
         }
     }, [companies, company])
 
-    console.log(companyId);
-
     const onsubmit: SubmitHandler<InputPostJobs> = async (data) => {
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("description", data.description);
         formData.append("requirements", data.requirements);
         formData.append("salary", data.salary);
-        formData.append("location", data.location);
+        formData.append("location", location);
         formData.append("jobtype", data.jobtype);
         formData.append("position", data.position);
         formData.append("experienceLevel", data.experienceLevel);
-        formData.append("companyName", company);        
+        formData.append("companyName", company);
 
         if (!(companyId?.length)) {
             console.log("Error");
@@ -115,6 +113,28 @@ const PostJobsAdmin: React.FC = () => {
             }
         }
     }
+
+    const locationdata: location[] = [
+        {
+            city: "Delhi NCR",
+        },
+        {
+            city: "Bangalore",
+        },
+        {
+            city: "Hyderabad",
+        },
+        {
+            city: "Pune",
+        },
+        {
+            city: "Chennai",
+        },
+        {
+            city: "Mumbai",
+        },
+    ];
+
     return (
         <>
             <div className='grid place-items-center'>
@@ -198,23 +218,20 @@ const PostJobsAdmin: React.FC = () => {
                                             </div>
                                         )}
                                     </td>
-                                </tr> <tr className='flex items-center space-x-2'>
+                                </tr>
+                                <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
-                                        <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Location</label>
-                                        <input {...register("location", {
-                                            required: { value: true, message: "Location is required" }
-                                        })}
-                                            type="text"
-                                            name='location'
-                                            placeholder='Pune'
-                                            className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
-                                        />
-                                        {errors.location && (
-                                            <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.location.message}
-                                            </div>
-                                        )}
+                                        <select
+                                            className="block w-full text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            onChange={(e) => setlocation(e.target.value)}
+                                        >companies
+                                            <option>Select A Location</option>
+                                            {locationdata.map((val, index) => (
+                                                <option value={val.city} key={index}>{val.city}</option>
+                                            ))}
+                                        </select>
                                     </td>
+
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Job Type</label>
                                         <input {...register("jobtype", {

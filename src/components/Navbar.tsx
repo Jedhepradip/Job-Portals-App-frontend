@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import profile from "../assets/profile img.jpg"
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../App/store/store';
@@ -57,7 +56,8 @@ const Navbar: React.FC = () => {
     }
   }, [user])
 
-  console.log("UserData :", UserData?.role === "student");
+  // console.log(UserData);
+
 
   const token = localStorage.getItem("Token");
 
@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
           <div className={`w-full md:block md:w-auto ${isMenuOpen ? '' : 'hidden'}`} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {/* Conditional Links based on Role */}
-              {UserData?.role === "student" ? (
+              {!(UserData?.role === "student") ? (
                 <>
                   <NavLink to="/" >
                     <li onClick={toggleMenu}>
@@ -129,7 +129,7 @@ const Navbar: React.FC = () => {
                 <NavLink to="/Profile">
                   <li onClick={toggleMenu}>
                     <div className='h-8 w-8 md:mr-14 md:ml-0 ml-3 rounded-full border-1 bg-black overflow-hidden border-black'>
-                      <img src={profile} alt="Profile" />
+                      <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full' />
                     </div>
                   </li>
                 </NavLink>

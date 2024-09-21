@@ -41,8 +41,12 @@ interface Job {
     __v: string,
 }
 
-const EditJobsPost: React.FC = () => {
+interface location {
+    city: string;
+}
 
+const EditJobsPost: React.FC = () => {
+    const [location, setlocation] = useState(String);
     const [CompanyJobs, SetupCompanyJobs] = useState<Job[]>([]);
     const [Jobsdefualt, setJobdDefualt] = useState<Job[]>([]);
     const { id } = useParams<{ id: string }>();
@@ -70,20 +74,20 @@ const EditJobsPost: React.FC = () => {
         const datasplit = data.requirements.split(" ")
 
         console.log(datasplit);
-        
+
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("description", data.description);
         formData.append("requirements", data.requirements);
         formData.append("salary", data.salary);
-        formData.append("location", data.location);
+        formData.append("location", location);
         formData.append("jobtype", data.jobtype);
         formData.append("position", data.position);
         formData.append("experienceLevel", data.experienceLevel);
 
         console.log([...formData]);
 
-        console.log("data.requirements.split(",") :",data.requirements.split(" "));
+        console.log("data.requirements.split(", ") :", data.requirements.split(" "));
 
 
         try {
@@ -117,6 +121,28 @@ const EditJobsPost: React.FC = () => {
             }
         }
     }
+
+    const locationdata: location[] = [
+        {
+            city: "Delhi NCR",
+        },
+        {
+            city: "Bangalore",
+        },
+        {
+            city: "Hyderabad",
+        },
+        {
+            city: "Pune",
+        },
+        {
+            city: "Chennai",
+        },
+        {
+            city: "Mumbai",
+        },
+    ];
+
     return (
         <>
             <div className='grid place-items-center'>
@@ -175,13 +201,15 @@ const EditJobsPost: React.FC = () => {
                                     </td>
                                 </tr> <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
-                                        <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Location</label>
-                                        <input {...register("location")}
-                                            type="text"
-                                            name='location'
-                                            defaultValue={Jobsdefualt[0]?.location}
-                                            className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
-                                        />
+                                        <select
+                                            className="block w-full text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            onChange={(e) => setlocation(e.target.value)}
+                                        >companies
+                                            <option>Select A Location</option>
+                                            {locationdata.map((val, index) => (
+                                                <option value={val.city} key={index}>{val.city}</option>
+                                            ))}
+                                        </select>
                                     </td>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Job Type</label>

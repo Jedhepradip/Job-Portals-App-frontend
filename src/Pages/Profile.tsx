@@ -283,10 +283,10 @@ const Profile: React.FC = () => {
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
                         <img
-                            // src={`http://localhost:8000/${UserData?.ProfileImg}`}
-                            src={UserData?.ProfileImg}
+                            src={`http://localhost:8000/${UserData?.ProfileImg} `}
+                            // src={UserData?.ProfileImg}
                             alt=""
-                            className='h-20 w-20 mt-3 rounded-full bg-black'
+                            className='h-20 w-20 mt-3 rounded-full object-cover bg-black'
                         // onMouseOver={() => profileimg(UserData?.ProfileImg)}
                         // onMouseOut={() => profileimg("")}
                         />
