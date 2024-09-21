@@ -40,7 +40,6 @@ interface Applicants {
 const ApplicantsJobs: React.FC = () => {
     const [jobsDefault, setJobsDefault] = useState<Applicants[]>([]);
     const [companyId, setCompanyId] = useState<string | null>(null);
-    const [ApplicationId, SetApplicationId] = useState<string | null>(null);
 
     const { id } = useParams<{ id: string }>();
 
@@ -81,21 +80,20 @@ const ApplicantsJobs: React.FC = () => {
         }
     };
 
-    const handelstatus = async (status: string) => {
+    const handelstatus = async (status: string, ApplicationId: string) => {
         const formdata = new FormData()
         formdata.append("status", status)
         try {
             console.log(status);
             const response = await axios.post(`http://localhost:8000/Application/Updata/Status/${ApplicationId}`, formdata, {
                 headers: {
-                    "Content-Type":"application/json",
+                    "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
                 }
             });
 
             console.log(response.data);
             if (response.status == 200) {
-                toast.success(response.data?.message)
                 toast.success(<div className='font-serif text-[15px] text-black'>{response.data?.message}</div>)
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -151,11 +149,11 @@ const ApplicantsJobs: React.FC = () => {
                             <BsThreeDots className='text-balck hover:text-black transition-all' />
                             {companyId === val._id && (
                                 <div className="absolute shadow shadow-gray-300 rounded-lg bg-white z-50 mt-3 -ml-10 p-1 ">
-                                    <span className="flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-green-600 hover:text-black " onClick={() => { handelstatus("accepted"); SetApplicationId(val._id) }}>
+                                    <span className="flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-green-600 hover:text-black " onClick={() => { handelstatus("accepted", val._id) }}>
                                         <HiCheck className="text-xl" /> Accepted
                                     </span>
 
-                                    <span className="my-1 flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-red-600 hover:text-black" onClick={() => { handelstatus("rejected"); SetApplicationId(val._id) }}>
+                                    <span className="my-1 flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-red-600 hover:text-black" onClick={() => { handelstatus("rejected", val._id) }}>
                                         <RxCross1 className="text-xl font-bold" />Rejected
                                     </span>
                                 </div>

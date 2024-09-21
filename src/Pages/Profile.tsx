@@ -363,9 +363,22 @@ const Profile: React.FC = () => {
                     <div className='font-serif mb-1 mt-1  py-1.5'>
                         <h1>{val?.job?.companyName}</h1>
                     </div>
-                    <div className='font-serif mb-1 mt-1  bg-gray-300 w-[45%] justify-center flex items-center rounded-lg py-1'>
+                    {/* <div className='font-serif mb-1 mt-1  bg-gray-300 w-[45%] justify-center flex items-center rounded-lg py-1'>
+                        <h1>{val.status}</h1>
+                    </div> */}
+
+                    <div
+                        className={`font-serif mb-1 mt-1 w-[45%] justify-center flex items-center rounded-lg py-1 ${val.status === 'pending'
+                                ? 'bg-gray-300'
+                                : val.status === 'accepted'
+                                    ? 'bg-green-600'
+                                    : 'bg-red-500'
+                            }`}
+                    >
                         <h1>{val.status}</h1>
                     </div>
+
+
                 </div>
             ))}
         </>
