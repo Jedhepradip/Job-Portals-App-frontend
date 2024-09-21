@@ -139,7 +139,7 @@ const Profile: React.FC = () => {
             try {
                 const response = await axios.get("http://localhost:8000/Application/ApplyJob/Show/Student", {
                     headers: {
-                        authorization: `Baera ${localStorage.getItem("Token")}`
+                        authorization: `Bearer ${localStorage.getItem("Token")}`
                     }
                 })
                 const applyJobsData = await response.data;

@@ -33,7 +33,7 @@ const JobsPostAdmin: React.FC = () => {
     const [jobData, setJobData] = useState<Job[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const AdminCreatedJobs: Job[] = useSelector((state: RootState) => state.Jobs.AdminCreated);    
+    const AdminCreatedJobs: Job[] = useSelector((state: RootState) => state.Jobs.AdminCreated);
 
     const dispatch: AppDispatch = useDispatch();
 
@@ -42,10 +42,12 @@ const JobsPostAdmin: React.FC = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (AdminCreatedJobs) {
+        if (AdminCreatedJobs.length) {
             setJobData(AdminCreatedJobs);
         }
     }, [AdminCreatedJobs]);
+
+    console.log(jobData);
 
     const showEditButton = (id: string) => {
         if (id == id) {
@@ -53,16 +55,13 @@ const JobsPostAdmin: React.FC = () => {
         }
     };
 
-    console.log("jobData :",jobData.user.JobPost);
-    
-
     useEffect(() => {
-        const filteredJobs = jobData.user.JobPost.filter((job: Job) =>
+        const filteredJobs = AdminCreatedJobs.filter((job: Job) =>
             job.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             job.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setJobData(filteredJobs);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchTerm]);
 
     return (
