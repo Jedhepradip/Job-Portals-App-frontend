@@ -91,24 +91,24 @@ const JobsPostAdmin: React.FC = () => {
 
                 {/* Data Rows */}
                 {jobData.map((val, index) => (
-                    <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200'>
+                    <div key={index} className='grid grid-cols-4 text-center items-center py-4 border-b border-gray-200 relative'>
                         <h1 className='font-serif text-lg font-medium'>{val.companyName}</h1>
                         <h1 className='font-serif text-lg font-medium'>{val.title}</h1>
                         <h1 className='font-serif text-lg font-medium'>
                             {val?.updatedAt ? new Date(val.updatedAt).toLocaleDateString() : 'N/A'}
                         </h1>
-                        <h1 className='md:ml-32 ml-14 text-lg cursor-pointer' onClick={() => showEditButton(val?._id)}>
-                            <BsThreeDots className='text-gray-500 hover:text-black transition-all' />
+                        <h1 className='md:ml-32 l-10 relative text-lg cursor-pointer' onClick={() => showEditButton(val?._id)}>
+                            <BsThreeDots className='text-gray-500 hover:text-black transition-all ml-10' />
                             {companyId === val._id && (
-                                <div className="absolute shadow shadow-gray-300 rounded-lg bg-white z-50 mt-3 -ml-10 ">
+                                <div className="absolute shadow shadow-gray-300 rounded-lg  bg-white z-50 md:mt-3 md:-ml-10 mt-3">
                                     <NavLink to={`/EditJobsPost/${val._id}`}>
-                                        <span className="flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white ">
+                                        <span className="flex items-center gap-2 text-black md:py-1.5 md:px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white px-2 py-1">
                                             <FiEdit2 className="text-xl" /> Edit
                                         </span>
                                     </NavLink>
 
                                     <NavLink to={`/ApplicantsJobs/${val._id}`}>
-                                        <span className="my-1 flex items-center gap-2 text-black py-1.5 px-3 rounded-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white">
+                                        <span className="my-1 flex items-center gap-2 text-black md:py-1.5 md:px-3 px-2 py-1 rounded-lg transition-all font-serif cursor-pointer hover:bg-black hover:text-white">
                                             <FaEye className="text-xl" /> Applicants
                                         </span>
                                     </NavLink>

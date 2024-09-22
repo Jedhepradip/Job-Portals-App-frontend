@@ -137,7 +137,7 @@ const PostJobsAdmin: React.FC = () => {
 
     return (
         <>
-            <div className='grid place-items-center'>
+            <div className='grid place-items-center md:p-0 p-5'>
                 <ToastContainer />
                 <div className='grid grid-cols-1 shadow shadow-gray-300 rounded-lg'>
                     <div className='flex items-center gap-24 py-2 px-5'>

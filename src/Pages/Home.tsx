@@ -101,37 +101,8 @@ const Home: React.FC = () => {
 
   const handelJobsId = (id: string) => {
     const Jobstroed: Job[] = JobsData.filter((e: Job) => e._id == id)
-    console.log(Jobstroed);
     dispatch(setJobs(Jobstroed))
   }
-
-  console.log(UserData);
-
-  // interface Developer {
-  //   text: string;
-  // }
-  // const slides: Developer[] = [
-  //   { text: 'Frontend Developer' },
-  //   { text: 'Backend Developer' },
-  //   { text: 'Full Stack Developer' },
-  //   { text: 'DevOps Engineer' },
-  //   { text: 'UI/UX Designer' },
-  //   { text: 'Data Scientist' },
-  //   { text: 'Software Engineer' },
-  //   { text: 'Mobile Developer' },
-  //   { text: 'Database Administrator' },
-  //   { text: 'Security Specialist' },
-  //   { text: 'Cloud Engineer' },
-  //   { text: 'System Analyst' },
-  //   { text: 'Game Developer' },
-  //   { text: 'Technical Writer' },
-  //   { text: 'Research Scientist' },
-  //   { text: 'Business Analyst' },
-  //   { text: 'Network Engineer' },
-  //   { text: 'Automation Engineer' },
-  //   { text: 'Web Developer' },
-  //   { text: 'Product Manager' },
-  // ];
 
   const slidesToShow = 3;
   const totalSlides = Jobsdefualt.length;
@@ -147,7 +118,7 @@ const Home: React.FC = () => {
   return (
     <>
       <div>
-        {UserData?.role == "student" ?
+        {!(UserData?.role == "student") ?
           <>
             <div className='flex flex-col justify-center items-center px-4 text-center relative'>
               <div className='mb-6'>
@@ -168,7 +139,7 @@ const Home: React.FC = () => {
               <div className='w-full flex items-center justify-center mt-4 relative'>
                 <input
                   type="text"
-                  className='md:w-[42%] w-[58%] bg-white rounded-full py-[6px] px-4 shadow-md shadow-gray-400 outline-none'
+                  className='md:w-[42%] w-[70%] bg-white rounded-full py-[6px] px-4 shadow-md shadow-gray-400 outline-none'
                   placeholder='Find Your Dream Jobs' onChange={(e) => SearchJobs(e.target.value)} />
                 ,
                 {Search && <>
@@ -201,7 +172,7 @@ const Home: React.FC = () => {
                         style={{ width: `${100 / slidesToShow}%`, padding: '0 10px' }} // Added padding to create space between slides
                       >
                         <div className="relative w-full h-32 flex items-center justify-around">
-                          <div className="absolute bottom-11 left-7 bg-opacity-50 text-black py-2 px-4 rounded-lg shadow-lg">
+                          <div className="absolute bottom-11 left- bg-opacity-50 text-black py-2 px-4 rounded-lg shadow-lg">
                             <NavLink to={`/JobsDetails/${slide._id}`} >
                               <p className="text-center font-medium font-serif">{slide.title}</p>
                             </NavLink>
@@ -214,14 +185,12 @@ const Home: React.FC = () => {
                 <div>
                   <button
                     onClick={handlePrev}
-                    className="absolute top-1/2 left-0 transform -translate-y-1/2 w-8 h-8 flex justify-center items-center p-2 bg-white text-black rounded-full hover:bg-gray-200"
-                  >
+                    className="absolute top-1/2 left-0 transform -translate-y-1/2 w-8 h-8 flex justify-center items-center p-2 bg-white text-black rounded-full hover:bg-gray-200">
                     &#10094;
                   </button>
                   <button
                     onClick={handleNext}
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 w-8 h-8 flex justify-center items-center p-2 bg-white text-black rounded-full hover:bg-gray-200"
-                  >
+                    className="absolute top-1/2 right-0 transform -translate-y-1/2 w-8 h-8 flex justify-center items-center p-2 bg-white text-black rounded-full hover:bg-gray-200">
                     &#10095;
                   </button>
                 </div>
@@ -230,10 +199,8 @@ const Home: React.FC = () => {
 
             <div className='px-14 py-1'>
               <h1 className='text-purple-600 font-bold text-4xl'>Latest and Top <span className='text-black'>Job Openings</span></h1>
-
               <div className='w-full grid md:grid-cols-3 sm:grid-cols-1 mt-10 gap-5'>
-
-                {Jobsdefualt.map((val, index) => (
+                {Jobsdefualt.slice(0, 6).map((val, index) => (
                   <div key={index} className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
                     <NavLink to={`/JobsDetails/${val._id}`} >
                       <h6 className='font-sans font-medium'>{val.companyName}</h6>
@@ -242,14 +209,13 @@ const Home: React.FC = () => {
                       <h1 className='text-[13px] font-sans mb-3'>{val.description}</h1>
                       <hr />
                       <div className='flex gap-5 mt-1 items-center'>
-                        <h1 className='text-blue-700 font-medium text-[13px]'>{val.position}Position</h1>
+                        <h1 className='text-blue-700 font-medium text-[13px]'>{val.position} Position</h1>
                         <h1 className='font-bold text-red-500 text-[13px]'>{val.jobtype}</h1>
-                        <h1 className='text-purple-600 font-bold text-[13px]'>{val.salary}LPA</h1>
+                        <h1 className='text-purple-600 font-bold text-[13px]'>{val.salary} LPA</h1>
                       </div>
                     </NavLink>
                   </div>
                 ))}
-
               </div>
             </div>
           </>

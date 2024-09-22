@@ -113,14 +113,14 @@ const ApplicantsJobs: React.FC = () => {
                 console.log("Error: Network issue or server not responding", error);
             }
         }
-    }    
-    
+    }
+
     return (
         <>
             <div className='grid grid-cols-1'>
                 <ToastContainer />
                 <h1 className='px-24 font-serif text-[30px] md:mt-10'>Applicants({jobsDefault.length})</h1>
-                <div className='grid grid-cols-6 md:ml-24 md:mt-5'>
+                <div className='grid grid-cols-6 md:ml-24 md:mt-5 cursor-pointer'>
                     <h1 className='text-[20px] text-gray-500 font-serif font-medium '>Full Name</h1>
                     <h1 className='text-[20px] text-gray-500 font-serif font-medium '>Email</h1>
                     <h1 className='text-[20px] text-gray-500 font-serif font-medium '>Contact</h1>
@@ -134,7 +134,7 @@ const ApplicantsJobs: React.FC = () => {
                 </div>
 
                 {jobsDefault.map((val, index) => (
-                    <div key={index} className='grid grid-cols-6 md:ml-24 md:mt-2 py-2'>
+                    <div key={index} className='grid grid-cols-6 md:ml-24 md:mt-2 py-2 cursor-pointer'>
                         <h1 className='text-[16px] text-black font-serif font-medium '>{val?.applicant?.name}</h1>
                         <h1 className='text-[16px] text-black font-serif font-medium '>{val?.applicant?.email}</h1>
 
