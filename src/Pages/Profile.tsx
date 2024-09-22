@@ -60,6 +60,7 @@ interface applicants {
 
 interface InputFrom {
     ResumeFile: string,
+    ProfileImg:string,
     name: string,
     email: string,
     mobile: string,
@@ -71,7 +72,8 @@ interface InputFrom {
 const Profile: React.FC = () => {
 
     const [isEditFormVisible, setEditFormVisible] = useState(false)
-    const [file, setFile] = useState<File | null>(null);
+    const [Resume, SetFileResume] = useState<File | null>(null);
+    const [Profile, SetFileProfile] = useState<File | null>(null);
     const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
     const [appyjobs, setapplyjobs] = useState<applicants[]>([]);
     const Navigate = useNavigate();
@@ -102,7 +104,8 @@ const Profile: React.FC = () => {
 
         const skillsSplit: any = data.skills.split(" ")
         const formData = new FormData();
-        formData.append("ResumeFile", file!)
+        formData.append("ResumeFile", Resume!)
+        formData.append("ProfileImg", Profile!)
         formData.append("name", data.name);
         formData.append("email", data.email);
         formData.append("mobile", data.mobile);
@@ -112,6 +115,7 @@ const Profile: React.FC = () => {
         try {
             const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
                 headers: {
+                     'Content-Type': 'multipart/form-data',
                     authorization: `Baera ${localStorage.getItem("Token")}`
                 }
             });
@@ -153,10 +157,10 @@ const Profile: React.FC = () => {
                             <div className='px-4 py-6 shadow-lg shadow-gray-300 rounded-lg bg-white max-w-sm mx-auto'>
                                 <ToastContainer />
                                 <LiaTimesSolid className='float-right text-[25px] cursor-pointer' onClick={() => EditPageShowhidden()} />
-                                <h1 className='text-center font-medium font-serif text-3xl mb-5 text-gray-800'>Update Profile</h1>
+                                <h1 className='text-center font-medium font-serif text-3xl mb-4 text-gray-800'>Update Profile</h1>
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <table className="w-full">
-                                        <div className='space-y-4'>
+                                        <div className='space-y-3'>
                                             <tr className='flex items-center space-x-4'>
                                                 <td className="w-[19%]">
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Name</label>
@@ -166,10 +170,24 @@ const Profile: React.FC = () => {
                                                         type="text"
                                                         name='name'
                                                         defaultValue={UserData?.name}
-                                                        className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
+                                                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-black  font-serif'
                                                     />
                                                 </td>
                                             </tr>
+
+                                            <tr className='flex items-center space-x-4'>
+                                                <td className="w-[19%]">
+                                                    <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Profile</label>
+                                                </td>
+                                                <td className="w-[73%]">
+                                                    <input {...register('ProfileImg')}
+                                                        type="file"
+                                                        name='ProfileImg'
+                                                        className='w-full px-4 py-1 border border-gray-300 rounded-md focus:ring-black focus:border-transparent outline-none font-serif'
+                                                        onChange={(e) => SetFileProfile(e.target.files ? e.target.files[0] : null)} />
+                                                </td>
+                                            </tr>
+
                                             <tr className='flex items-center space-x-4'>
                                                 <td className="w-[19%]">
                                                     <label className='block text-lg font-medium font-serif text-gray-700 float-right'>Email</label>
@@ -231,12 +249,12 @@ const Profile: React.FC = () => {
                                                         type="file"
                                                         name='ResumeFile'
                                                         className='w-full px-4 py-1 border border-gray-300 rounded-md focus:ring-black focus:border-transparent outline-none font-serif'
-                                                        onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} />
+                                                        onChange={(e) => SetFileResume(e.target.files ? e.target.files[0] : null)} />
                                                 </td>
                                             </tr>
                                         </div>
                                     </table>
-                                    <button type="submit" className="mt-6 text-white w-[100%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
+                                    <button type="submit" className="mt-3 text-white w-[100%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
                                         Update
                                     </button>
                                 </form>
