@@ -2,23 +2,44 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store/store";
 import axios from "axios";
 
+interface Job {
+    description: string;
+    requirements: [];
+    salary: string;
+    location: string;
+    jobtype: string;
+    position: string;
+    experienceLevel: string;
+    companyName: string;
+    company: string;
+    CreatedBy: string;
+    title: string;
+    applications: [];
+    JobPostDate: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: string;
+    _id: string;
+}
+
 interface applicantUser {
-    job: string,
+    job: Job[],
     applicant: string,
     status: string,
     createdAt: string,
     updatedAt: string,
     __v: string,
+    _id: string,
 }
 
 interface applicantJobs {
     applicant: applicantUser[]
 }
 const initialState: applicantJobs = {
-    applicant: []
+    applicant: [],
 }
 
-export const ferchingApplicationcom = async (dispatch: AppDispatch) => {
+export const FeachingapplicationData = () => async (dispatch: AppDispatch) => {
     try {
         const response = await axios.get("http://localhost:8000/Application/ApplyJob/Show/Student", {
             headers: {
@@ -26,16 +47,13 @@ export const ferchingApplicationcom = async (dispatch: AppDispatch) => {
             }
         })
         dispatch(setapplicationData(response.data))
-        const applyJobsData = await response.data;
-        console.log(applyJobsData);
     } catch (error) {
         console.log(error);
     }
 }
 
-
 const applicationSlice = createSlice({
-    name: "application",
+    name: "applicant",
     initialState,
     reducers: {
         setapplicationData: (state, action: PayloadAction<applicantUser[]>) => {

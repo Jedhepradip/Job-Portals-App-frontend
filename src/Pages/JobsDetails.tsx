@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { FeachingapplicationData } from '../App/Features/ApplicationSlice';
 
 interface Job {
     _id: string;
@@ -27,23 +28,48 @@ interface Job {
     __v: string;
 }
 
+
+interface applicantUser {
+    job: Job[],
+    applicant: string,
+    status: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: string,
+    _id: string,
+}
+
 const JobsDetails: React.FC = () => {
     const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
+    const [Application, SetApplication] = useState<applicantUser[]>([]);
     const [ApplyJobs, setapplyJobs] = useState<string>('');
-    const JobsData: Job[] = useSelector((state: RootState) => state.Jobs.Jobs);   
+    const JobsData: Job[] = useSelector((state: RootState) => state.Jobs.Jobs);
+    const application: applicantUser[] = useSelector((state: RootState) => state.Applicants.applicant);
     const { id } = useParams<{ id: string }>();
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         dispatch(FetchingJobsData());
-    }, [dispatch, ApplyJobs]);
+        dispatch(FeachingapplicationData())
+    }, [dispatch]);
+
+
+    console.log(application);
 
     useEffect(() => {
         if (JobsData.length) {
             const FilterJobsById = JobsData.filter((e: Job) => e._id === id);
             SetupCompanyJobs(FilterJobsById);
         }
-    }, [JobsData, id]);
+
+        if (application.length) {
+            const Jobs: applicantUser[] = application.filter((e: applicantUser) => e.job?._id == id)
+            SetApplication(Jobs)
+        }
+
+    }, [JobsData]);
+
+    console.log(Application);
 
     const hadnelApplyNow = async () => {
         try {
@@ -99,7 +125,17 @@ const JobsDetails: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>Apply Now</button>
+                            {(Application[0]?.status == "pending" || Application[0]?.status == "rejected") ?
+                                <>
+                                    <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>Apply Now</button>
+                                </>
+                                :
+
+                                <>
+                                    <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-gray-600 rounded-lg font-serif font-medium md:text-[20px] text-[15px]'>Already Applied</button>
+                                </>
+                            }
+
                             {/* <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>Apply Now</button> */}
                         </div>
                     </div>

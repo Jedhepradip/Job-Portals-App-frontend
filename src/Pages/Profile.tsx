@@ -9,6 +9,8 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { RootState, AppDispatch } from '../App/store/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { FetchingUserData } from '../App/Features/UserSlice'
+import { FeachingapplicationData } from '../App/Features/ApplicationSlice'
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
@@ -72,19 +74,24 @@ const Profile: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
     const [appyjobs, setapplyjobs] = useState<applicants[]>([]);
-    // const [isProfileImg, setProfileImg] = useState<string | null>(null);    
     const Navigate = useNavigate();
     const Userinfo: any = useSelector((state: RootState) => state.User.User)
+    const applicationjobs: any = useSelector((state: RootState) => state.Applicants.applicant)
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         dispatch(FetchingUserData())
+        dispatch(FeachingapplicationData())
     }, [dispatch, isEditFormVisible])
 
     useEffect(() => {
         if (Userinfo) {
             setUserData(Userinfo)
         }
+        if (applicationjobs) {
+            setapplyjobs(applicationjobs)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [Userinfo])
 
     console.log(Userinfo);
@@ -133,42 +140,9 @@ const Profile: React.FC = () => {
         }
     };
 
-
-    useEffect(() => {
-        const getApplyJobsdata = async () => {
-            try {
-                const response = await axios.get("http://localhost:8000/Application/ApplyJob/Show/Student", {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem("Token")}`
-                    }
-                })
-                const applyJobsData = await response.data;
-                console.log(applyJobsData);
-                setapplyjobs(applyJobsData)
-            } catch (error: any) {
-                if (error.response) {
-                    const errorMessage = error.response.data.message;
-
-                    if (error.response.status === 409 || errorMessage === "User already exists") {
-                        console.log("Error: User already exists.");
-                        toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    } else {
-                        toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                        console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-                    }
-                } else {
-                    console.log("Error: Network issue or server not responding", error);
-                }
-            }
-        }
-        getApplyJobsdata();
-    }, [])
-
     const EditPageShowhidden = (): void => {
         setEditFormVisible(!isEditFormVisible)
     }
-
-    console.log(UserData?.ProfileImg);
 
     return (
         <>
@@ -369,10 +343,10 @@ const Profile: React.FC = () => {
 
                     <div
                         className={`font-serif mb-1 mt-1 w-[45%] justify-center flex items-center rounded-lg py-1 ${val.status === 'pending'
-                                ? 'bg-gray-300'
-                                : val.status === 'accepted'
-                                    ? 'bg-green-600'
-                                    : 'bg-red-500'
+                            ? 'bg-gray-300'
+                            : val.status === 'accepted'
+                                ? 'bg-green-600'
+                                : 'bg-red-500'
                             }`}
                     >
                         <h1>{val.status}</h1>

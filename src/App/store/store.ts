@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import ComopanyReducer from '../Features/CompanySlice';
 import JobsReducer from "../Features/JobsSlice"
 import UserData from "../Features/UserSlice"
+import Application from "../Features/ApplicationSlice"
 
 export const store = configureStore({
     reducer: {
         Company: ComopanyReducer,
-        Jobs:JobsReducer,
-        User:UserData
+        Jobs: JobsReducer,
+        User: UserData,
+        Applicants: Application,
     },
 });
 
