@@ -54,6 +54,8 @@ const ForgetPassword: React.FC = () => {
         }
     };
 
+    console.log(userInfo);
+    
     // Function to handle OTP verification
     const handleSubmitOtp = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -22,7 +22,11 @@ const NewPassword: React.FC = () => {
             const formdata = new FormData()
             formdata.append("password", data.password)
             try {
-                const response = await axios.put(`http://localhost:8000/CreateNew/Password/${id}`, formdata);
+                const response = await axios.put(`http://localhost:8000/ForgetPassword/Create/NewPassword/${id}`, formdata, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
                 const CreatedPassword = response.data
                 if (response.status === 200) {
                     toast.success(<div className='font-serif text-[15px] text-black'>{CreatedPassword.message}</div>);
