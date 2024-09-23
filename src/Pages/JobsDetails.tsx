@@ -63,13 +63,14 @@ const JobsDetails: React.FC = () => {
         }
 
         if (application.length) {
-            const Jobs: applicantUser[] = application.filter((e: applicantUser) => e.job?._id == id)
+            const Jobs: applicantUser[] = application.filter((e: applicantUser) => e.job._id == id)
             SetApplication(Jobs)
-        }
+            console.log("JobsJobs :", Jobs);
+        }   
 
     }, [JobsData]);
 
-    console.log(Application);
+    console.log(ApplyJobs);
 
     const hadnelApplyNow = async () => {
         try {
@@ -130,7 +131,6 @@ const JobsDetails: React.FC = () => {
                                     <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>Apply Now</button>
                                 </>
                                 :
-
                                 <>
                                     <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-gray-600 rounded-lg font-serif font-medium md:text-[20px] text-[15px]'>Already Applied</button>
                                 </>

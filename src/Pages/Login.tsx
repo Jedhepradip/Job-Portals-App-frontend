@@ -23,12 +23,13 @@ const Login: React.FC = () => {
         formdata.append("password", data.password);
         formdata.append("role", data.role);
         try {
-            const response = await axios.post("http://localhost:8000/User/login", formdata,{
-                headers:{
-                    "Content-Type":"application/json"
+            const response = await axios.post("http://localhost:8000/User/login", formdata, {
+                headers: {
+                    "Content-Type": "application/json"
                 }
             })
             const UserResponse = response.data;
+
             if (response.status === 200) {
                 console.log("User registered successfully", UserResponse);
                 toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
@@ -76,7 +77,7 @@ const Login: React.FC = () => {
                             <div>
                                 <label className='block text-lg font-medium text-gray-700'>Password</label>
                                 <input {...register("password")}
-                                    type="text"
+                                    type="password"
                                     name='password'
                                     placeholder='password'
                                     className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none'
@@ -110,10 +111,13 @@ const Login: React.FC = () => {
 
                             <button type="submit" className="text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[20px] px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 outline-none">Login</button>
                         </div>
-                        <NavLink to={"/SignIn"}>
+                      <div className='flex'>
+                      <NavLink to={"/SignIn"}>
                             <h1 className='mt-2 text-[13px] px-1 font-medium'>Create New Account? <span className='text-blue-800 hover:underline'>
                                 SignIn</span></h1>
                         </NavLink>
+                        <h1 className='text-[11px] mt-3 ml-5 hover:underline text-blue-700 font-medium'>Forget Password</h1>
+                      </div>
                     </form>
                 </div>
             </div>

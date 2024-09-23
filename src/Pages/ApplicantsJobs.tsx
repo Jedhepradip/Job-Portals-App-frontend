@@ -115,6 +115,9 @@ const ApplicantsJobs: React.FC = () => {
         }
     }
 
+    console.log(jobsDefault);
+
+
     return (
         <>
             <div className='grid grid-cols-1'>

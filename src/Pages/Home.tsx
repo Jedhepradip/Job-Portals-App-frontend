@@ -9,14 +9,14 @@ import Companyesshow from './Companyesshow';
 import { FetchingUserData } from '../App/Features/UserSlice';
 
 interface CompanyData {
-  id: string;
+  _id: string;
   name: string;
   logo: string;
   // other fields...
 }
 
 interface JobPostData {
-  id: string;
+  _id: string;
   title: string;
   companyName: string
   // other fields...
@@ -118,7 +118,7 @@ const Home: React.FC = () => {
   return (
     <>
       <div>
-        {!(UserData?.role == "student") ?
+        {UserData?.role == "student" ?
           <>
             <div className='flex flex-col justify-center items-center px-4 text-center relative'>
               <div className='mb-6'>

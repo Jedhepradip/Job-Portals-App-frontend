@@ -3,14 +3,14 @@ import { AppDispatch } from "../store/store";
 import axios from "axios";
 
 interface CompanyData {
-    id: string;
+    _id: string;
     name: string;
     logo: string;
     // other fields...
 }
 
 interface JobPostData {
-    id: string;
+    _id: string;
     title: string;
     description: string;
     // other fields...

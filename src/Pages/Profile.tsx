@@ -24,7 +24,7 @@ interface CompanyData {
 }
 
 interface JobPostData {
-    id: string;
+    _id: string;
     title: string;
     companyName: string
     // other fields...
