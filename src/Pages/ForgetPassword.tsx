@@ -9,7 +9,7 @@ interface UserResponse {
     message: string;
     user?: {
         email: string;
-        _id:string
+        _id: string
         // Add any other relevant fields
     };
     otp?: string; // Include this if your API sends back an OTP
@@ -36,7 +36,6 @@ const ForgetPassword: React.FC = () => {
             const response = await axios.post("http://localhost:8000/ForgetPassword/ForgetPassword", formdata);
             const userResponse: UserResponse = response.data;
             if (response.status === 200) {
-                console.log("User registered successfully", userResponse);
                 toast.success(<div className='font-serif text-[15px] text-black'>{userResponse.message}</div>);
                 setUserInfo(userResponse);
                 setTimeout(() => {
@@ -59,17 +58,20 @@ const ForgetPassword: React.FC = () => {
     const handleSubmitOtp = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!OTP) {
-            toast.success(<div className='font-serif text-[15px] text-black'>{"Please enter the OTP."}</div>);
+            toast.error(<div className='font-serif text-[15px] text-black'>{"Please enter the OTP."}</div>);
             return;
         }
         if (userInfo?.otp == OTP) { // Check if the userInfo has an otp property
             toast.success(<div className='font-serif text-[15px] text-black'>{"OTP Verified successfully"}</div>);
-            Navigate(`/${userInfo?.user._id}`)
+            setTimeout(() => {
+                if (userInfo?.user?._id) {
+                    Navigate(`/NewPassword/${userInfo?.user._id}`)
+                }
+            }, 1400)
             return
             // Add any additional actions (e.g., redirecting to reset password)
         } else {
-            toast.error("Invalid OTP. Please try again.");
-            toast.success(<div className='font-serif text-[15px] text-black'>{"Invalid OTP. Please try again."}</div>);
+            toast.error(<div className='font-serif text-[15px] text-black'>{"Invalid OTP. Please try again."}</div>);
             return
         }
     };

@@ -21,58 +21,7 @@ const SignIn: React.FC = () => {
     const Navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
 
-    // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-
-    //     if (!file) {
-    //         toast.error('Please select a logo file');
-    //         return;
-    //     }
-
-    //     const formData = new FormData();
-    //     formData.append("ProfileImg", file); // Ensure file is not null
-    //     formData.append("name", data.name);
-    //     formData.append("email", data.email);
-    //     formData.append("mobile", data.mobile.toString());
-    //     formData.append("password", data.password);
-    //     formData.append("role", data.role);
-    //     console.log(file);
-    //     try {
-    //         const response = await axios.post("http://localhost:8000/User/Registration", formData, {
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         });
-
-    //         const UserResponse = response.data;
-
-    //         if (response.status == 200) {
-    //             console.log("User registered successfully", UserResponse);
-    //             toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse}</div>)
-    //             setTimeout(() => {
-    //                 Navigate("/")
-    //                 const Token = UserResponse.token
-    //                 localStorage.setItem("Token", Token)
-    //             }, 1600)
-    //         }
-    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //     } catch (error: any) {
-    //         if (error.response) {
-    //             const errorMessage = error.response.data.message;
-
-    //             if (error.response.status === 409 || errorMessage === "User already exists") {
-    //                 console.log("Error: User already exists.");
-    //                 toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-    //             } else {
-    //                 toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-    //                 console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-    //             }
-    //         } else {
-    //             console.log("Error: Network issue or server not responding", error);
-    //         }
-    //     }
-    // };
-
-
+  
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         if (!file) {
             toast.error('Please select a logo file');

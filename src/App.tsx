@@ -46,7 +46,7 @@ const App: React.FC = () => {
           <Route path='/JobsDetails/:id' element={<JobsDetails />} />
           <Route path='/ApplicantsJobs/:id' element={<ApplicantsJobs />} />
           <Route path='/ForgetPassword' element={<ForgetPassword />} />
-          <Route path='/NewPassword' element={<NewPassword />} />
+          <Route path='/NewPassword/:id' element={<NewPassword />} />
         </Routes>
         <Footer />
       </BrowserRouter >
