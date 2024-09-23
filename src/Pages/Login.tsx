@@ -111,13 +111,15 @@ const Login: React.FC = () => {
 
                             <button type="submit" className="text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[20px] px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 outline-none">Login</button>
                         </div>
-                      <div className='flex'>
-                      <NavLink to={"/SignIn"}>
-                            <h1 className='mt-2 text-[13px] px-1 font-medium'>Create New Account? <span className='text-blue-800 hover:underline'>
-                                SignIn</span></h1>
-                        </NavLink>
-                        <h1 className='text-[11px] mt-3 ml-5 hover:underline text-blue-700 font-medium'>Forget Password</h1>
-                      </div>
+                        <div className='flex'>
+                            <NavLink to={"/SignIn"}>
+                                <h1 className='mt-2 text-[13px] px-1 font-medium'>Create New Account? <span className='text-blue-800 hover:underline'>
+                                    SignIn</span></h1>
+                            </NavLink>
+                            <NavLink to={"/ForgetPassword"} >
+                                <h1 className='cursor-pointer text-[11px] mt-3 ml-5 hover:underline text-blue-700 font-medium'>Forget Password</h1>
+                            </NavLink>
+                        </div>
                     </form>
                 </div>
             </div>

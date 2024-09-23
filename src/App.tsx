@@ -21,6 +21,7 @@ import EditJobsPost from './Pages/EditJobsPost'
 import JobsDetails from './Pages/JobsDetails'
 import ApplicantsJobs from './Pages/ApplicantsJobs'
 import ForgetPassword from './Pages/ForgetPassword'
+import NewPassword from './Pages/NewPassword'
 
 const App: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ const App: React.FC = () => {
           <Route path='/JobsDetails/:id' element={<JobsDetails />} />
           <Route path='/ApplicantsJobs/:id' element={<ApplicantsJobs />} />
           <Route path='/ForgetPassword' element={<ForgetPassword />} />
+          <Route path='/NewPassword' element={<NewPassword />} />
         </Routes>
         <Footer />
       </BrowserRouter >
