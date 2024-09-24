@@ -265,16 +265,13 @@ const Profile: React.FC = () => {
                 )
             }
 
-            <div className="grid place-items-center relative">
+            <div className="grid md:place-items-center relative">
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
                         <img
                             src={`http://localhost:8000/${UserData?.ProfileImg} `}
-                            // src={UserData?.ProfileImg}
                             alt=""
                             className='h-20 w-20 mt-3 rounded-full object-cover bg-black'
-                        // onMouseOver={() => profileimg(UserData?.ProfileImg)}
-                        // onMouseOut={() => profileimg("")}
                         />
                         <div className='px-3'>
                             <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
@@ -294,29 +291,42 @@ const Profile: React.FC = () => {
                             <h1 className='ml-2 font-medium'>{UserData?.mobile}</h1>
                         </div>
                         <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
-                        <div className='gap-4 mt-2 grid grid-cols-7'>
+                        {/* <div className='gap-4 mt-2 grid grid-cols-7'>
                             {UserData?.skills?.map((val: any, index: any) => (
-                                <h3 key={index} className='bg-black text-white text-[14px] px-1.5 rounded-full text-center'>{val}</h3>
+                                <h3 key={index} className='bg-black py-10 text-white text-[14px] md:px-1.5 rounded-full text-center'>{val}</h3>
+                            ))}
+                        </div> */}
+
+                        <div className='gap-4 mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7'>
+                            {UserData?.skills?.map((val: any, index: any) => (
+                                <h3
+                                    key={index}
+                                    // bg-purple-600 bg-gradient-to-r from-purple-600 to-indigo-600
+                                    className='bg-black bg-gradient-to-r from-gray-800 to-slate-400 px-5 py-[2px] text-white text-[14px] md:px-2.5 rounded-full text-center shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl'
+                                >
+                                    {val}
+                                </h3>
                             ))}
                         </div>
+
+
                         <h1 className='font-bold mt-2 text-[19px]'>Resume</h1>
                         <h2 className='text-blue-600 mt-1 hover:underline'>{UserData?.ResumeFile}</h2>
                     </div>
                 </div>
             </div>
+
             {appyjobs.length ? <>
-
                 <h1 className='font-bold text-2xl w-full md:px-[298px] px-2 mt-10'>Applied Jobs</h1>
-
-                <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 mt-2 shadow shadow-gray-300 py-2 text-[21px] font-serif'>
+                <div className='md:mt-2 mt-10 text-[20px] font-serif grid md:grid-cols-4 grid-cols-4 px-4 md:px-24 place-items-center ml-4 md:ml-32 py-2 shadow shadow-gray-300'>
                     <h1 className="font-medium">Date</h1>
                     <h1 className="font-medium">Role</h1>
                     <h1 className="font-medium">Company</h1>
                     <h1 className="font-medium">Status</h1>
                 </div>
 
-                {appyjobs.map((val, index) => (
-                    <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 py-1 shadow shadow-gray-300'>
+                {/* {appyjobs.map((val, index) => (
+                    <div className='grid md:grid-cols-4 grid-cols-1 px-[180px] place-items-center] ml-32 py-1 shadow shadow-gray-300'>
                         <div className='font-serif mb-1 mt-1  py-1.5'>
                             <h1 key={index} className='font-serif text-lg font-medium '>
                                 {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
@@ -340,7 +350,34 @@ const Profile: React.FC = () => {
                             <h1>{val.status}</h1>
                         </div>
                     </div>
+                ))} */}
+
+                {appyjobs.map((val, index) => (
+                    <div className='grid md:grid-cols-4 grid-cols-4 px-4 md:px-24 place-items-center ml-4 md:ml-32 py-2 shadow shadow-gray-300'>
+                        <div className='font-serif mb-1 mt-1 py-1 text-center'>
+                            <h1 key={index} className='font-serif text-lg font-medium'>
+                                {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
+                            </h1>
+                        </div>
+                        <div className='font-serif mb-1 mt-1 py-1 text-center'>
+                            <h1>{val?.job?.title}</h1>
+                        </div>
+                        <div className='font-serif mb-1 mt-1 py-1 text-center'>
+                            <h1>{val?.job?.companyName}</h1>
+                        </div>
+                        <div
+                            className={`font-serif mb-1 mt-1 w-[70%] md:w-[45%] flex justify-center items-center rounded-lg py-1 text-center ${val.status === 'pending'
+                                ? 'bg-gray-300'
+                                : val.status === 'accepted'
+                                    ? 'bg-green-600'
+                                    : 'bg-red-500'
+                                }`}
+                        >
+                            <h1>{val.status}</h1>
+                        </div>
+                    </div>
                 ))}
+
             </>
                 :
                 <>
