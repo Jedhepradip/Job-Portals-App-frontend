@@ -13,7 +13,7 @@ import { FeachingapplicationData } from '../App/Features/ApplicationSlice'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 interface CompanyData {
@@ -60,7 +60,7 @@ interface applicants {
 
 interface InputFrom {
     ResumeFile: string,
-    ProfileImg:string,
+    ProfileImg: string,
     name: string,
     email: string,
     mobile: string,
@@ -96,7 +96,7 @@ const Profile: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [Userinfo])
 
-    console.log(Userinfo);
+    console.log(appyjobs);
 
     const { register, handleSubmit } = useForm<InputFrom>()
 
@@ -115,7 +115,7 @@ const Profile: React.FC = () => {
         try {
             const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
                 headers: {
-                     'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'multipart/form-data',
                     authorization: `Baera ${localStorage.getItem("Token")}`
                 }
             });
@@ -265,12 +265,6 @@ const Profile: React.FC = () => {
                 )
             }
 
-            {/* <div className='grid grid-cols-1 place-items-center absolute'>
-                <div className='md:h-44 md:w-44 md:mt-40 rounded-full md:ml-20 h-28 w-28 ml-80 mt-28'>
-                    <img src={isProfileImg} alt="" className='rounded-full' />
-                </div>
-            </div> */}
-
             <div className="grid place-items-center relative">
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
@@ -310,69 +304,54 @@ const Profile: React.FC = () => {
                     </div>
                 </div>
             </div>
+            {appyjobs.length ? <>
 
-            <h1 className='font-bold text-2xl w-full md:px-[298px] px-2 mt-10'>Applied Jobs</h1>
-            {/* <div className="grid place-items-center md:mt-5 mt-1">
-                <div className="md:shadow shadow-gray-200 rounded-lg w-full md:w-auto md:px-0 md:py-0 px-1 py-2">
-                    <div className='flex justify-between px-5 text-[18px] shadow shadow-gray-200 py-2 rounded-t-lg font-serif'>
-                        <h1 className="font-semibold">Date</h1>
-                        <h1 className="font-semibold">Role</h1>
-                        <h1 className="font-semibold">Company</h1>
-                        <h1 className="font-semibold">Status</h1>
-                    </div>
-                    {appyjobs.map((val, index) => (
-                        <div key={index} className='shadow-sm shadow-gray-200 bg-white flex justify-between items-center py-2 px-5 mt-1 last:rounded-b-lg md:gap-[90px] gap-10 font-serif'>
-                            <h1 className='font-serif text-lg font-medium'>
+                <h1 className='font-bold text-2xl w-full md:px-[298px] px-2 mt-10'>Applied Jobs</h1>
+
+                <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 mt-2 shadow shadow-gray-300 py-2 text-[21px] font-serif'>
+                    <h1 className="font-medium">Date</h1>
+                    <h1 className="font-medium">Role</h1>
+                    <h1 className="font-medium">Company</h1>
+                    <h1 className="font-medium">Status</h1>
+                </div>
+
+                {appyjobs.map((val, index) => (
+                    <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 py-1 shadow shadow-gray-300'>
+                        <div className='font-serif mb-1 mt-1  py-1.5'>
+                            <h1 key={index} className='font-serif text-lg font-medium '>
                                 {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
                             </h1>
-                            <h1>{val?.job?.title}</h1>
-                            <h1>{val?.job?.companyName}</h1>
-                            <h1 className='bg-gray-100 rounded-full px-2 text-black font-serif'>{val.status}</h1>
                         </div>
-                    ))}
-                </div>
-                <h3 className='mt-2 text-gray-300'>A list of your recent applied jobs</h3>
-            </div> */}
+                        <div className='font-serif mb-1 mt-1  py-1.5'>
+                            <h1 className=''>{val?.job?.title}</h1>
+                        </div>
+                        <div className='font-serif mb-1 mt-1  py-1.5'>
+                            <h1>{val?.job?.companyName}</h1>
+                        </div>
 
-            <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 mt-2 shadow shadow-gray-300 py-2 text-[21px] font-serif'>
-                <h1 className="font-medium">Date</h1>
-                <h1 className="font-medium">Role</h1>
-                <h1 className="font-medium">Company</h1>
-                <h1 className="font-medium">Status</h1>
-            </div>
-
-
-            {appyjobs.map((val, index) => (
-                <div className='grid grid-cols-4 px-[180px] place-items-center] ml-32 py-1 shadow shadow-gray-300'>
-                    <div className='font-serif mb-1 mt-1  py-1.5'>
-                        <h1 key={index} className='font-serif text-lg font-medium '>
-                            {val?.createdAt ? new Date(val.createdAt).toLocaleDateString() : 'N/A'}
-                        </h1>
+                        <div
+                            className={`font-serif mb-1 mt-1 w-[45%] justify-center flex items-center rounded-lg py-1 ${val.status === 'pending'
+                                ? 'bg-gray-300'
+                                : val.status === 'accepted'
+                                    ? 'bg-green-600'
+                                    : 'bg-red-500'
+                                }`}
+                        >
+                            <h1>{val.status}</h1>
+                        </div>
                     </div>
-                    <div className='font-serif mb-1 mt-1  py-1.5'>
-                        <h1 className=''>{val?.job?.title}</h1>
+                ))}
+            </>
+                :
+                <>
+                    <div className='md:px-72'>
+                        <NavLink to={"/"} >
+                            <h1 className='text-blue-800 hover:underline text-2xl px-2 mt-10 font-serif'>Appy For The Jobs</h1>
+                            <hr className="h-[2px] mt-7 px-24 bg-gray-400" />
+                        </NavLink>
                     </div>
-                    <div className='font-serif mb-1 mt-1  py-1.5'>
-                        <h1>{val?.job?.companyName}</h1>
-                    </div>
-                    {/* <div className='font-serif mb-1 mt-1  bg-gray-300 w-[45%] justify-center flex items-center rounded-lg py-1'>
-                        <h1>{val.status}</h1>
-                    </div> */}
-
-                    <div
-                        className={`font-serif mb-1 mt-1 w-[45%] justify-center flex items-center rounded-lg py-1 ${val.status === 'pending'
-                            ? 'bg-gray-300'
-                            : val.status === 'accepted'
-                                ? 'bg-green-600'
-                                : 'bg-red-500'
-                            }`}
-                    >
-                        <h1>{val.status}</h1>
-                    </div>
-
-
-                </div>
-            ))}
+                </>
+            }
         </>
     )
 }

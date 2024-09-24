@@ -219,17 +219,25 @@ const PostJobsAdmin: React.FC = () => {
                                         )}
                                     </td>
                                 </tr>
+
                                 <tr className='flex items-center space-x-2'>
+
+
                                     <td className="w-[50%]">
-                                        <select
-                                            className="block w-full text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                                            onChange={(e) => setlocation(e.target.value)}
-                                        >companies
-                                            <option>Select A Location</option>
-                                            {locationdata.map((val, index) => (
-                                                <option value={val.city} key={index}>{val.city}</option>
-                                            ))}
-                                        </select>
+                                        <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Experience Level <span className='text-[12px] text-gray-400'>(in Years)</span></label>
+                                        <input {...register("experienceLevel", {
+                                            required: { value: true, message: "Experience Level is required" }
+                                        })}
+                                            type="number"
+                                            name='experienceLevel'
+                                            placeholder='12 Years'
+                                            className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
+                                        />
+                                        {errors.experienceLevel && (
+                                            <div className="text-red-500 text-lg font-serif mt-0">
+                                                {errors.experienceLevel.message}
+                                            </div>
+                                        )}
                                     </td>
 
                                     <td className="w-[50%]">
@@ -248,23 +256,35 @@ const PostJobsAdmin: React.FC = () => {
                                             </div>
                                         )}
                                     </td>
-                                </tr> <tr className='flex items-center space-x-2'>
+                                </tr>
+
+                                <tr className='flex items-center space-x-2'>
+
                                     <td className="w-[50%]">
-                                        <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Experience Level <span className='text-[12px] text-gray-400'>(in Years)</span></label>
-                                        <input {...register("experienceLevel", {
-                                            required: { value: true, message: "Experience Level is required" }
-                                        })}
-                                            type="number"
-                                            name='experienceLevel'
-                                            placeholder='12 Years'
-                                            className='w-full px-4 py-1.5 border border-gray-300 rounded-md focus:ring-black  font-serif'
-                                        />
-                                        {errors.experienceLevel && (
-                                            <div className="text-red-500 text-lg font-serif mt-0">
-                                                {errors.experienceLevel.message}
-                                            </div>
-                                        )}
+                                        <select
+                                            className="block w-full text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            onChange={(e) => setlocation(e.target.value)}
+                                        >companies
+                                            <option>Select A Location</option>
+                                            {locationdata.map((val, index) => (
+                                                <option value={val.city} key={index}>{val.city}</option>
+                                            ))}
+                                        </select>
                                     </td>
+
+                                    <td className="w-[50%]">
+                                        <select
+                                            className="block w-full text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                            onChange={(e) => setCompanyname(e.target.value)}
+                                        >companies
+                                            <option>Select a Company</option>
+                                            {companies.map((val, index) => (
+                                                <option value={val.CompanyName} key={index}>{val.CompanyName}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr className='flex items-center space-x-2'>
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>No Of Position</label>
                                         <input {...register("position", {
@@ -280,18 +300,6 @@ const PostJobsAdmin: React.FC = () => {
                                                 {errors.position.message}
                                             </div>
                                         )}
-                                    </td>
-                                </tr> <tr className='flex items-center space-x-2'>
-                                    <td className="w-[50%]">
-                                        <select
-                                            className="block w-full text-lg font-medium py-2 px-4 font-serif text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                                            onChange={(e) => setCompanyname(e.target.value)}
-                                        >companies
-                                            <option>Select a Company</option>
-                                            {companies.map((val, index) => (
-                                                <option value={val.CompanyName} key={index}>{val.CompanyName}</option>
-                                            ))}
-                                        </select>
                                     </td>
                                 </tr>
                                 <div className='w-full flex justify-center items-center'>

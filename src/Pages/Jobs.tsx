@@ -26,26 +26,19 @@ interface Job {
 }
 
 const Jobs: React.FC = () => {
-
   const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
-
   const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
   const dispatch: AppDispatch = useDispatch()
 
   useEffect(() => {
     dispatch(FetchingJobsData())
   }, [dispatch])
-
   useEffect(() => {
     SetupCompanyJobs(JobsData)
   }, [JobsData])
 
-  console.log(Jobsdefualt);
-
   const SearchingByLocations = (location: string) => {
     const searchbylocationjobs: Job[] = JobsData.filter((e: Job) => e.location.toLowerCase() == location.toLowerCase())
-    console.log("searchbylocationjobs :", searchbylocationjobs);
-
     if (searchbylocationjobs.length) {
       SetupCompanyJobs(searchbylocationjobs)
     }
@@ -53,7 +46,6 @@ const Jobs: React.FC = () => {
 
   const searchbyIndustry = (Industry: string) => {
     const searchbyIndustryJobs: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase() == Industry.toLowerCase())
-    console.log("searchbyIndustryJobs :", searchbyIndustryJobs);
 
     if (searchbyIndustryJobs.length) {
       SetupCompanyJobs(searchbyIndustryJobs)
@@ -61,13 +53,28 @@ const Jobs: React.FC = () => {
   }
 
   const searchbysalary = (salary: string) => {
-    const searchbusalaryjobs: Job[] = JobsData.filter((e: Job) => e.salary == salary)
-    console.log("searchbusalaryjobs :", searchbusalaryjobs);
 
-    if (searchbysalary.length) {
+    if (salary <= "20") {
+      const searchbusalaryjobs: Job[] = JobsData.filter((e: Job) => e.salary <= salary)
+      console.log(searchbusalaryjobs);
       SetupCompanyJobs(searchbusalaryjobs)
     }
+    if (salary > "30") {
+      const searchbusalaryjobs: Job[] = JobsData.filter((e: Job) => e.salary <= salary)
+      console.log(searchbusalaryjobs);
+      SetupCompanyJobs(searchbusalaryjobs)
+    }
+
+    if (salary > "40") {
+      const searchbusalaryjobs: Job[] = JobsData.filter((e: Job) => e.salary > salary)
+      console.log(searchbusalaryjobs);
+      SetupCompanyJobs(searchbusalaryjobs)
+    }
+
+    // if (searchbysalary.length) {
+    // }
   }
+  
   return (
     <>
       <div className='bg-gray-300'>
@@ -126,16 +133,16 @@ const Jobs: React.FC = () => {
 
             <h2 className='text-xl font-medium mb-0 px-2 mt-4'>Salary</h2>
             <div className='px-3'>
-              <input type="radio" id="salary1" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbysalary("qq")} />
-              <label htmlFor="salary1" className='font-medium'>0 to 6 lakh</label>
+              <input type="radio" id="salary1" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbysalary("20")} />
+              <label htmlFor="salary1" className='font-medium'>10 to 20 lakh</label>
             </div>
             <div className='px-3'>
-              <input type="radio" id="salary2" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbysalary("qq")} />
-              <label htmlFor="salary2" className='font-medium'>6 to 14 lakh</label>
+              <input type="radio" id="salary2" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbysalary("30")} />
+              <label htmlFor="salary2" className='font-medium'>20 to 30 lakh</label>
             </div>
             <div className='px-3'>
-              <input type="radio" id="salary3" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbysalary("qq")} />
-              <label htmlFor="salary3" className='font-medium'>14 lakh to  30 lakh</label>
+              <input type="radio" id="salary3" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbysalary("40")} />
+              <label htmlFor="salary3" className='font-medium'>30 lakh to  40lakh</label>
             </div>
           </div>
 
@@ -143,7 +150,7 @@ const Jobs: React.FC = () => {
             <div className='grid grid-cols-12'>
               <div className='col-span-12 grid md:grid-cols-3 gap-5 cursor-pointer'>
 
-                {Jobsdefualt ? (
+                {Jobsdefualt.length ? (
                   <>
                     {Jobsdefualt.map((val, index) => (
                       <div key={index} className='py-3 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
@@ -180,7 +187,9 @@ const Jobs: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <h1 className='font-serif text-[30px] bg-red-600 z-50'>Job Not Found</h1>
+                    <div className='h-screen flex justify-center items-center'>
+                      <h1 className='text-blue-800 hover:underline text-2xl px-2 mt-10 font-serif text-center'>Jobs Not Found...</h1>
+                    </div>
                   </>
                 )}
               </div>

@@ -7,6 +7,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { FeachingapplicationData } from '../App/Features/ApplicationSlice';
+import { FetchingUserData } from '../App/Features/UserSlice';
+
+
+interface applicantUser {
+    job: Job[],
+    applicant: string,
+    status: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: string,
+    _id: string,
+}
 
 interface Job {
     _id: string;
@@ -21,7 +33,7 @@ interface Job {
     company: string;
     CreatedBy: string;
     title: string;
-    applications: [];
+    applications: applicantUser[];
     JobPostDate: string;
     createdAt: string;
     updatedAt: string;
@@ -29,14 +41,43 @@ interface Job {
 }
 
 
-interface applicantUser {
-    job: Job[],
-    applicant: string,
-    status: string,
-    createdAt: string,
-    updatedAt: string,
-    __v: string,
-    _id: string,
+interface CompanyData {
+    id: string;
+    name: string;
+    logo: string;
+    // other fields...
+}
+
+interface JobPostData {
+    _id: string;
+    title: string;
+    companyName: string
+    // other fields...
+}
+
+interface UserInterfase1 {
+    _id: string;
+    ProfileImg: string;
+    name: string;
+    email: string;
+    mobile: string;
+    password: string;
+    role: string;
+    bio: string;
+    skills: string[]; // assuming it's an array of skill strings
+    ResumeFile: string;
+    Company: CompanyData[]; // replace with actual Company structure
+    JobPost: JobPostData[]; // replace with actual JobPost structure
+    createdAt: string;
+    updatedAt: string;
+    __v: string;
+}
+
+interface ApplicationUser {
+    id: number; // or string, depending on your use case
+    // name: string;
+    // email: string;
+    // Add other properties as needed
 }
 
 const JobsDetails: React.FC = () => {
@@ -44,33 +85,32 @@ const JobsDetails: React.FC = () => {
     const [Application, SetApplication] = useState<applicantUser[]>([]);
     const [ApplyJobs, setapplyJobs] = useState<string>('');
     const JobsData: Job[] = useSelector((state: RootState) => state.Jobs.Jobs);
-    const application: applicantUser[] = useSelector((state: RootState) => state.Applicants.applicant);
+    const user: UserInterfase1[] = useSelector((state: RootState) => state.User.User);
+    // const application: applicantUser[] = useSelector((state: RootState) => state.Applicants.applicant);
     const { id } = useParams<{ id: string }>();
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         dispatch(FetchingJobsData());
         dispatch(FeachingapplicationData())
+        dispatch(FetchingUserData())
     }, [dispatch]);
-
-
-    console.log(application);
 
     useEffect(() => {
         if (JobsData.length) {
             const FilterJobsById = JobsData.filter((e: Job) => e._id === id);
             SetupCompanyJobs(FilterJobsById);
         }
-
-        if (application.length) {
-            const Jobs: applicantUser[] = application.filter((e: applicantUser) => e.job._id == id)
-            SetApplication(Jobs)
-            console.log("JobsJobs :", Jobs);
-        }   
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JobsData]);
 
-    console.log(ApplyJobs);
+    if (Jobsdefualt[0]?.applications.length) {
+        const applicationUsers: ApplicationUser[] = [];
+        Jobsdefualt.forEach((val) => {
+            const appyljob = val.applications.filter((e) => console.log(e, user._id))
+        })
+    }
+
 
     const hadnelApplyNow = async () => {
         try {
@@ -126,17 +166,15 @@ const JobsDetails: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            {(Application[0]?.status == "pending" || Application[0]?.status == "rejected") ?
-                                <>
-                                    <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>Apply Now</button>
-                                </>
-                                :
+                            {Application.length ?
                                 <>
                                     <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-gray-600 rounded-lg font-serif font-medium md:text-[20px] text-[15px]'>Already Applied</button>
                                 </>
+                                :
+                                <>
+                                    <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>Apply Now</button>
+                                </>
                             }
-
-                            {/* <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>Apply Now</button> */}
                         </div>
                     </div>
 

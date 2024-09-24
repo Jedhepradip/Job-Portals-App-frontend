@@ -117,7 +117,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div>
+      <div className='relative'>
         {UserData?.role == "student" ?
           <>
             <div className='flex flex-col justify-center items-center px-4 text-center relative'>
@@ -143,10 +143,10 @@ const Home: React.FC = () => {
                   placeholder='Find Your Dream Jobs' onChange={(e) => SearchJobs(e.target.value)} />
                 ,
                 {Search && <>
-                  <div className=' py-1 bg-white text-black absolute rounded-lg overflow-hidden z-50 mt-28'>
+                  <div className=' py-4 px-2 text-black absolute rounded-lg overflow-hidden z-50 h-auto bg-white shadow shadow-gray-300'>
                     {searchJobs?.map((val, index) => (
                       <NavLink to={"/Browse"} >
-                        <h1 key={index} className='font-serif text-[22px] mt-1 p-1 shadow shadow-gray-300 px-10 py-2 rounded-lg' onClick={() => handelJobsId(val._id)}>
+                        <h1 key={index} className='font-serif text-[22px] mb-2 hover:bg-gray-400 bg-white rounded-lg shadow shadow-gray-300 px-10 py-2' onClick={() => handelJobsId(val._id)}>
                           {val?.title}
                         </h1>
                       </NavLink>

@@ -139,7 +139,7 @@ const ApplicantsJobs: React.FC = () => {
                 {jobsDefault.map((val, index) => (
                     <div key={index} className='grid grid-cols-6 md:ml-24 md:mt-2 py-2 cursor-pointer'>
                         <h1 className='text-[16px] text-black font-serif font-medium '>{val?.applicant?.name}</h1>
-                        <h1 className='text-[16px] text-black font-serif font-medium '>{val?.applicant?.email}</h1>
+                        <h1 className='text-[13px] text-black font-serif font-medium'>{val?.applicant?.email}</h1>
 
                         <h1 className='text-[16px] text-blue-700 font-serif font-medium hover:underline'>{val?.applicant?.mobile}</h1>
 
