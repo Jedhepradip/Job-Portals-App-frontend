@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../App/store/store';
 import { FetchingUserData } from '../App/Features/UserSlice';
-
+import { FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 interface CompanyData {
   _id: string;
@@ -56,10 +56,11 @@ const Navbar: React.FC = () => {
     }
   }, [user])
 
-  // console.log(UserData);
-
-
   const token = localStorage.getItem("Token");
+  const LogoutUser = () => {
+    localStorage.removeItem("Token")
+    toggleMenu();
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -67,7 +68,7 @@ const Navbar: React.FC = () => {
 
   return (
     <div>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 rounded-lg">
+      <nav className="bg-white border-gray-200 dark:bg-gray-900 rounded-lg relative">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <h1 className='font-bold font-sans text-[25px] md:ml-20 ml-2'>Job<span className='text-red-500'>Hunt</span></h1>
           <button
@@ -95,17 +96,17 @@ const Navbar: React.FC = () => {
               {UserData?.role === "student" ? (
                 <>
                   <NavLink to="/" >
-                    <li onClick={toggleMenu}>
+                    <li>
                       <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Home</a>
                     </li>
                   </NavLink>
                   <NavLink to="/Jobs">
-                    <li onClick={toggleMenu}>
+                    <li>
                       <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
                     </li>
                   </NavLink>
                   <NavLink to="/Browse">
-                    <li onClick={toggleMenu}>
+                    <li>
                       <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Browse</a>
                     </li>
                   </NavLink>
@@ -126,13 +127,11 @@ const Navbar: React.FC = () => {
               )}
 
               {token ? (
-                <NavLink to="/Profile">
-                  <li onClick={toggleMenu}>
-                    <div className='h-8 w-8 md:mr-14 md:ml-0 ml-3 rounded-full border-1 bg-black overflow-hidden border-black'>
-                      <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full' />
-                    </div>
-                  </li>
-                </NavLink>
+                <li onClick={toggleMenu}>
+                  <div className='h-8 w-8 md:mr-14 md:ml-0 ml-3 rounded-full border-1 bg-black overflow-hidden border-black'>
+                    <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full' />
+                  </div>
+                </li>
               ) : (
                 <>
                   <NavLink to="/Login">
@@ -147,11 +146,40 @@ const Navbar: React.FC = () => {
                   </NavLink>
                 </>
               )}
+
+              {isMenuOpen ? <>
+                <div className=" absolute px-6 rounded-lg shadow-lg z-[500] mt-10 text-black">
+                  <div className="flex items-center mb-4">
+                    <img
+                      src={`http://localhost:8000/${UserData?.ProfileImg}`}
+                      alt="Profile"
+                      className="object-cover h-12 w-12 rounded-full border-2 border-white"
+                    />
+                    <div className="ml-3">
+                      <span className=" font-semibold text-lg">{UserData?.name}</span>
+                      <p className=" text-sm text-gray-400">{UserData?.bio}</p>
+                    </div>
+                  </div>
+                  <NavLink to="/Profile" onClick={toggleMenu}>
+                    <div className="flex items-center cursor-pointer text-gray-400 py-1 rounded transition">
+                      <FaUser className="mr-2 text-black text-[19px]" />
+                      <span>View Profile</span>
+                    </div>
+                  </NavLink>
+                  <div className="flex items-center cursor-pointer text-gray-400 py-1 font-medium rounded transition pb-5" onClick={() => LogoutUser()}>
+                    <FaSignOutAlt className="mr-2 text-[19px] text-black" />
+                    <span>Logout</span>
+                  </div>
+                </div>
+              </>
+                :
+                null
+              }
             </ul>
           </div>
         </div>
-      </nav>
-    </div>
+      </nav >
+    </div >
   );
 };
 

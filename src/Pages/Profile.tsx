@@ -265,7 +265,7 @@ const Profile: React.FC = () => {
                 )
             }
 
-            <div className="grid md:place-items-center relative">
+            <div className="grid md:place-items-center relative z-10">
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
                         <img
@@ -290,13 +290,7 @@ const Profile: React.FC = () => {
                             <RiContactsBook2Fill className='mt-1 text-[20px]' />
                             <h1 className='ml-2 font-medium'>{UserData?.mobile}</h1>
                         </div>
-                        <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
-                        {/* <div className='gap-4 mt-2 grid grid-cols-7'>
-                            {UserData?.skills?.map((val: any, index: any) => (
-                                <h3 key={index} className='bg-black py-10 text-white text-[14px] md:px-1.5 rounded-full text-center'>{val}</h3>
-                            ))}
-                        </div> */}
-
+                        <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>                       
                         <div className='gap-4 mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7'>
                             {UserData?.skills?.map((val: any, index: any) => (
                                 <h3
