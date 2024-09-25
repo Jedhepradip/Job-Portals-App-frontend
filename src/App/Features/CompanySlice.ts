@@ -6,7 +6,7 @@ import axios from 'axios';
 interface CompanyData {
     _id: string;
     CompanyName: string;
-    CompanyLogo:string,
+    CompanyLogo: string,
     UserId: string;
     createdAt: Date;
     updatedAt: Date;
@@ -27,6 +27,8 @@ const initialState: CompanyState = {
 
 
 export const FetchingCompanyData = () => async (dispatch: AppDispatch) => {
+    
+   
     try {
         const response = await axios.get("http://localhost:8000/Company/get", {
             headers: {
@@ -45,7 +47,7 @@ const CompanySlice = createSlice({
     reducers: {
         setCompanyData: (state, action: PayloadAction<CompanyData[]>) => {
             state.Company = action.payload;
-        },        
+        },
     },
 });
 

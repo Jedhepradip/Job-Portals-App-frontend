@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 rounded-lg relative">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <h1 className='font-bold font-sans text-[25px] md:ml-20 ml-2'>Job<span className='text-red-500'>Hunt</span></h1>
@@ -95,17 +95,17 @@ const Navbar: React.FC = () => {
               {/* Conditional Links based on Role */}
               {UserData?.role === "student" ? (
                 <>
-                  <NavLink to="/" >
+                  <NavLink to="/" onClick={() => setIsMenuOpen(false)}>
                     <li>
                       <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Home</a>
                     </li>
                   </NavLink>
-                  <NavLink to="/Jobs">
+                  <NavLink to="/Jobs" onClick={() => setIsMenuOpen(false)}>
                     <li>
                       <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
                     </li>
                   </NavLink>
-                  <NavLink to="/Browse">
+                  <NavLink to="/Browse" onClick={() => setIsMenuOpen(false)}>
                     <li>
                       <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Browse</a>
                     </li>
@@ -113,13 +113,13 @@ const Navbar: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <NavLink to="/Company">
-                    <li onClick={toggleMenu}>
+                  <NavLink to="/Company" onClick={() => setIsMenuOpen(false)}>
+                    <li>
                       <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Company</a>
                     </li>
                   </NavLink>
-                  <NavLink to="/AdminJons">
-                    <li onClick={toggleMenu}>
+                  <NavLink to="/AdminJons" onClick={() => setIsMenuOpen(false)}>
+                    <li>
                       <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
                     </li>
                   </NavLink>
@@ -147,39 +147,46 @@ const Navbar: React.FC = () => {
                 </>
               )}
 
-              {isMenuOpen ? <>
-                <div className=" absolute px-6 rounded-lg shadow-lg z-[500] mt-10 text-black">
-                  <div className="flex items-center mb-4">
-                    <img
-                      src={`http://localhost:8000/${UserData?.ProfileImg}`}
-                      alt="Profile"
-                      className="object-cover h-12 w-12 rounded-full border-2 border-white"
-                    />
-                    <div className="ml-3">
-                      <span className=" font-semibold text-lg">{UserData?.name}</span>
-                      <p className=" text-sm text-gray-400">{UserData?.bio}</p>
+              {isMenuOpen ? (
+                <>
+                  <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 mt-12 text-black w-80">
+                    <div className="flex items-center mb-4 px-4 py-2">
+                      <img
+                        src={`http://localhost:8000/${UserData?.ProfileImg}`}
+                        alt="Profile"
+                        className="object-cover h-12 w-12 rounded-full border-2 border-white"
+                      />
+                      <div className="ml-3">
+                        <span className="font-medium text-lg text-black">
+                          {UserData?.name}
+                        </span>
+                        <p className="text-sm text-gray-600 font-medium">{UserData?.bio}</p>
+                      </div>
+                    </div>
+                    <NavLink to="/Profile" onClick={toggleMenu}>
+                      <div className="flex items-center cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 text-gray-600 py-2 px-4 font-medium rounded-md transition duration-300 ease-in-out hover:text-white">
+                        <div className="text-black flex hover:text-white">
+                          <FaUser className="mr-2 text-[19px]" />
+                          <span>View Profile</span>
+                        </div>
+                      </div>
+                    </NavLink>
+                    <div
+                      className="flex items-center cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 text-gray-600 py-2 px-4 font-medium rounded-md transition duration-300 ease-in-out mb-2 hover:text-white"
+                      onClick={() => LogoutUser()}>
+                      <div className="text-black hover:text-white flex">
+                        <FaSignOutAlt className="mr-2 text-[19px] hover:text-white mt-1" />
+                        <span>Logout</span>
+                      </div>
                     </div>
                   </div>
-                  <NavLink to="/Profile" onClick={toggleMenu}>
-                    <div className="flex items-center cursor-pointer text-gray-400 py-1 rounded transition">
-                      <FaUser className="mr-2 text-black text-[19px]" />
-                      <span>View Profile</span>
-                    </div>
-                  </NavLink>
-                  <div className="flex items-center cursor-pointer text-gray-400 py-1 font-medium rounded transition pb-5" onClick={() => LogoutUser()}>
-                    <FaSignOutAlt className="mr-2 text-[19px] text-black" />
-                    <span>Logout</span>
-                  </div>
-                </div>
-              </>
-                :
-                null
-              }
+                </>
+              ) : null}
             </ul>
           </div>
         </div>
       </nav >
-    </div >
+    </ >
   );
 };
 

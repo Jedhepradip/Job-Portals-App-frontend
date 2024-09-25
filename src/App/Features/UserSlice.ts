@@ -43,6 +43,7 @@ const initialState: UserState = {
 }
 
 export const FetchingUserData = () => async (dispatch: AppDispatch) => {
+   
     try {
         const response = await axios.get("http://localhost:8000/User/Information", {
             headers: {

@@ -45,36 +45,33 @@ const Jobs: React.FC = () => {
   }
 
   const searchbyIndustry = (Industry: string) => {
-    const searchbyIndustryJobs: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase() == Industry.toLowerCase())
+    // const searchbyIndustryJobs: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase() == Industry.toLowerCase())
 
-    if (searchbyIndustryJobs.length) {
+    const searchbyIndustryJobs: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase().includes(Industry.toLowerCase()))
+
+    if (searchbyIndustryJobs.length > 0) {
       SetupCompanyJobs(searchbyIndustryJobs)
+    } else {
+      SetupCompanyJobs([])
     }
   }
 
   const searchbysalary = (salary: string) => {
-
-    if (salary <= "20") {
-      const searchbusalaryjobs: Job[] = JobsData.filter((e: Job) => e.salary <= salary)
-      console.log(searchbusalaryjobs);
-      SetupCompanyJobs(searchbusalaryjobs)
+    const salaryNumber = parseFloat(salary);
+    let searchbusalaryjobs: Job[] = [];
+    if (salaryNumber >= 10 && salaryNumber <= 20) {
+      searchbusalaryjobs = JobsData.filter((e: Job) => e.salary >= "10" && e.salary <= "20");
+    } else if (salaryNumber > 20 && salaryNumber <= 30) {
+      searchbusalaryjobs = JobsData.filter((e: Job) => e.salary > "20" && e.salary <= "30");
+    } else if (salaryNumber > 30 && salaryNumber <= 40) {
+      searchbusalaryjobs = JobsData.filter((e: Job) => e.salary > "30" && e.salary <= "40");
+    } else {
+      console.log("No jobs available in this salary range.");
     }
-    if (salary > "30") {
-      const searchbusalaryjobs: Job[] = JobsData.filter((e: Job) => e.salary <= salary)
-      console.log(searchbusalaryjobs);
-      SetupCompanyJobs(searchbusalaryjobs)
-    }
+    SetupCompanyJobs(searchbusalaryjobs);
+  };
 
-    if (salary > "40") {
-      const searchbusalaryjobs: Job[] = JobsData.filter((e: Job) => e.salary > salary)
-      console.log(searchbusalaryjobs);
-      SetupCompanyJobs(searchbusalaryjobs)
-    }
 
-    // if (searchbysalary.length) {
-    // }
-  }
-  
   return (
     <>
       <div className='bg-gray-300'>
@@ -111,11 +108,11 @@ const Jobs: React.FC = () => {
 
             <h2 className='text-xl font-medium mb-0 px-2 mt-4'>Industry</h2>
             <div className='px-3'>
-              <input type="radio" id="frontend" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Frontend Developer")} />
+              <input type="radio" id="frontend" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Frontend developer")} />
               <label htmlFor="frontend" className="font-medium">Frontend Developer</label>
             </div>
             <div className='px-3'>
-              <input type="radio" id="backend" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Backend Devloper")} />
+              <input type="radio" id="backend" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Backend developer")} />
               <label htmlFor="backend" className="font-medium">Backend Developer</label>
             </div>
             <div className='px-3'>
@@ -123,11 +120,11 @@ const Jobs: React.FC = () => {
               <label htmlFor="datascience" className="font-medium">Data Science</label>
             </div>
             <div className='px-3'>
-              <input type="radio" id="fullstack" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("FullStack Developer")} />
+              <input type="radio" id="fullstack" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Full Stack developer")} />
               <label htmlFor="fullstack" className="font-medium">FullStack Developer</label>
             </div>
             <div className='px-3'>
-              <input type="radio" id="nextjs" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Next.js Developer")} />
+              <input type="radio" id="nextjs" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Next.js developer")} />
               <label htmlFor="nextjs" className="font-medium">Nextjs Developer</label>
             </div>
 

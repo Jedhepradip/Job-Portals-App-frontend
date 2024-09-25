@@ -84,7 +84,7 @@ const Profile: React.FC = () => {
     useEffect(() => {
         dispatch(FetchingUserData())
         dispatch(FeachingapplicationData())
-    }, [dispatch, isEditFormVisible])
+    }, [dispatch,isEditFormVisible])
 
     useEffect(() => {
         if (Userinfo) {
@@ -125,7 +125,7 @@ const Profile: React.FC = () => {
                 setTimeout(() => {
                     Navigate('/Profile');
                     setEditFormVisible(!isEditFormVisible)
-                }, 1800);
+                }, 1400);
             }
         } catch (error: any) {
             if (error.response) {
@@ -290,13 +290,13 @@ const Profile: React.FC = () => {
                             <RiContactsBook2Fill className='mt-1 text-[20px]' />
                             <h1 className='ml-2 font-medium'>{UserData?.mobile}</h1>
                         </div>
-                        <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>                       
-                        <div className='gap-4 mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7'>
+                        <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
+                        <div className='gap-4 mt-4 grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7'>
                             {UserData?.skills?.map((val: any, index: any) => (
                                 <h3
                                     key={index}
                                     // bg-purple-600 bg-gradient-to-r from-purple-600 to-indigo-600
-                                    className='bg-black bg-gradient-to-r from-gray-800 to-slate-400 px-5 py-[2px] text-white text-[14px] md:px-2.5 rounded-full text-center shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl'
+                                    className='bg-black bg-gradient-to-r from-gray-800 to-slate-400 px-1 lg:px-1 sm:px-5 py-[2px] text-white text-[14px] md:px-2.5 rounded-full text-center shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl'
                                 >
                                     {val}
                                 </h3>

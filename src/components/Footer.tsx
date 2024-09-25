@@ -2,7 +2,7 @@ import React from 'react'
 import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa'
 import { PiCopyright } from 'react-icons/pi';
 
-const Footer:React.FC = () => {
+const Footer: React.FC = () => {
   return (
     <>
       <hr className='h-1 w-full text-black mt-16' />
@@ -13,8 +13,12 @@ const Footer:React.FC = () => {
           <span className='font-sans ml-2'>2024 Your Comany. All rights reserved</span>
         </div>
         <div className='flex justify-end items-center gap-8 text-[26px] md:px-10 p-3'>
-          <FaFacebook />
+          <a href="https://www.facebook.com/login/">
+            <FaFacebook />
+          </a>
+          <a href="https://www.instagram.com/">
           <FaInstagram />
+          </a>
           <FaLinkedin />
         </div>
       </div>
