@@ -20,6 +20,7 @@ const SignIn: React.FC = () => {
 
     const [file, setFile] = useState<File | null>(null);
     const [UserEmail, SetEmail] = useState("")
+    const [UserOTP, SetOTP] = useState("")
     const Navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
 
@@ -33,9 +34,9 @@ const SignIn: React.FC = () => {
                 }
             })
             const OTP = response.data;
-            if (OTP.status === 200) {
-                toast.success(<div className='font-serif text-[15px] text-black'>{OTP.message}</div>);
-            }
+            console.log(OTP);
+            toast.success(<div className='font-serif text-[15px] text-black'>{OTP.message}</div>);
+            SetOTP(OTP?.otp)
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.response) {
@@ -54,51 +55,54 @@ const SignIn: React.FC = () => {
         }
     }
 
+    console.log(UserOTP);
+
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        if (!file) {
-            toast.error('Please select a logo file');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("ProfileImg", file); // Ensure file is not null
-        formData.append("name", data.name);
-        formData.append("email", data.email);
-        formData.append("mobile", data.mobile.toString());
-        formData.append("password", data.password);
-        formData.append("role", data.role);
-
-        console.log(data.role);
-
-        try {
-            const response = await axios.post("http://localhost:8000/User/Registration", formData);
-
-            const UserResponse = response.data;
-
-            if (response.status === 200) {
-                console.log("User registered successfully", UserResponse);
-                toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
-                setTimeout(() => {
-                    Navigate("/");
-                    const Token = UserResponse.token;
-                    localStorage.setItem("Token", Token);
-                }, 1600);
+        if (UserOTP == data.OTP) {
+            if (!file) {
+                toast.error('Please select a logo file');
+                return;
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            if (error.response) {
-                const errorMessage = error.response.data.message;
+            const formData = new FormData();
+            formData.append("ProfileImg", file); // Ensure file is not null
+            formData.append("name", data.name);
+            formData.append("email", data.email);
+            formData.append("mobile", data.mobile.toString());
+            formData.append("password", data.password);
+            formData.append("role", data.role);
 
-                if (error.response.status === 409 || errorMessage === "User already exists") {
-                    console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
-                } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
-                    console.log("Error: ", errorMessage || "Unexpected error occurred.");
+            try {
+                const response = await axios.post("http://localhost:8000/User/Registration", formData);
+
+                const UserResponse = response.data;
+
+                if (response.status === 200) {
+                    console.log("User registered successfully", UserResponse);
+                    toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
+                    setTimeout(() => {
+                        Navigate("/");
+                        const Token = UserResponse.token;
+                        localStorage.setItem("Token", Token);
+                    }, 1600);
                 }
-            } else {
-                console.log("Error: Network issue or server not responding", error);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (error: any) {
+                if (error.response) {
+                    const errorMessage = error.response.data.message;
+
+                    if (error.response.status === 409 || errorMessage === "User already exists") {
+                        console.log("Error: User already exists.");
+                        toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    } else {
+                        toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                        console.log("Error: ", errorMessage || "Unexpected error occurred.");
+                    }
+                } else {
+                    console.log("Error: Network issue or server not responding", error);
+                }
             }
+        } else {
+            toast.error("OTP doesn't match, please try again.")
         }
     };
 
