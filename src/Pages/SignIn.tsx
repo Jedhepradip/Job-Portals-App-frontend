@@ -13,15 +13,47 @@ interface IFormInput {
     mobile: number,
     password: string,
     role: string,
+    OTP: string
 }
 
 const SignIn: React.FC = () => {
 
     const [file, setFile] = useState<File | null>(null);
+    const [UserEmail, SetEmail] = useState("")
     const Navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
 
-  
+    const SendOtpForEmail = async () => {
+        const Fordata = new FormData()
+        Fordata.append("email", UserEmail)
+        try {
+            const response = await axios.post("http://localhost:8000/UserSendOtp", Fordata, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const OTP = response.data;
+            if (OTP.status === 200) {
+                toast.success(<div className='font-serif text-[15px] text-black'>{OTP.message}</div>);
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+                    console.log("Error: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         if (!file) {
             toast.error('Please select a logo file');
@@ -69,7 +101,6 @@ const SignIn: React.FC = () => {
             }
         }
     };
-
 
     return (
         <>
@@ -131,8 +162,9 @@ const SignIn: React.FC = () => {
                                     })}
                                     type="text"
                                     name='email'
+                                    value={UserEmail}
                                     placeholder="PradipJedhe@gmail.com"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none" onChange={(e) => SetEmail(e.target.value)}
                                 />
                                 {errors.email && (
                                     <div className="text-red-500 text-lg font-serif mt-0 text-center">
@@ -224,7 +256,29 @@ const SignIn: React.FC = () => {
                                 )}
                             </div>
 
-                            <button type='submit' className="text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[20px] px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 font-serif ">Continue</button>
+                            <button type='button' className="text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[21px] px-5 py-2 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 font-serif" onClick={() => SendOtpForEmail()}>Send OTP</button>
+
+                            <div>
+                                <label className='block text-lg font-serif text-gray-700 mb-2 mt-2'>OTP</label>
+                                <input
+                                    {...register("OTP")}
+                                    type="text"
+                                    name='OTP'
+                                    placeholder='Enter Four Digit OTP'
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none mb-2'
+                                />
+                                {errors.OTP && ( // Fixing the error check to match "OTP"
+                                    <div className="text-red-500 text-lg font-serif mt-0 text-center">
+                                        {(errors.OTP).message} // Make sure "OTP" matches in the message
+                                    </div>
+                                )}
+                            </div>
+
+                            <button
+                                type='submit'
+                                className="text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[21px] px-5 py-2 mt-4 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 font-serif">
+                                Continue
+                            </button>
 
                         </div>
                         <NavLink to={"/Login"}>

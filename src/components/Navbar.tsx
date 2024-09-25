@@ -128,8 +128,8 @@ const Navbar: React.FC = () => {
 
               {token ? (
                 <li onClick={toggleMenu}>
-                  <div className='h-8 w-8 md:mr-14 md:ml-0 ml-3 rounded-full border-1 bg-black overflow-hidden border-black'>
-                    <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full' />
+                  <div className='h-8 w-8 md:mr-14 md:ml-0 ml-3 md:mt-0 mt-2 rounded-full border-1 bg-black overflow-hidden border-black'>
+                    <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full ' onClick={() => isMenuOpen ? "true" : "false"} />
                   </div>
                 </li>
               ) : (
@@ -149,7 +149,7 @@ const Navbar: React.FC = () => {
 
               {isMenuOpen ? (
                 <>
-                  <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 mt-12 text-black w-80">
+                  <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 md:mt-12 mt-[120px] text-black">
                     <div className="flex items-center mb-4 px-4 py-2">
                       <img
                         src={`http://localhost:8000/${UserData?.ProfileImg}`}
