@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../App/store/store';
 import { FetchingUserData } from '../App/Features/UserSlice';
 import { FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 interface CompanyData {
   _id: string;
@@ -43,6 +44,7 @@ const Navbar: React.FC = () => {
   const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user: any = useSelector((state: RootState) => state.User.User)
+  const Navigate = useNavigate()
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -59,6 +61,7 @@ const Navbar: React.FC = () => {
   const token = localStorage.getItem("Token");
   const LogoutUser = () => {
     localStorage.removeItem("Token")
+    Navigate("/")
     toggleMenu();
   }
 
@@ -93,7 +96,7 @@ const Navbar: React.FC = () => {
           <div className={`w-full md:block md:w-auto ${isMenuOpen ? '' : 'hidden'}`} id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {/* Conditional Links based on Role */}
-              {UserData?.role === "student" && localStorage.getItem("Token") ? (
+              {UserData?.role === "student" ? (
                 <>
                   <NavLink to="/" onClick={() => setIsMenuOpen(false)}>
                     <li>
@@ -113,16 +116,37 @@ const Navbar: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <NavLink to="/Company" onClick={() => setIsMenuOpen(false)}>
-                    <li>
-                      <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Company</a>
-                    </li>
-                  </NavLink>
-                  <NavLink to="/AdminJons" onClick={() => setIsMenuOpen(false)}>
-                    <li>
-                      <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
-                    </li>
-                  </NavLink>
+                  {!(UserData?.role == "recruiter" || localStorage.getItem("Token")) ?
+                    <>
+                      <NavLink to="/" onClick={() => setIsMenuOpen(false)}>
+                        <li>
+                          <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Home</a>
+                        </li>
+                      </NavLink>
+                      <NavLink to="/Jobs" onClick={() => setIsMenuOpen(false)}>
+                        <li>
+                          <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
+                        </li>
+                      </NavLink>
+                      <NavLink to="/Browse" onClick={() => setIsMenuOpen(false)}>
+                        <li>
+                          <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Browse</a>
+                        </li>
+                      </NavLink>
+                    </>
+                    :
+                    <>
+                      <NavLink to="/Company" onClick={() => setIsMenuOpen(false)}>
+                        <li>
+                          <a href="#" className="block py-2 px-3 rounded md:bg-transparent text-black md:p-0 dark:text-white md:dark:text-blue-500 md:py-1 md:px-0" aria-current="page">Company</a>
+                        </li>
+                      </NavLink>
+                      <NavLink to="/AdminJons" onClick={() => setIsMenuOpen(false)}>
+                        <li>
+                          <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:py-1 md:px-0">Jobs</a>
+                        </li>
+                      </NavLink></>
+                  }
                 </>
               )}
 
@@ -135,12 +159,12 @@ const Navbar: React.FC = () => {
               ) : (
                 <>
                   <NavLink to="/Login">
-                    <li onClick={toggleMenu}>
+                    <li onClick={() => setIsMenuOpen(false)}>
                       <a href="#" className="py-2 px-3 md:mt-0 mt-1 text-gray-900 md:w-full w-20 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:py-1 md:px-4 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent shadow shadow-gray-300 flex justify-center items-center">Login</a>
                     </li>
                   </NavLink>
                   <NavLink to="/SignIn">
-                    <li onClick={toggleMenu}>
+                    <li onClick={() => setIsMenuOpen(false)}>
                       <a href="#" className="py-2 px-2 md:mt-0 mt-2 md:w-full w-20 rounded md:hover:bg-purple-600 md:hover:bg-transparent md:border-0 md:hover:text-black md:dark:hover:bg-transparent bg-purple-800 text-white md:py-1 md:px-4 flex justify-center items-center hover:shadow shadow-gray-300 hover:text-black">SignIn</a>
                     </li>
                   </NavLink>
@@ -149,8 +173,8 @@ const Navbar: React.FC = () => {
 
               {isMenuOpen ? (
                 <>
-                  <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 md:mt-12 mt-[120px] text-black">
-                    <div className="flex items-center mb-4 px-4 py-2">
+                  <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 md:mt-12 mt-[120px] text-black p-2">
+                    <div className="flex items-center mb-2 px-4 py-2">
                       <img
                         src={`http://localhost:8000/${UserData?.ProfileImg}`}
                         alt="Profile"

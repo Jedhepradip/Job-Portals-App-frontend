@@ -45,7 +45,8 @@ const Browse: React.FC = () => {
 
   useEffect(() => {
     if (searchresults.length) {
-      const searchedjob: Job[] = JobsData.filter((e: Job) => e.title == searchresults[0]?.title)
+      // const searchedjob: Job[] = JobsData.filter((e: Job) => e.title == searchresults[0]?.title)
+      const searchedjob: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase().includes(searchresults[0]?.title.toLowerCase()))
       SetupCompanyJobs(searchedjob)
     } else {
       SetupCompanyJobs(JobsData)
