@@ -74,11 +74,13 @@ const JobsPostAdmin: React.FC = () => {
                         placeholder='Filter by Company name & role'
                         className='px-9 py-2 text-[15px] border md:w-[27%] w-72 border-gray-300 rounded-md focus:ring-black  font-serif'
                         onChange={(e) => setSearchTerm(e.target.value)} />
+
                     <NavLink to="/AdminNewJobsPost" >
                         <button className='bg-black text-white py-1.5 md:mt-0 mt-2 px-5 md:px-6 md:py-1.5 text-[18px] float-right rounded-lg font-serif'>
                             New Jobs
                         </button>
                     </NavLink>
+
                 </div>
 
                 {/* Table Headers */}

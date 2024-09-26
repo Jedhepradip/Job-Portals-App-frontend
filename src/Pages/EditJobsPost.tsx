@@ -49,6 +49,7 @@ const EditJobsPost: React.FC = () => {
     const [location, setlocation] = useState(String);
     const [CompanyJobs, SetupCompanyJobs] = useState<Job[]>([]);
     const [Jobsdefualt, setJobdDefualt] = useState<Job[]>([]);
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const { id } = useParams<{ id: string }>();
     const Navigate = useNavigate();
     const JobsData = useSelector((state: RootState) => state.Jobs.Jobs)
@@ -70,11 +71,8 @@ const EditJobsPost: React.FC = () => {
 
     const { register, handleSubmit } = useForm<InputPostJobs>();
     const onsubmit: SubmitHandler<InputPostJobs> = async (data) => {
-
-        const datasplit = data.requirements.split(" ")
-
-        console.log(datasplit);
-
+        setLoadingOTP(true)
+        data.requirements.split(" ")
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("description", data.description);
@@ -84,11 +82,6 @@ const EditJobsPost: React.FC = () => {
         formData.append("jobtype", data.jobtype);
         formData.append("position", data.position);
         formData.append("experienceLevel", data.experienceLevel);
-
-        console.log([...formData]);
-
-        console.log("data.requirements.split(", ") :", data.requirements.split(" "));
-
 
         try {
             const response = await axios.put(`http://localhost:8000/Jobs/Admin/Jobs/Update/${id}`, formData, {
@@ -102,11 +95,15 @@ const EditJobsPost: React.FC = () => {
                 console.log("User registered successfully", JobsResponses);
                 toast.success(<div className='font-serif text-[15px] text-black'>{JobsResponses.message}</div>)
                 setTimeout(() => {
+                    setLoadingOTP(false)
                     Navigate("/AdminJons")
-                }, 1800)
+                }, 2000)
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
+            setTimeout(() => {
+                setLoadingOTP(false)
+            }, 2000);
             if (error.response) {
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
@@ -248,10 +245,40 @@ const EditJobsPost: React.FC = () => {
                                             <span>{Jobsdefualt[0]?.companyName}</span>
                                         </span>
                                     </td>
-                                </tr>
-                                <div className='w-full flex justify-center items-center'>
-                                    <button className='bg-black text-white py-1 w-full mt-2 rounded-lg font-serif text-[20px]'>Jobs Update</button>
+                                </tr>                             
+
+                                <div className="w-full flex justify-center items-center pb-2">
+                                    <button
+                                        type='submit'
+                                        className={`bg-black text-white py-1.5 w-full mt-2 rounded-lg font-serif text-[20px] flex justify-center items-center ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                        disabled={loadingOTP}
+                                    >
+                                        {loadingOTP && (
+                                            <svg
+                                                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <circle
+                                                    className="opacity-25"
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="10"
+                                                    stroke="currentColor"
+                                                    strokeWidth="4"
+                                                ></circle>
+                                                <path
+                                                    className="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                ></path>
+                                            </svg>
+                                        )}
+                                        <span>{loadingOTP ? 'Loading...' : 'Jobs Update'}</span>
+                                    </button>
                                 </div>
+                                
                             </div>
                         </table>
                     </form>

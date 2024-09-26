@@ -41,6 +41,7 @@ const PostJobsAdmin: React.FC = () => {
     const [company, setCompanyname] = useState(String);
     const [location, setlocation] = useState(String);
     const [companies, setCompanies] = useState<CompanyData[]>([]);
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const [companyId, setCompanyId] = useState<string | null>(null);
     const Navigate = useNavigate();
     const Companyinfo = useSelector((state: RootState) => state.Company.Company)
@@ -65,6 +66,7 @@ const PostJobsAdmin: React.FC = () => {
     }, [companies, company])
 
     const onsubmit: SubmitHandler<InputPostJobs> = async (data) => {
+        setLoadingOTP(true)
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("description", data.description);
@@ -94,11 +96,15 @@ const PostJobsAdmin: React.FC = () => {
                 console.log("User registered successfully", JobsResponses);
                 toast.success(<div className='font-serif text-[15px] text-black'>{JobsResponses.message}</div>)
                 setTimeout(() => {
+                    setLoadingOTP(false)
                     Navigate("/AdminJons")
-                }, 1800)
+                }, 2000)
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
+            setTimeout(() => {
+                setLoadingOTP(false)
+            }, 2000);
             if (error.response) {
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
@@ -221,8 +227,6 @@ const PostJobsAdmin: React.FC = () => {
                                 </tr>
 
                                 <tr className='flex items-center space-x-2'>
-
-
                                     <td className="w-[50%]">
                                         <label className='block text-lg font-medium font-serif text-gray-700 px-1'>Experience Level <span className='text-[12px] text-gray-400'>(in Years)</span></label>
                                         <input {...register("experienceLevel", {
@@ -302,9 +306,39 @@ const PostJobsAdmin: React.FC = () => {
                                         )}
                                     </td>
                                 </tr>
-                                <div className='w-full flex justify-center items-center'>
-                                    <button className='bg-black text-white py-1 w-full mt-2 rounded-lg font-serif text-[20px]'>Post New Jobs</button>
+
+                                <div className="w-full flex justify-center items-center pb-2">
+                                    <button
+                                        type='submit'
+                                        className={`bg-black text-white py-1.5 w-full mt-2 rounded-lg font-serif text-[20px] flex justify-center items-center ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                        disabled={loadingOTP}
+                                    >
+                                        {loadingOTP && (
+                                            <svg
+                                                className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <circle
+                                                    className="opacity-25"
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="10"
+                                                    stroke="currentColor"
+                                                    strokeWidth="4"
+                                                ></circle>
+                                                <path
+                                                    className="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                ></path>
+                                            </svg>
+                                        )}
+                                        <span>{loadingOTP ? 'Loading...' : 'Post New Jobs'}</span>
+                                    </button>
                                 </div>
+
                             </div>
                         </table>
                     </form>

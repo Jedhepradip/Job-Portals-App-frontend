@@ -264,11 +264,11 @@ const ApplicantsJobs: React.FC = () => {
   return (
     <>
       <ToastContainer />
-      <div className='container mx-auto p-4 bg-gray-50 rounded-lg shadow-lg'>
-        <h1 className='text-2xl md:text-3xl font-serif font-semibold text-center md:text-left mb-6 text-indigo-700'>
+      <div className='container mx-auto p-4  rounded-lg px-20'>
+        <h1 className='text-2xl md:text-3xl font-serif font-semibold text-center md:text-left mb-8 text-gray-800 mt-5'>
           Applicants ({jobsDefault.length})
         </h1>
-        <div className='hidden md:grid grid-cols-6 text-center md:text-left'>
+        <div className='hidden md:grid grid-cols-6 text-center md:text-left cursor-pointer'>
           <h1 className='text-sm md:text-lg text-gray-700 font-medium'>Full Name</h1>
           <h1 className='text-sm md:text-lg text-gray-700 font-medium'>Email</h1>
           <h1 className='text-sm md:text-lg text-gray-700 font-medium'>Contact</h1>
@@ -276,12 +276,14 @@ const ApplicantsJobs: React.FC = () => {
           <h1 className='text-sm md:text-lg text-gray-700 font-medium'>Date</h1>
           <h1 className='text-sm md:text-lg text-gray-700 font-medium'>Action</h1>
         </div>
-        <div className='border-t-2 border-gray-300 mt-3 mb-5'></div>
+
+        {/* <div className='border-t-2 border-gray-300 mt-3 mb-5'></div> */}
+        <hr className='w-full mt-5 h-[1px] bg-black text-black'/>
 
         {jobsDefault.map((val, index) => (
           <div
             key={index}
-            className='grid grid-cols-1 md:grid-cols-6 gap-y-4 md:gap-y-0 items-center text-center md:text-left p-4 bg-white rounded-lg shadow-md mb-4 md:px-6 border border-gray-200 hover:shadow-lg transition-shadow duration-200 ease-in-out'
+            className='grid grid-cols-1 md:grid-cols-6 gap-y-4 md:gap-y-0 items-center text-center md:text-left p-4 bg-white rounded-lg shadow-md mb-4 md:px-6 border border-gray-200 hover:shadow-lg transition-shadow duration-200 ease-in-out cursor-pointer'
           >
             <h1 className='text-base md:text-lg text-gray-800 font-serif font-semibold'>
               {val?.applicant?.name}

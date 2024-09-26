@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,11 +13,13 @@ interface InputFormLogin {
 }
 const Login: React.FC = () => {
 
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const { register, handleSubmit } = useForm<InputFormLogin>()
 
     const Navigate = useNavigate();
 
     const onsubmit: SubmitHandler<InputFormLogin> = async (data) => {
+        setLoadingOTP(true)
         const formdata = new FormData()
         formdata.append("email", data.email);
         formdata.append("password", data.password);
@@ -35,6 +37,7 @@ const Login: React.FC = () => {
                 toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
                 setTimeout(() => {
                     Navigate("/");
+                    setLoadingOTP(false)
                     const Token = UserResponse.token;
                     localStorage.setItem("Token", Token);
                 }, 1600);
@@ -42,6 +45,9 @@ const Login: React.FC = () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.response) {
+                setTimeout(() => {
+                    setLoadingOTP(false)
+                }, 2000);
                 const errorMessage = error.response.data.message;
 
                 if (error.response.status === 409 || errorMessage === "User already exists") {
@@ -64,6 +70,7 @@ const Login: React.FC = () => {
                     <h1 className='text-center font-medium font-serif text-[30px]'>Login</h1>
                     <form onSubmit={handleSubmit(onsubmit)}>
                         <div className='space-y-1 font-serif'>
+                            
                             <div>
                                 <label className='block text-lg text-gray-700 font-medium'>Email</label>
                                 <input {...register("email")}
@@ -109,8 +116,39 @@ const Login: React.FC = () => {
                                 </div>
                             </div>
 
-                            <button type="submit" className="text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[20px] px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 outline-none">Login</button>
+                            <div className="w-full flex justify-center items-center pb-2">
+                                <button
+                                    type='submit'
+                                    className={`mt-2 flex justify-center items-center text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[20px] px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 outline-none font-serif ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                    disabled={loadingOTP}
+                                >
+                                    {loadingOTP && (
+                                        <svg
+                                            className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    <span>{loadingOTP ? 'Loading...' : 'Login'}</span>
+                                </button>
+                            </div>
                         </div>
+
                         <div className='flex'>
                             <NavLink to={"/SignIn"}>
                                 <h1 className='mt-2 text-[13px] px-1 font-medium'>Create New Account? <span className='text-blue-800 hover:underline'>

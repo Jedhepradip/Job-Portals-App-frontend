@@ -76,6 +76,7 @@ const Profile: React.FC = () => {
     const [Profile, SetFileProfile] = useState<File | null>(null);
     const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
     const [appyjobs, setapplyjobs] = useState<applicants[]>([]);
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const Navigate = useNavigate();
     const Userinfo: any = useSelector((state: RootState) => state.User.User)
     const applicationjobs: any = useSelector((state: RootState) => state.Applicants.applicant)
@@ -84,7 +85,7 @@ const Profile: React.FC = () => {
     useEffect(() => {
         dispatch(FetchingUserData())
         dispatch(FeachingapplicationData())
-    }, [dispatch,isEditFormVisible])
+    }, [dispatch, isEditFormVisible])
 
     useEffect(() => {
         if (Userinfo) {
@@ -101,7 +102,7 @@ const Profile: React.FC = () => {
     const { register, handleSubmit } = useForm<InputFrom>()
 
     const onSubmit: SubmitHandler<InputFrom> = async (data) => {
-
+        setLoadingOTP(true)
         const skillsSplit: any = data.skills.split(" ")
         const formData = new FormData();
         formData.append("ResumeFile", Resume!)
@@ -124,10 +125,14 @@ const Profile: React.FC = () => {
                 toast.success(<div className="font-serif text-[15px] text-black">{UpdateUser.message}</div>);
                 setTimeout(() => {
                     Navigate('/Profile');
+                    setLoadingOTP(false)
                     setEditFormVisible(!isEditFormVisible)
-                }, 1400);
+                }, 2000);
             }
         } catch (error: any) {
+            setTimeout(() => {
+                setLoadingOTP(false)
+            }, 2000);
             if (error.response) {
                 const errorMessage = error.response.data.message;
 
@@ -254,13 +259,45 @@ const Profile: React.FC = () => {
                                             </tr>
                                         </div>
                                     </table>
-                                    <button type="submit" className="mt-3 text-white w-[100%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
+
+                                    {/* <button type="submit" className="mt-3 text-white w-[100%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
                                         Update
-                                    </button>
+                                    </button> */}
+
+                                    <div className="w-full flex justify-center items-center pb-2">
+                                        <button
+                                            type='submit'
+                                            className={`mt-3 text-white w-[100%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-serif rounded-md px-5 py-1.5 text-[23px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto font-medium ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                            disabled={loadingOTP}
+                                        >
+                                            {loadingOTP && (
+                                                <svg
+                                                    className="animate-spin h-5 w-5 mr-2 text-white rounded-full"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                                    ></path>
+                                                </svg>
+                                            )}
+                                            <span>{loadingOTP ? 'Loading...' : 'Update'}</span>
+                                        </button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
-
                     </>
                 )
             }
@@ -292,18 +329,18 @@ const Profile: React.FC = () => {
                         </div>
                         <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
                         <div className='gap-4 mt-4 grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7'>
-                            {UserData?.skills?.map((val: any, index: any) => (
-                                <h3
-                                    key={index}
-                                    // bg-purple-600 bg-gradient-to-r from-purple-600 to-indigo-600
-                                    className='bg-black bg-gradient-to-r from-gray-800 to-slate-400 px-1 lg:px-1 sm:px-5 py-[2px] text-white text-[14px] md:px-2.5 rounded-full text-center shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl'
-                                >
-                                    {val}
-                                </h3>
-                            ))}
+                            {UserData?.skills?.length  && <>
+                                {UserData?.skills?.map((val: any, index: any) => (
+                                    <h3
+                                        key={index}
+                                        // bg-purple-600 bg-gradient-to-r from-purple-600 to-indigo-600
+                                        className='bg-black bg-gradient-to-r from-gray-800 to-slate-400 px-1 lg:px-1 sm:px-5 py-[2px] text-white text-[14px] md:px-2.5 rounded-full text-center shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl'
+                                    >
+                                        {val}
+                                    </h3>
+                                ))}
+                            </>}
                         </div>
-
-
                         <h1 className='font-bold mt-2 text-[19px]'>Resume</h1>
                         <h2 className='text-blue-600 mt-1 hover:underline'>{UserData?.ResumeFile}</h2>
                     </div>
