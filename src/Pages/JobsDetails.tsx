@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { FeachingapplicationData } from '../App/Features/ApplicationSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface Job {
     _id: string;
@@ -44,12 +45,14 @@ const JobsDetails: React.FC = () => {
     const JobsData: Job[] = useSelector((state: RootState) => state.Jobs.Jobs);
     const application: applicantUser[] = useSelector((state: RootState) => state.Applicants.applicant);
     const { id } = useParams<{ id: string }>();
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const dispatch: AppDispatch = useDispatch();
+    const Navigate = useNavigate()
 
     useEffect(() => {
         dispatch(FetchingJobsData());
         dispatch(FeachingapplicationData());
-    }, [dispatch]);
+    }, [dispatch,loadingOTP]);
 
     useEffect(() => {
         if (JobsData.length) {
@@ -70,10 +73,12 @@ const JobsDetails: React.FC = () => {
     }, [Jobsdefualt, application, id]);
 
     const hadnelApplyNow = async () => {
+        setLoadingOTP(true)
         try {
             const token = localStorage.getItem('Token');
             if (!token) {
                 toast.error(<div className='font-serif text-[15px] text-black'>No authentication token found</div>);
+                Navigate("/Login")
                 return;
             }
 
@@ -106,6 +111,7 @@ const JobsDetails: React.FC = () => {
                 console.log('Error: Network issue or server not responding', error);
             }
         }
+        setLoadingOTP(false)
     };
 
     return (
@@ -127,10 +133,41 @@ const JobsDetails: React.FC = () => {
                                 Already Applied
                             </button>
                         ) : (
-                            <button className='md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px]' onClick={hadnelApplyNow}>
-                                Apply Now
-                            </button>
+                            <div className="flex justify-center items-center">
+                                <button
+                                    type='button'
+                                    onClick={hadnelApplyNow}
+                                    className={`md:py-1 text-white md:mt-5 md:px-4 px-2 py-2 mt-3 bg-purple-900 rounded-lg font-serif font-medium md:text-[20px] text-[15px] flex items-center justify-center ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                    disabled={loadingOTP}
+                                >
+                                    {loadingOTP ? (
+                                        <svg
+                                            className="animate-spin h-5 w-5 mr-2 text-white"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                            ></path>
+                                        </svg>
+                                    ) : null}
+                                    <span>{loadingOTP ? 'Loading...' : ' Apply Now'}</span>
+                                </button>
+                            </div>
+
                         )}
+
                     </div>
                 </div>
 

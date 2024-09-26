@@ -38,6 +38,8 @@ const EditCompany: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [companies, setCompanies] = useState<CompanyData[]>([]);
     const [filterComapny, SetCompanyFilter] = useState<CompanyData[]>([]);
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
+
     const { id } = useParams<{ id: string }>();
 
     const Navigate = useNavigate();
@@ -66,6 +68,7 @@ const EditCompany: React.FC = () => {
     const { register, handleSubmit } = useForm<InputForm>();
 
     const onSubmit: SubmitHandler<InputForm> = async (data) => {
+        setLoadingOTP(true)
         const formData = new FormData();
         if (file) {
             formData.append('CompanyLogo', file); // Appending the file if selected
@@ -89,8 +92,9 @@ const EditCompany: React.FC = () => {
                 console.log('Company updated successfully', responseData);
                 toast.success(<div className="font-serif text-[15px] text-black">{"Company updated successfully"}</div>);
                 setTimeout(() => {
+                    setLoadingOTP(false)
                     Navigate('/Company');
-                }, 1600);
+                }, 2000);
             }
         } catch (error: any) {
             const errorMessage = error.response?.data?.message || 'Unexpected error occurred.';
@@ -163,9 +167,37 @@ const EditCompany: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" className="px-5 py-1.5 rounded-lg text-[22px] font-serif text-white bg-black w-full mt-6 hover:bg-gray-800">
-                            Update
-                        </button>
+                        <div className="flex justify-center mt-4">
+                            <button
+                                type='submit'
+                                className={`flex items-center justify-center px-5 py-1.5 rounded-lg text-[22px] font-serif text-white bg-black w-full mt-3 ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                disabled={loadingOTP}
+                            >
+                                {loadingOTP ? (
+                                    <svg
+                                        className="animate-spin h-5 w-5 mr-2 text-white"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                        ></path>
+                                    </svg>
+                                ) : null}
+                                <span>{loadingOTP ? 'Loading...' : 'Update'}</span>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -37,7 +37,7 @@ const SetUpCompanyPage: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [companies, setCompanies] = useState<CompanyData[]>([]);
     const { id } = useParams<{ id: string }>();
-
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const Company = useSelector((state: RootState) => state.Company.Company);
     const dispatch: AppDispatch = useDispatch();
 
@@ -58,11 +58,11 @@ const SetUpCompanyPage: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<InputForm>();
 
     const onSubmit: SubmitHandler<InputForm> = async (data) => {
+        setLoadingOTP(true)
         if (!file) {
             toast.error('Please select a logo file');
             return;
         }
-
         const formData = new FormData();
         formData.append('CompanyLogo', file); // Appending the file
         formData.append('CompanyName', data.CompanyName);
@@ -81,8 +81,9 @@ const SetUpCompanyPage: React.FC = () => {
             if (response.status === 200) {
                 toast.success(<div className="font-serif text-[15px] text-black">Company updated successfully</div>);
                 setTimeout(() => {
+                    setLoadingOTP(false)
                     navigate('/Company');
-                }, 1300);
+                }, 2000);
             }
         } catch (error: any) {
             if (error.response) {
@@ -92,6 +93,7 @@ const SetUpCompanyPage: React.FC = () => {
                 toast.error(<div className="font-serif text-[15px] text-black">Unexpected error occurred</div>);
             }
         }
+
     };
 
     return (
@@ -169,9 +171,39 @@ const SetUpCompanyPage: React.FC = () => {
                                 </tr>
                             </div>
                         </table>
-                        <button type="submit" className="px-5 py-1 rounded-lg text-[22px] font-serif text-white bg-black w-full mt-3">
-                            Update
-                        </button>
+
+                        <div className="flex justify-center mt-4">
+                            <button
+                                type='submit'
+                                className={`flex items-center justify-center px-5 py-1.5 rounded-lg text-[22px] font-serif text-white bg-black w-full mt-3 ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                disabled={loadingOTP}
+                            >
+                                {loadingOTP ? (
+                                    <svg
+                                        className="animate-spin h-5 w-5 mr-2 text-white"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                        ></path>
+                                    </svg>
+                                ) : null}
+                                <span>{loadingOTP ? 'Loading...' : 'Update'}</span>
+                            </button>
+                        </div>
+                        
                     </form>
                 </div>
             </div>

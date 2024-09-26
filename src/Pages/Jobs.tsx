@@ -37,18 +37,18 @@ const Jobs: React.FC = () => {
     SetupCompanyJobs(JobsData)
   }, [JobsData])
 
+
   const SearchingByLocations = (location: string) => {
     const searchbylocationjobs: Job[] = JobsData.filter((e: Job) => e.location.toLowerCase() == location.toLowerCase())
     if (searchbylocationjobs.length) {
       SetupCompanyJobs(searchbylocationjobs)
+    } else {
+      SetupCompanyJobs([])
     }
   }
 
   const searchbyIndustry = (Industry: string) => {
-    // const searchbyIndustryJobs: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase() == Industry.toLowerCase())
-
     const searchbyIndustryJobs: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase().includes(Industry.toLowerCase()))
-
     if (searchbyIndustryJobs.length > 0) {
       SetupCompanyJobs(searchbyIndustryJobs)
     } else {

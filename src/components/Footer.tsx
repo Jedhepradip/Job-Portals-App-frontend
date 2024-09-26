@@ -17,9 +17,11 @@ const Footer: React.FC = () => {
             <FaFacebook />
           </a>
           <a href="https://www.instagram.com/">
-          <FaInstagram />
+            <FaInstagram />
           </a>
-          <FaLinkedin />
+          <a href="https://in.linkedin.com/"> 
+            <FaLinkedin />
+          </a>
         </div>
       </div>
     </>

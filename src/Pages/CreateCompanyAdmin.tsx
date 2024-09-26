@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useNavigate } from 'react-router-dom';
@@ -7,16 +7,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
+interface Inputform {
+    CompanyName: string;
+}
+
 const CreateCompanyAdmin: React.FC = () => {
 
     const Navigate = useNavigate();
-    interface Inputform {
-        CompanyName: string;
-    }
+    const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const { register, handleSubmit, formState: { errors } } = useForm<Inputform>();
 
     const onsubmit: SubmitHandler<Inputform> = async (data) => {
-        // console.log(data);
+        setLoadingOTP(true)
         const Token = localStorage.getItem("Token")
         console.log(Token);
         try {
@@ -31,17 +33,17 @@ const CreateCompanyAdmin: React.FC = () => {
 
             if (response.status == 200) {
                 console.log("User registered successfully", CompanyResponse);
-                toast.success(<div className='font-serif text-[15px] text-black'>{CompanyResponse.message}</div>)            
-
+                toast.success(<div className='font-serif text-[15px] text-black'>{CompanyResponse.message}</div>)
                 setTimeout(() => {
+                    setLoadingOTP(false)
                     Navigate(`/SetUpCompanyPage/${CompanyResponse.Companystord._id}`)
-                }, 1500)
-            }
-            else {
-                Navigate("/CreateCompanyAdmin")
+                }, 2000)
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
+            setTimeout(() => {
+                setLoadingOTP(false)
+            }, 2000)
             if (error.response) {
                 const errorMessage = error.response.data.message;
                 if (error.response.status === 409 || errorMessage === "User already exists") {
@@ -79,14 +81,81 @@ const CreateCompanyAdmin: React.FC = () => {
                             {errors.CompanyName.message}
                         </div>
                     )}
-
-                    <div className='mt-7'>
+                    {/* 
+                    <div className='mt-7 flex'>
                         <NavLink to="/Company" >
                             <button className='ml-0 shadow shadow-gray-300 py-1.5 px-6 rounded-lg font-serif text-[20px]'>Cancel</button>
                         </NavLink>
-                        {/* <NavLink to="/AdminCompanysetupPage" > */}
-                        <button type='submit' className='ml-5 bg-gray-500 text-white py-1.5 px-6 rounded-lg font-serif text-[20px] hover:bg-gray-900' >Coutinue</button>
-                        {/* </NavLink> */}
+                 
+                            <button
+                                type='submit'
+                                className={`ml-5 bg-gray-500 text-white py-1.5 px-6 rounded-lg font-serif text-[20px] hover:bg-gray-900 ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                disabled={loadingOTP}
+                            >
+                                {loadingOTP ? (
+                                    <svg
+                                        className="animate-spin h-5 w-5 mr-2 text-white"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                        ></path>
+                                    </svg>
+                                ) : null}
+                                <span>{loadingOTP ? 'Loading...' : 'Coutinue'}</span>
+                            </button>
+                    </div> */}
+
+                    <div className='mt-7 flex'>
+                        <NavLink to="/Company">
+                            <button className='ml-0 shadow shadow-gray-300 py-1.5 px-6 rounded-lg font-serif text-[20px]'>
+                                Cancel
+                            </button>
+                        </NavLink>
+
+                        <div className='flex ml-5'>
+                            <button
+                                type='submit'
+                                className={`bg-gray-500 text-white py-1.5 px-6 rounded-lg font-serif text-[20px] hover:bg-gray-900 flex ${loadingOTP ? 'cursor-not-allowed' : ''}`}
+                                disabled={loadingOTP}
+                            >
+                                {loadingOTP ? (
+                                    <svg
+                                        className="animate-spin h-5 w-5 mr-2 mt-1 text-white"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                        ></path>
+                                    </svg>
+                                ) : null}
+                                <span>{loadingOTP ? 'Loading...' : 'Continue'}</span>
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>

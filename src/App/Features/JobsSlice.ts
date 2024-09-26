@@ -35,11 +35,11 @@ const initialState: jobsState = {
 }
 
 export const AdminCreatedJobsdata = () => async (dispatch: AppDispatch) => {
-   
+
     try {
         const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs/Admin", {
             headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
+                // authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         })
         dispatch(setAdminCreatedJobs(response.data));
@@ -49,11 +49,11 @@ export const AdminCreatedJobsdata = () => async (dispatch: AppDispatch) => {
 }
 
 export const FetchingJobsData = () => async (dispatch: AppDispatch) => {
-  
+
     try {
         const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs", {
             headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
+                // authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         })
         dispatch(setJobsData(response.data))
