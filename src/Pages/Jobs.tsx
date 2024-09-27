@@ -110,15 +110,31 @@ const Jobs: React.FC = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSaveJobs = async (JobId: string) => {
+    const Token = localStorage.getItem("Token");
+    if (!Token) {
+      toast.error("Authorization headers missing");
+      return;
+    }
     try {
-      const response = await axios.post(`http://localhost:/8000/Jobs/Save/User/${JobId}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("Token")}`,
-        },
-      })
-      const Userapplyresponse = await response.data;
+      const response = await axios.put(
+        `http://localhost:8000/Jobs/Jobs/Save/User/${JobId}`,
+        {}, // If no data is required in the body, send an empty object
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${Token}`,
+          },
+        }
+      );
+
+      const Userapplyresponse = response.data;
+      console.log(Userapplyresponse);
       if (response.status === 200) {
-        toast.success(<div className='font-serif text-[15px] text-black'>{Userapplyresponse.message}</div>);
+        toast.success(
+          <div className='font-serif text-[15px] text-black'>
+            {Userapplyresponse.message}
+          </div>
+        );
         // setapplyJobs(Userapplyresponse.applyjobs.status);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -127,15 +143,24 @@ const Jobs: React.FC = () => {
         const errorMessage = error.response.data.message;
 
         if (error.response.status === 409 || errorMessage === 'User already exists') {
-          toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+          toast.error(
+            <div className='font-serif text-[15px] text-black'>
+              {errorMessage}
+            </div>
+          );
         } else {
-          toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+          toast.error(
+            <div className='font-serif text-[15px] text-black'>
+              {errorMessage}
+            </div>
+          );
         }
       } else {
         console.log('Error: Network issue or server not responding', error);
       }
     }
-  }
+  };
+
 
   return (
     <>
@@ -233,7 +258,7 @@ const Jobs: React.FC = () => {
                         <div className='flex justify-between items-center mb-3'>
                           <h1 className='font-medium text-[15px]'>{formatDate(val.createdAt)}</h1>
                           <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100 rounded-full'>
-                            <FaRegBookmark className='text-[18px]' onClick={() => handleSaveJobs(val._id)} />
+                            <FaRegBookmark className='text-[18px]' />
                           </div>
                         </div>
                         <div className='flex'>
@@ -256,7 +281,7 @@ const Jobs: React.FC = () => {
                           <NavLink to={`/JobsDetails/${val._id}`}>
                             <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Details</button>
                           </NavLink>
-                          <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Save For Later</button>
+                          <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900" onClick={() => handleSaveJobs(val._id)}>Save For Later</button>
                         </div>
                       </div>
                     ))}
