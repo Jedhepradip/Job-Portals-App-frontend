@@ -33,10 +33,8 @@ const ForgetPassword: React.FC = () => {
             toast.error("Please enter your email.");
             return;
         }
-        const formdata = new FormData();
-        formdata.append("email", email);
         try {
-            const response = await axios.post("http://localhost:8000/ForgetPassword/ForgetPassword", formdata);
+            const response = await axios.post("http://localhost:8000/ForgetPassword/ForgetPassword", { email });
             const userResponse: UserResponse = response.data;
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{userResponse.message}</div>);
@@ -169,7 +167,7 @@ const ForgetPassword: React.FC = () => {
                                             shadow-sm hover:shadow-lg mb-2'
                                             required
                                         />
-                                    </div>                                   
+                                    </div>
 
                                     <div className="flex justify-center mt-4">
                                         <button

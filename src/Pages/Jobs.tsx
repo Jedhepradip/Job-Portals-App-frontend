@@ -25,8 +25,13 @@ interface Job {
   __v: string,
 }
 
+interface industry {
+  IndustryName:string
+}
+
 const Jobs: React.FC = () => {
   const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
+  const [industry, SetIndustry] = useState<industry[]>([])
   const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
   const dispatch: AppDispatch = useDispatch()
 
@@ -71,7 +76,21 @@ const Jobs: React.FC = () => {
     SetupCompanyJobs(searchbusalaryjobs);
   };
 
+  useEffect(() => {
+    const IndustryArr: string[] = []
+    Jobsdefualt.filter((e: Job) => IndustryArr.push(e.title.toLowerCase()))
+    const uniqueArray = [...new Set(IndustryArr)];
+    const capitalizedArray = uniqueArray.map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      // (word as string)
+    }); 
+    console.log(capitalizedArray);
+    
+    SetIndustry(capitalizedArray.join(" "))
+  }, [Jobsdefualt])
 
+  console.log(industry);
+ 
   return (
     <>
       <div className='bg-gray-300'>
@@ -106,6 +125,8 @@ const Jobs: React.FC = () => {
               <label htmlFor="mumbai" className='font-medium'>Mumbai</label>
             </div>
 
+
+
             <h2 className='text-xl font-medium mb-0 px-2 mt-4'>Industry</h2>
             <div className='px-3'>
               <input type="radio" id="frontend" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Frontend developer")} />
@@ -127,6 +148,9 @@ const Jobs: React.FC = () => {
               <input type="radio" id="nextjs" name='Location-Filter-Jobs' className='mr-2' onClick={() => searchbyIndustry("Next.js developer")} />
               <label htmlFor="nextjs" className="font-medium">Nextjs Developer</label>
             </div>
+
+
+
 
             <h2 className='text-xl font-medium mb-0 px-2 mt-4'>Salary</h2>
             <div className='px-3'>
