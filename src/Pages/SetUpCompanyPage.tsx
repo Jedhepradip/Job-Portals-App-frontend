@@ -33,14 +33,12 @@ interface CompanyData {
 }
 
 const SetUpCompanyPage: React.FC = () => {
-
     const [file, setFile] = useState<File | null>(null);
     const [companies, setCompanies] = useState<CompanyData[]>([]);
     const { id } = useParams<{ id: string }>();
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const Company = useSelector((state: RootState) => state.Company.Company);
     const dispatch: AppDispatch = useDispatch();
-
     const navigate = useNavigate();
 
     useEffect(() => {

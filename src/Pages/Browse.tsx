@@ -4,6 +4,7 @@ import { RootState, AppDispatch } from '../App/store/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { FetchingJobsData } from '../App/Features/JobsSlice'
 import { NavLink } from 'react-router-dom'
+import { formatDistanceToNow, isToday, isYesterday } from 'date-fns';
 
 interface Job {
   _id: string,
@@ -15,7 +16,8 @@ interface Job {
   position: string,
   experienceLevel: string,
   companyName: string,
-  company: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  company: string | any,
   CreatedBy: string,
   title: string,
   applications: [],
@@ -26,26 +28,17 @@ interface Job {
 }
 
 const Browse: React.FC = () => {
-
   const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
   const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
   const searchresults = useSelector((state: RootState) => state.Jobs.searchResults)
-
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(FetchingJobsData())
   }, [dispatch])
 
-  // useEffect(() => {
-  //   if (JobsData.length) {
-  //     SetupCompanyJobs(JobsData)
-  //   }
-  // }, [JobsData])
-
   useEffect(() => {
     if (searchresults.length) {
-      // const searchedjob: Job[] = JobsData.filter((e: Job) => e.title == searchresults[0]?.title)
       const searchedjob: Job[] = JobsData.filter((e: Job) => e.title.toLowerCase().includes(searchresults[0]?.title.toLowerCase()))
       SetupCompanyJobs(searchedjob)
     } else {
@@ -54,6 +47,25 @@ const Browse: React.FC = () => {
   }, [JobsData, searchresults])
 
 
+  const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) {
+      return 'Invalid date';
+    }
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+      return 'Invalid date';
+    }
+
+    if (isToday(date)) {
+      return 'Today';
+    } else if (isYesterday(date)) {
+      return 'Yesterday';
+    } else {
+      return formatDistanceToNow(date, { addSuffix: true });
+    }
+  };
 
   return (
     <>
@@ -66,14 +78,14 @@ const Browse: React.FC = () => {
               <div key={index} className='py-3 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
 
                 <div className='flex justify-between items-center mb-3'>
-                  <h1 className='font-medium'>Today</h1>
+                  <h1 className='font-medium text-[15px]'>{formatDate(val.createdAt)}</h1>
                   <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100  rounded-full'>
                     <FaRegBookmark className='text-[18px]' />
                   </div>
                 </div>
                 <div className='flex'>
                   <div>
-                    <img src="" alt="Company Logo" className='h-12 w-12 rounded-lg' />
+                    <img src={`http://localhost:8000/${val.company?.CompanyLogo}`} alt="Company Logo" className='h-12 w-12 rounded-lg' />
                   </div>
                   <div className='px-3'>
                     <h1 className='font-sans font-bold text-[14px]'>{val.companyName}</h1>

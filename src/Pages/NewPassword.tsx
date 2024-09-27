@@ -12,11 +12,9 @@ interface IFormInput {
     cpassword: string
 }
 const NewPassword: React.FC = () => {
-
     const { id } = useParams<{ id: string }>();
     const { register, handleSubmit } = useForm<IFormInput>()
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
-
     const Navigate = useNavigate();
 
     const onsubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -46,7 +44,6 @@ const NewPassword: React.FC = () => {
 
                 if (error.response) {
                     const errorMessage = error.response.data.message;
-
                     if (error.response.status === 409 || errorMessage === "User already exists") {
                         console.log("Error: User already exists.");
                         toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);

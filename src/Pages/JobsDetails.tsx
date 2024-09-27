@@ -52,7 +52,7 @@ const JobsDetails: React.FC = () => {
     useEffect(() => {
         dispatch(FetchingJobsData());
         dispatch(FeachingapplicationData());
-    }, [dispatch,loadingOTP]);
+    }, [dispatch, loadingOTP]);
 
     useEffect(() => {
         if (JobsData.length) {
@@ -62,9 +62,10 @@ const JobsDetails: React.FC = () => {
     }, [JobsData, id]);
 
     useEffect(() => {
-
         if (Jobsdefualt[0]?.applications.length) {
-            const jobs = application.filter((e: applicantUser) => e.job._id == id)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const jobs: applicantUser[] = application.filter((e: any) => e.job?._id == id)
+            console.log("jobs :", jobs);
             if (jobs.length) {
                 SetApplication(jobs)
             }

@@ -121,7 +121,7 @@ const Home: React.FC = () => {
         {UserData?.role == "student" ?
           <>
             <div className='flex flex-col justify-center items-center px-4 text-center relative'>
-              <div className='mb-6'>
+              {/* <div className='mb-6'>
                 <h1 className='bg-slate-100 text-red-500 py-1.5 px-4 font-medium rounded-full'>
                   No. 1 Job Hunt Website
                 </h1>
@@ -154,10 +154,64 @@ const Home: React.FC = () => {
                   </div>
                 </>}
 
+
+
+
                 <div className='flex justify-center items-center w-10 h-[36px] absolute bg-purple-800 rounded-r-full text-white md:ml-[490px] ml-[300px]'>
                   <FaSearch size={18} />
                 </div>
+              </div> */}
+
+              <div className='mb-6'>
+                <h1 className='bg-slate-100 text-red-500 py-1.5 px-4 font-medium rounded-full'>
+                  No. 1 Job Hunt Website
+                </h1>
               </div>
+
+              <div className='font-bold text-[40px] leading-tight'>
+                <h1>Search, Apply &</h1>
+                <h1>
+                  Get Your <span className='text-purple-800'>Dream Job</span>
+                </h1>
+              </div>
+
+              <p className='mt-4 max-w-xl text-gray-600 font-sans'>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem quae laboriosam odit aperiam ipsam sit fugit maiores modi error a saepe neque,
+              </p>
+
+              <div className='w-full flex items-center justify-center mt-4 relative'>
+                <input
+                  type="text"
+                  className='md:w-[35%] w-[70%] bg-white rounded-full py-[6px] px-4 shadow-md shadow-gray-400 outline-none focus:ring-2 focus:ring-purple-600 transition-all duration-200'
+                  placeholder='Find Your Dream Jobs'
+                  onChange={(e) => SearchJobs(e.target.value)}
+                />
+
+                {Search ? (
+                  <div className='absolute top-full mt-2 md:w-[42%] w-[70%] bg-white rounded-lg shadow-xl overflow-hidden z-50 transition-all duration-500 transform animate-slideDown'>
+                    <div className='max-h-60 overflow-y-auto py-4 px-4 bg-white transition-opacity duration-300 ease-in-out'>
+                      {searchJobs?.map((val, index) => (
+                        <NavLink to={"/Browse"} key={index}>
+                          <h1
+                            className='font-serif text-[18px] mb-2 hover:bg-gray-200 bg-white rounded-lg shadow-lg shadow-gray-300 px-4 py-2 cursor-pointer transition-all duration-200 transform hover:scale-105 hover:translate-x-1'
+                            onClick={() => handelJobsId(val._id)}
+                          >
+                            {val?.title}
+                          </h1>
+                        </NavLink>
+                      ))}
+                    </div>
+                  </div>
+                )
+                  :
+                  null
+                }
+
+                <div className='flex justify-center items-center w-10 h-[36px] absolute bg-purple-800 rounded-r-full text-white md:right-[32.5%] right-[15%]'>
+                  <FaSearch size={18} />
+                </div>
+              </div>
+
 
               <div className="relative w-full max-w-3xl mx-auto">
                 <div className="overflow-hidden bg-white w-full p-5 mt-2">
@@ -182,6 +236,7 @@ const Home: React.FC = () => {
                     ))}
                   </div>
                 </div>
+
                 <div>
                   <button
                     onClick={handlePrev}

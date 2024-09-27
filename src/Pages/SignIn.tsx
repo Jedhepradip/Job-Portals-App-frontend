@@ -17,7 +17,6 @@ interface IFormInput {
 }
 
 const SignIn: React.FC = () => {
-
     const [file, setFile] = useState<File | null>(null);
     const [OTPShow, SetOtpShow] = useState(false)
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
@@ -41,7 +40,7 @@ const SignIn: React.FC = () => {
                 }
             })
             const OTP = response.data;
-            console.log(OTP);
+            console.log(OTP);            
             toast.success(<div className='font-serif text-[15px] text-black'>{OTP.message}</div>);
             SetOTP(OTP?.otp)
             SetOtpShow(true)
@@ -64,8 +63,6 @@ const SignIn: React.FC = () => {
         setLoadingOTP(false)
     }
 
-    console.log(UserOTP);
-
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         setOtpVerify(true)
         if (UserOTP == data.OTP) {
@@ -83,9 +80,7 @@ const SignIn: React.FC = () => {
 
             try {
                 const response = await axios.post("http://localhost:8000/User/Registration", formData);
-
                 const UserResponse = response.data;
-
                 if (response.status === 200) {
                     console.log("User registered successfully", UserResponse);
                     toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);

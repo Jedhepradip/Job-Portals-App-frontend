@@ -28,13 +28,10 @@ interface Job {
 }
 
 const JobsPostAdmin: React.FC = () => {
-
     const [companyId, setCompanyId] = useState<string | null>(null);
     const [jobData, setJobData] = useState<Job[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-
     const AdminCreatedJobs: Job[] = useSelector((state: RootState) => state.Jobs.AdminCreated);
-
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
@@ -46,8 +43,6 @@ const JobsPostAdmin: React.FC = () => {
             setJobData(AdminCreatedJobs);
         }
     }, [AdminCreatedJobs]);
-
-    console.log(jobData);
 
     const showEditButton = (id: string) => {
         if (id == id) {

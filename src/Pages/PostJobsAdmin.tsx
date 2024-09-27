@@ -79,7 +79,6 @@ const PostJobsAdmin: React.FC = () => {
         formData.append("companyName", company);
 
         if (!(companyId?.length)) {
-            console.log("Error");
             toast.error(<div className='font-serif text-[15px] text-black'>{"Select The Company"}</div>)
             return;
         }

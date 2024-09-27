@@ -39,9 +39,7 @@ const EditCompany: React.FC = () => {
     const [companies, setCompanies] = useState<CompanyData[]>([]);
     const [filterComapny, SetCompanyFilter] = useState<CompanyData[]>([]);
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
-
     const { id } = useParams<{ id: string }>();
-
     const Navigate = useNavigate();
 
     const CompanuInfo = useSelector((state: RootState) => state.Company.Company)

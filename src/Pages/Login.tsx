@@ -15,7 +15,6 @@ const Login: React.FC = () => {
 
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const { register, handleSubmit } = useForm<InputFormLogin>()
-
     const Navigate = useNavigate();
 
     const onsubmit: SubmitHandler<InputFormLogin> = async (data) => {

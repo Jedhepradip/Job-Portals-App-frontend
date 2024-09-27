@@ -80,43 +80,7 @@ const CreateCompanyAdmin: React.FC = () => {
                         <div className="text-red-500 text-lg font-serif mt-0">
                             {errors.CompanyName.message}
                         </div>
-                    )}
-                    {/* 
-                    <div className='mt-7 flex'>
-                        <NavLink to="/Company" >
-                            <button className='ml-0 shadow shadow-gray-300 py-1.5 px-6 rounded-lg font-serif text-[20px]'>Cancel</button>
-                        </NavLink>
-                 
-                            <button
-                                type='submit'
-                                className={`ml-5 bg-gray-500 text-white py-1.5 px-6 rounded-lg font-serif text-[20px] hover:bg-gray-900 ${loadingOTP ? 'cursor-not-allowed' : ''}`}
-                                disabled={loadingOTP}
-                            >
-                                {loadingOTP ? (
-                                    <svg
-                                        className="animate-spin h-5 w-5 mr-2 text-white"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <circle
-                                            className="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            strokeWidth="4"
-                                        ></circle>
-                                        <path
-                                            className="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                        ></path>
-                                    </svg>
-                                ) : null}
-                                <span>{loadingOTP ? 'Loading...' : 'Coutinue'}</span>
-                            </button>
-                    </div> */}
+                    )}                   
 
                     <div className='mt-7 flex'>
                         <NavLink to="/Company">

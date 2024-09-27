@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from '../store/store';
 import axios from 'axios';
 
-
 interface CompanyData {
     _id: string;
     CompanyName: string;
@@ -16,7 +15,6 @@ interface CompanyData {
     __v: number; // Add this field to match the MongoDB document structure
 }
 
-
 interface CompanyState {
     Company: CompanyData[]
 }
@@ -25,10 +23,7 @@ const initialState: CompanyState = {
     Company: [],
 }
 
-
-export const FetchingCompanyData = () => async (dispatch: AppDispatch) => {
-    
-   
+export const FetchingCompanyData = () => async (dispatch: AppDispatch) => {       
     try {
         const response = await axios.get("http://localhost:8000/Company/get", {
             headers: {

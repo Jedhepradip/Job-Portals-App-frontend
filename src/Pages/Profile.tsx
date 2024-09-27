@@ -70,7 +70,6 @@ interface InputFrom {
 }
 
 const Profile: React.FC = () => {
-
     const [isEditFormVisible, setEditFormVisible] = useState(false)
     const [Resume, SetFileResume] = useState<File | null>(null);
     const [Profile, SetFileProfile] = useState<File | null>(null);
@@ -86,7 +85,7 @@ const Profile: React.FC = () => {
         dispatch(FetchingUserData())
         dispatch(FeachingapplicationData())
     }, [dispatch, isEditFormVisible])
-
+    
     useEffect(() => {
         if (Userinfo) {
             setUserData(Userinfo)
@@ -96,8 +95,6 @@ const Profile: React.FC = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [Userinfo])
-
-    console.log(appyjobs);
 
     const { register, handleSubmit } = useForm<InputFrom>()
 
@@ -112,7 +109,6 @@ const Profile: React.FC = () => {
         formData.append("mobile", data.mobile);
         formData.append("bio", data.bio);
         formData.append("skills", skillsSplit);
-
         try {
             const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
                 headers: {
@@ -148,7 +144,6 @@ const Profile: React.FC = () => {
             }
         }
     };
-
     const EditPageShowhidden = (): void => {
         setEditFormVisible(!isEditFormVisible)
     }
@@ -258,11 +253,7 @@ const Profile: React.FC = () => {
                                                 </td>
                                             </tr>
                                         </div>
-                                    </table>
-
-                                    {/* <button type="submit" className="mt-3 text-white w-[100%] flex justify-center items-center bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-lg px-5 py-[6px] dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mx-auto">
-                                        Update
-                                    </button> */}
+                                    </table>                               
 
                                     <div className="w-full flex justify-center items-center pb-2">
                                         <button
