@@ -76,7 +76,7 @@ const NewPassword: React.FC = () => {
                             <div>
                                 <label className='block text-lg text-gray-700 font-medium'>Password</label>
                                 <input {...register("password")}
-                                    type="text"
+                                    type="password"
                                     name='password'
                                     placeholder='password'
                                     className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-black outline-none focus:border-transparent mb-2'
@@ -92,9 +92,6 @@ const NewPassword: React.FC = () => {
                                     className='w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none mb-2'
                                 />
                             </div>
-
-
-                            {/* <button type="submit" className="text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-[20px] px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 outline-none">Update Password</button> */}
 
                             <div className="flex justify-center mt-4">
                                 <button
