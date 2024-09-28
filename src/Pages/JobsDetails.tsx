@@ -121,7 +121,7 @@ const JobsDetails: React.FC = () => {
             <div className='w-full'>
                 <div className='flex justify-between'>
                     <div>
-                        <h1 className='font-bold font-serif text-[30px]'>{Jobsdefualt[0]?.title}</h1>
+                        <h1 className='font-bold font-serif text-[30px]'>{Jobsdefualt[0]?.title.charAt(0)?.toUpperCase() + Jobsdefualt[0]?.title?.slice(1)}</h1>
                         <div className='flex gap-3 items-center mt-3'>
                             <h1 className='text-blue-800 px-2 font-bold rounded-lg text-[13px] shadow shadow-gray-300'>{Jobsdefualt[0]?.position} Position</h1>
                             <h1 className='text-red-500 px-3 font-bold rounded-lg text-[13px] shadow shadow-gray-300'>{Jobsdefualt[0]?.jobtype}</h1>
@@ -177,9 +177,14 @@ const JobsDetails: React.FC = () => {
                     <hr className='h-[1px] w-full bg-black' />
                 </div>
 
-                <h1 className='font-bold mt-2'>Role: <span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.title}</span></h1>
+                <h1 className='font-bold mt-2'>Role: <span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.title.charAt(0)?.toUpperCase() + Jobsdefualt[0]?.title?.slice(1)}</span></h1>
                 <h1 className='font-bold'>Location: <span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.location}</span></h1>
                 <h1 className='font-bold'>Description: <span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.description}</span></h1>
+                <h1 className='font-bold'>Requirements:
+                    {Jobsdefualt[0]?.requirements?.map((val, index) => (
+                        <span key={index} className='font-normal font-serif ml-3'>{val},</span>
+                    ))}
+                </h1>
                 <h1 className='font-bold'>Experience: <span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.experienceLevel} Years</span></h1>
                 <h1 className='font-bold'>Salary: <span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.salary} LPA</span></h1>
                 <h1 className='font-bold'>Total Applicants: <span className='font-normal px-3 font-serif'>{Jobsdefualt[0]?.applications.length}</span></h1>

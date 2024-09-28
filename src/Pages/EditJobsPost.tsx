@@ -72,11 +72,12 @@ const EditJobsPost: React.FC = () => {
     const { register, handleSubmit } = useForm<InputPostJobs>();
     const onsubmit: SubmitHandler<InputPostJobs> = async (data) => {
         setLoadingOTP(true)
-        data.requirements.split(" ")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const skillsSplit: any = data.requirements.split(" ")
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("description", data.description);
-        formData.append("requirements", data.requirements);
+        formData.append("requirements", skillsSplit);
         formData.append("salary", data.salary);
         formData.append("location", location);
         formData.append("jobtype", data.jobtype);
@@ -245,7 +246,7 @@ const EditJobsPost: React.FC = () => {
                                             <span>{Jobsdefualt[0]?.companyName}</span>
                                         </span>
                                     </td>
-                                </tr>                             
+                                </tr>
 
                                 <div className="w-full flex justify-center items-center pb-2">
                                     <button
@@ -278,7 +279,7 @@ const EditJobsPost: React.FC = () => {
                                         <span>{loadingOTP ? 'Loading...' : 'Jobs Update'}</span>
                                     </button>
                                 </div>
-                                
+
                             </div>
                         </table>
                     </form>

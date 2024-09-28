@@ -67,10 +67,12 @@ const PostJobsAdmin: React.FC = () => {
 
     const onsubmit: SubmitHandler<InputPostJobs> = async (data) => {
         setLoadingOTP(true)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const skillsSplit: any = data.requirements.split(" ")
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("description", data.description);
-        formData.append("requirements", data.requirements);
+        formData.append("requirements", skillsSplit);
         formData.append("salary", data.salary);
         formData.append("location", location);
         formData.append("jobtype", data.jobtype);

@@ -255,20 +255,21 @@ const Jobs: React.FC = () => {
                       <div key={index} className='py-3 px-5 shadow-md shadow-gray-300 rounded-lg overflow-hidden mb-10'>
                         <div className='flex justify-between items-center mb-3'>
                           <h1 className='font-medium text-[15px]'>{formatDate(val.createdAt)}</h1>
-                          <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100 rounded-full'>
-                            <FaRegBookmark className='text-[18px]' />
-                          </div>
+                          <NavLink to="/SaveJobs" >
+                            <div className='h-8 w-8 flex justify-center items-center p-1 bg-gray-100 rounded-full'>
+                              <FaRegBookmark className='text-[18px]' />
+                            </div></NavLink>
                         </div>
                         <div className='flex'>
                           <div>
-                            <img src={`http://localhost:8000/${val.company?.CompanyLogo}`} alt="Company Logo" className='h-12 w-12 rounded-lg' />
+                            <img src={`http://localhost:8000/${val.company?.CompanyLogo}`} alt="Company Logo" className='h-12 w-12 rounded-lg object-cover' />
                           </div>
                           <div className='px-3'>
                             <h1 className='font-sans font-bold text-[14px]'>{val.companyName}</h1>
                             <h1 className='font-sans text-[11px] text-gray-500'>{val.location}</h1>
                           </div>
                         </div>
-                        <h1 className='py-1 font-bold text-[19px]'>{val.title}</h1>
+                        <h1 className='py-1 font-bold text-[19px]'>{val?.title.charAt(0)?.toUpperCase() + val?.title?.slice(1)}</h1>
                         <p className='font-serif'>{val.description}</p>
                         <div className='flex justify-between items-center mt-3'>
                           <h1 className='text-blue-800 px-2 font-bold rounded-lg text-[13px] shadow shadow-gray-300'>{`${val.position} Position`}</h1>

@@ -71,7 +71,7 @@ const SaveJobs: React.FC = () => {
 
     return (
         <>
-            <h1 className='px-20 font-bold text-[30px] mt-10'>Search Results({Jobsdefualt?.length})</h1>
+            <h1 className='px-20 font-bold text-[30px] mt-10'>Save Jobs({Jobsdefualt?.length})</h1>
             <div className='md:col-span-9 col-span-12 bg-white shadow-gray-300 p-5 rounded-lg px-20'>
                 <div className='grid grid-cols-12'>
                     <div className='col-span-12 grid md:grid-cols-3 gap-5 '>
@@ -87,7 +87,7 @@ const SaveJobs: React.FC = () => {
                                 </div>
                                 <div className='flex'>
                                     <div>
-                                        <img src={`http://localhost:8000/${val.company?.CompanyLogo}`} alt="Company Logo" className='h-12 w-12 rounded-lg' />
+                                        <img src={`http://localhost:8000/${val.company?.CompanyLogo}`} alt="Company Logo" className='h-12 w-12 rounded-lg object-cover' />
                                     </div>
                                     <div className='px-3'>
                                         <h1 className='font-sans font-bold text-[14px]'>{val.companyName}</h1>

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../App/store/store';
 import { FetchingUserData } from '../App/Features/UserSlice';
-import { FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaSignOutAlt, FaSave } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 interface CompanyData {
@@ -41,6 +41,7 @@ interface UserInterfase1 {
 const Navbar: React.FC = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [Profile, SetProfile] = useState(false);
   const [UserData, setUserData] = useState<UserInterfase1 | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user: any = useSelector((state: RootState) => state.User.User)
@@ -68,6 +69,10 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const SetProfileUser = () => {
+    SetProfile(!Profile)
+  }
 
   return (
     <>
@@ -151,9 +156,9 @@ const Navbar: React.FC = () => {
               )}
 
               {token ? (
-                <li onClick={toggleMenu}>
+                <li>
                   <div className='h-8 w-8 md:mr-14 md:ml-0 ml-3 md:mt-0 mt-2 rounded-full border-1 bg-black overflow-hidden border-black'>
-                    <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full ' onClick={() => isMenuOpen ? "true" : "false"} />
+                    <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full ' onClick={() => SetProfileUser()} />
                   </div>
                 </li>
               ) : (
@@ -171,10 +176,10 @@ const Navbar: React.FC = () => {
                 </>
               )}
 
-              {isMenuOpen ? (
+              {Profile ? (
                 <>
-                  <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 md:mt-12 mt-[120px] text-black p-2">
-                    <div className="flex items-center mb-2 px-4 py-2">
+                  <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 md:mt-12 mt-[180px] text-black p-2">
+                    <div className="flex items-center mb-2 px-4 py-2" onClick={toggleMenu}>
                       <img
                         src={`http://localhost:8000/${UserData?.ProfileImg}`}
                         alt="Profile"
@@ -187,7 +192,7 @@ const Navbar: React.FC = () => {
                         <p className="text-sm text-gray-600 font-medium">{UserData?.bio}</p>
                       </div>
                     </div>
-                    <NavLink to="/Profile" onClick={toggleMenu}>
+                    <NavLink to="/Profile" onClick={SetProfileUser}>
                       <div className="flex items-center cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 text-gray-600 py-2 px-4 font-medium rounded-md transition duration-300 ease-in-out hover:text-white">
                         <div className="text-black flex hover:text-white">
                           <FaUser className="mr-2 text-[19px]" />
@@ -195,6 +200,16 @@ const Navbar: React.FC = () => {
                         </div>
                       </div>
                     </NavLink>
+
+                    <NavLink to="/SaveJobs" onClick={SetProfileUser} >
+                      <div className="flex items-center cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 text-gray-600 py-2 px-4 font-medium rounded-md transition duration-300 ease-in-out hover:text-white">
+                        <div className="text-black flex hover:text-white">
+                          <FaSave className="mr-2 text-[19px]" />
+                          <span>Save Jobs</span>
+                        </div>
+                      </div>
+                    </NavLink>
+
                     <div
                       className="flex items-center cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 text-gray-600 py-2 px-4 font-medium rounded-md transition duration-300 ease-in-out mb-2 hover:text-white"
                       onClick={() => LogoutUser()}>
@@ -215,3 +230,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
