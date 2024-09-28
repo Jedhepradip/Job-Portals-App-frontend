@@ -85,7 +85,7 @@ const Profile: React.FC = () => {
         dispatch(FetchingUserData())
         dispatch(FeachingapplicationData())
     }, [dispatch, isEditFormVisible])
-    
+
     useEffect(() => {
         if (Userinfo) {
             setUserData(Userinfo)
@@ -147,6 +147,7 @@ const Profile: React.FC = () => {
     const EditPageShowhidden = (): void => {
         setEditFormVisible(!isEditFormVisible)
     }
+
 
     return (
         <>
@@ -253,7 +254,7 @@ const Profile: React.FC = () => {
                                                 </td>
                                             </tr>
                                         </div>
-                                    </table>                               
+                                    </table>
 
                                     <div className="w-full flex justify-center items-center pb-2">
                                         <button
@@ -320,7 +321,7 @@ const Profile: React.FC = () => {
                         </div>
                         <h2 className='font-bold text-[20px] px-2 mt-3'>skills</h2>
                         <div className='gap-4 mt-4 grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7'>
-                            {UserData?.skills?.length  && <>
+                            {UserData?.skills?.length && <>
                                 {UserData?.skills?.map((val: any, index: any) => (
                                     <h3
                                         key={index}

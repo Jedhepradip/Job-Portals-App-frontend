@@ -2,6 +2,27 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store/store";
 import axios from "axios";
 
+interface Job {
+    _id: string,
+    description: string,
+    requirements: [],
+    salary: string,
+    location: string,
+    jobtype: string,
+    position: string,
+    experienceLevel: string,
+    companyName: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    company: string | any,
+    CreatedBy: string,
+    title: string,
+    applications: [],
+    JobPostDate: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: string,
+}
+
 interface CompanyData {
     _id: string;
     name: string;
@@ -28,7 +49,8 @@ interface UserInterFaceData {
     skills: string[]; // assuming it's an array of skill strings
     ResumeFile: string;
     Company: CompanyData[]; // replace with actual Company structure
-    JobPost: JobPostData[]; // replace with actual JobPost structure
+    JobPost: JobPostData[];
+    SaveJobs: Job[] // replace with actual JobPost structure
     createdAt: string;
     updatedAt: string;
     __v: string;
@@ -43,7 +65,7 @@ const initialState: UserState = {
 }
 
 export const FetchingUserData = () => async (dispatch: AppDispatch) => {
-   
+
     try {
         const response = await axios.get("http://localhost:8000/User/Information", {
             headers: {

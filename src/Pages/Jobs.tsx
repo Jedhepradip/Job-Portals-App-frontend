@@ -128,7 +128,6 @@ const Jobs: React.FC = () => {
       );
 
       const Userapplyresponse = response.data;
-      console.log(Userapplyresponse);
       if (response.status === 200) {
         toast.success(
           <div className='font-serif text-[15px] text-black'>
@@ -160,7 +159,6 @@ const Jobs: React.FC = () => {
       }
     }
   };
-
 
   return (
     <>
