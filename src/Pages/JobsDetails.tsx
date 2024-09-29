@@ -100,6 +100,10 @@ const JobsDetails: React.FC = () => {
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
+            setTimeout(() => {
+                setLoadingOTP(false)
+
+            }, 2000);
             if (error.response) {
                 const errorMessage = error.response.data.message;
 
@@ -112,7 +116,6 @@ const JobsDetails: React.FC = () => {
                 console.log('Error: Network issue or server not responding', error);
             }
         }
-        setLoadingOTP(false)
     };
 
     return (

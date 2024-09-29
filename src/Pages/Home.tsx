@@ -94,8 +94,9 @@ const Home: React.FC = () => {
   useEffect(() => {
     const SearchJobsShow: Job[] = JobsData.filter((e: Job) =>
       e.title.toLowerCase().includes(Search.toLowerCase())
-    );
-    SetSeachdataJobs(SearchJobsShow)
+    );    
+    const arr = [...new Set(SearchJobsShow)]        
+    SetSeachdataJobs(arr)
   }, [JobsData, Search])
 
 
@@ -196,7 +197,7 @@ const Home: React.FC = () => {
                             className='font-serif text-[18px] mb-2 hover:bg-gray-200 bg-white rounded-lg shadow-lg shadow-gray-300 px-4 py-2 cursor-pointer transition-all duration-200 transform hover:scale-105 hover:translate-x-1'
                             onClick={() => handelJobsId(val._id)}
                           >
-                            {val?.title}
+                            {val?.title.charAt(0).toUpperCase() + val.title.slice(1).toLowerCase()}
                           </h1>
                         </NavLink>
                       ))}
@@ -228,7 +229,7 @@ const Home: React.FC = () => {
                         <div className="relative w-full h-32 flex items-center justify-around">
                           <div className="absolute bottom-11 left- bg-opacity-50 text-black py-2 px-4 rounded-lg shadow-lg">
                             <NavLink to={`/JobsDetails/${slide._id}`} >
-                              <p className="text-center font-medium font-serif">{slide.title}</p>
+                              <p className="text-center font-medium font-serif">{slide.title.charAt(0).toUpperCase() + slide.title.slice(1).toLowerCase()}</p>
                             </NavLink>
                           </div>
                         </div>
@@ -258,14 +259,14 @@ const Home: React.FC = () => {
                 {Jobsdefualt.slice(0, 6).map((val, index) => (
                   <div key={index} className='overflow-hidden py-2 px-4 shadow-md shadow-gray-300 rounded-[5px]'>
                     <NavLink to={`/JobsDetails/${val._id}`} >
-                      <h6 className='font-sans font-medium'>{val.companyName}</h6>
+                      <h6 className='font-sans font-medium'>{val.companyName.charAt(0).toUpperCase() + val.companyName.slice(1).toLowerCase()}</h6>
                       <span className='text-[12px]'>{val.location}</span>
-                      <h1 className='font-bold '>{val.title}</h1>
+                      <h1 className='font-bold '>{val.title.charAt(0).toUpperCase() + val.title.slice(1).toLowerCase()}</h1>
                       <h1 className='text-[13px] font-sans mb-3'>{val.description}</h1>
                       <hr />
                       <div className='flex gap-5 mt-1 items-center'>
                         <h1 className='text-blue-700 font-medium text-[13px]'>{val.position} Position</h1>
-                        <h1 className='font-bold text-red-500 text-[13px]'>{val.jobtype}</h1>
+                        <h1 className='font-bold text-red-500 text-[13px]'>{val.jobtype.charAt(0).toUpperCase() + val.jobtype.slice(1).toLowerCase()}</h1>
                         <h1 className='text-purple-600 font-bold text-[13px]'>{val.salary} LPA</h1>
                       </div>
                     </NavLink>
