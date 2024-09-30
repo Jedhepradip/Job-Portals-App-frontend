@@ -96,6 +96,10 @@ const JobsDetails: React.FC = () => {
             const Userapplyresponse = await response.data;
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{Userapplyresponse.message}</div>);
+                setTimeout(() => {
+                    setLoadingOTP(false)
+    
+                }, 2000);
                 // setapplyJobs(Userapplyresponse.applyjobs.status);
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any

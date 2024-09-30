@@ -63,6 +63,7 @@ const Navbar: React.FC = () => {
   const LogoutUser = () => {
     localStorage.removeItem("Token")
     Navigate("/")
+    SetProfileUser()
     toggleMenu();
   }
 
