@@ -22,6 +22,7 @@ const SignIn: React.FC = () => {
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const [verifyotp, setOtpVerify] = useState(false); // For Send OTP button
     const [UserEmail, SetEmail] = useState("")
+    const [UserNumber, SetNumber] = useState("")
     const [UserOTP, SetOTP] = useState("")
     const Navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
@@ -30,6 +31,7 @@ const SignIn: React.FC = () => {
         setLoadingOTP(true)
         const Fordata = new FormData()
         Fordata.append("email", UserEmail)
+        Fordata.append("number", UserNumber)
         if (!UserEmail) {
             toast.error("Email Is Required...")
         }
@@ -40,7 +42,7 @@ const SignIn: React.FC = () => {
                 }
             })
             const OTP = response.data;
-            console.log(OTP);            
+            console.log(OTP);
             toast.success(<div className='font-serif text-[15px] text-black'>{OTP.message}</div>);
             SetOTP(OTP?.otp)
             SetOtpShow(true)
@@ -196,7 +198,8 @@ const SignIn: React.FC = () => {
                                     type="number"
                                     name='mobile'
                                     placeholder='8459844605'
-                                    className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none'
+                                    value={UserNumber}
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-transparent outline-none' onChange={(e) => SetNumber(e.target.value)}
                                 />
                                 {errors.mobile && (
                                     <div className="text-red-500 text-lg font-serif mt-0 text-center">
