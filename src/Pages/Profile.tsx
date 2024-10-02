@@ -303,7 +303,7 @@ const Profile: React.FC = () => {
                             className='h-20 w-20 mt-3 rounded-full object-cover bg-black'
                         />
                         <div className='px-3'>
-                            <div className='h-7 w-10 md:ml-[450px] ml-[270px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
+                            <div className='h-7 w-10 md:ml-[450px] ml-[230px] shadow shadow-gray-200 bg-white rounded-md flex justify-center items-center' onClick={() => EditPageShowhidden()}>
                                 <FiEdit2 className='text-[20px]' />
                             </div>
                             <h1 className='font-bold'>{UserData?.name}</h1>
