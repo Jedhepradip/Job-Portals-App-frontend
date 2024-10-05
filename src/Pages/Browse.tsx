@@ -77,9 +77,11 @@ const Browse: React.FC = () => {
       return;
     }
     try {
+      // const response = await axios.put(
+      //   `http://localhost:8000/Jobs/Jobs/Save/User/${JobId}`,
       const response = await axios.put(
-        `http://localhost:8000/Jobs/Jobs/Save/User/${JobId}`,
-        {}, // If no data is required in the body, send an empty object
+        `https://job-portal-app-backend-zm6q.onrender.com/Jobs/Jobs/Save/User/${JobId}`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +103,6 @@ const Browse: React.FC = () => {
     } catch (error: any) {
       if (error.response) {
         const errorMessage = error.response.data.message;
-
         if (error.response.status === 409 || errorMessage === 'User already exists') {
           toast.error(
             <div className='font-serif text-[15px] text-black'>

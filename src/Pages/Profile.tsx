@@ -110,7 +110,8 @@ const Profile: React.FC = () => {
         formData.append("bio", data.bio);
         formData.append("skills", skillsSplit);
         try {
-            const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
+            // const response = await axios.put("http://localhost:8000/User/Update/Profile", formData, {
+                const response = await axios.put("https://job-portal-app-backend-zm6q.onrender.com/User/Update/Profile", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     authorization: `Baera ${localStorage.getItem("Token")}`
@@ -147,7 +148,6 @@ const Profile: React.FC = () => {
     const EditPageShowhidden = (): void => {
         setEditFormVisible(!isEditFormVisible)
     }
-
 
     return (
         <>

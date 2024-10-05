@@ -67,7 +67,8 @@ const initialState: UserState = {
 export const FetchingUserData = () => async (dispatch: AppDispatch) => {
 
     try {
-        const response = await axios.get("http://localhost:8000/User/Information", {
+        // const response = await axios.get("http://localhost:8000/User/Information", {
+        const response = await axios.get("https://job-portal-app-backend-zm6q.onrender.com/User/Information", {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }

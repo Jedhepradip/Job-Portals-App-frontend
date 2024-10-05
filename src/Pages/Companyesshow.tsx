@@ -20,7 +20,6 @@ interface CompanyData {
 }
 
 const Companyesshow: React.FC = () => {
-
   const [companyId, setCompanyId] = useState<string | null>(null);
   const [companies, setCompanies] = useState<CompanyData[]>([]);
   const [Company, SetCompany] = useState<string | null>(null);
@@ -48,9 +47,7 @@ const Companyesshow: React.FC = () => {
         setCompanies(CompanyRedux)
       }
   }, [CompanyRedux, Company, companies])
-
-  console.log(companies);
-
+  
   return (
     <>
       <div className='grid grid-cols-1 px-6 mt-7 mb-3 relative'>

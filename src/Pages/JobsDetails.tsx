@@ -64,8 +64,7 @@ const JobsDetails: React.FC = () => {
     useEffect(() => {
         if (Jobsdefualt[0]?.applications.length) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const jobs: applicantUser[] = application.filter((e: any) => e.job?._id == id)
-            console.log("jobs :", jobs);
+            const jobs: applicantUser[] = application.filter((e: any) => e.job?._id == id)         
             if (jobs.length) {
                 SetApplication(jobs)
             }
@@ -81,24 +80,23 @@ const JobsDetails: React.FC = () => {
                 toast.error(<div className='font-serif text-[15px] text-black'>No authentication token found</div>);
                 Navigate("/Login")
                 return;
-            }
-
+            }        
+            // const response = await axios.post(
+            //     `http://localhost:8000/Application/ApplyJobs/${id}`,
             const response = await axios.post(
-                `http://localhost:8000/Application/ApplyJobs/${id}`,
-                {}, // Request body (empty in this case)
+                `https://job-portal-app-backend-zm6q.onrender.com/Application/ApplyJobs/${id}`,
+                {}, 
                 {
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
                 }
             );
-
             const Userapplyresponse = await response.data;
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{Userapplyresponse.message}</div>);
                 setTimeout(() => {
                     setLoadingOTP(false)
-    
                 }, 2000);
                 // setapplyJobs(Userapplyresponse.applyjobs.status);
             }
@@ -106,7 +104,6 @@ const JobsDetails: React.FC = () => {
         } catch (error: any) {
             setTimeout(() => {
                 setLoadingOTP(false)
-
             }, 2000);
             if (error.response) {
                 const errorMessage = error.response.data.message;

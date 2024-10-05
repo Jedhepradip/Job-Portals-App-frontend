@@ -34,14 +34,12 @@ interface CompanyData {
 }
 
 const EditCompany: React.FC = () => {
-
     const [file, setFile] = useState<File | null>(null);
     const [companies, setCompanies] = useState<CompanyData[]>([]);
     const [filterComapny, SetCompanyFilter] = useState<CompanyData[]>([]);
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const { id } = useParams<{ id: string }>();
     const Navigate = useNavigate();
-
     const CompanuInfo = useSelector((state: RootState) => state.Company.Company)
     const dispatch: AppDispatch = useDispatch();
 
@@ -77,17 +75,17 @@ const EditCompany: React.FC = () => {
         formData.append('location', data.location);
 
         try {
-            const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formData, {
+            // const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formData, {
+                const response = await axios.put(`https://job-portal-app-backend-zm6q.onrender.com/Company/UpdateCompany/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     authorization: `Bearer ${localStorage.getItem('Token')}`,
                 },
             });
 
-            const responseData = await response.data;
+            await response.data;
 
             if (response.status === 200) {
-                console.log('Company updated successfully', responseData);
                 toast.success(<div className="font-serif text-[15px] text-black">{"Company updated successfully"}</div>);
                 setTimeout(() => {
                     setLoadingOTP(false)

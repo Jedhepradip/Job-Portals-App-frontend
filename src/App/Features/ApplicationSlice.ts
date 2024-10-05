@@ -39,10 +39,11 @@ const initialState: applicantJobs = {
     applicant: [],
 }
 
+
 export const FeachingapplicationData = () => async (dispatch: AppDispatch) => {
-   
     try {
-        const response = await axios.get("http://localhost:8000/Application/ApplyJob/Show/Student", {
+        // const response = await axios.get("http://localhost:8000/Application/ApplyJob/Show/Student", {
+        const response = await axios.get("https://job-portal-app-backend-zm6q.onrender.com/Application/ApplyJob/Show/Student", {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }

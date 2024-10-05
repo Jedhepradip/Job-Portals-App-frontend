@@ -23,7 +23,8 @@ const NewPassword: React.FC = () => {
             const formdata = new FormData()
             formdata.append("password", data.password)
             try {
-                const response = await axios.put(`http://localhost:8000/ForgetPassword/Create/NewPassword/${id}`, formdata, {
+                // const response = await axios.put(`http://localhost:8000/ForgetPassword/Create/NewPassword/${id}`, formdata, {
+                    const response = await axios.put(`https://job-portal-app-backend-zm6q.onrender.com/ForgetPassword/Create/NewPassword/${id}`, formdata, {
                     headers: {
                         "Content-Type": "application/json"
                     }

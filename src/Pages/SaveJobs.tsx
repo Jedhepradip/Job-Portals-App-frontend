@@ -27,15 +27,11 @@ interface Job {
     __v: string,
 }
 
-
-
 const SaveJobs: React.FC = () => {
     const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const Userdata:any = useSelector((state: RootState) => state.User.User)
     const dispatch: AppDispatch = useDispatch();
-
-    console.log(Userdata);
     
     useEffect(() => {
         dispatch(FetchingUserData())
@@ -48,18 +44,14 @@ const SaveJobs: React.FC = () => {
         }
     }, [Userdata])
 
-
     const formatDate = (dateString: string | undefined): string => {
         if (!dateString) {
             return 'Invalid date';
         }
-
         const date = new Date(dateString);
-
         if (isNaN(date.getTime())) {
             return 'Invalid date';
         }
-
         if (isToday(date)) {
             return 'Today';
         } else if (isYesterday(date)) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import "../App.css"
-const NotFound: React.FC = () => {
+const NotFound: React.FC = () => {  
   return (
     <>
       <section className="page_404">

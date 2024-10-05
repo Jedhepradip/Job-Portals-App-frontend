@@ -12,7 +12,6 @@ interface Inputform {
 }
 
 const CreateCompanyAdmin: React.FC = () => {
-
     const Navigate = useNavigate();
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const { register, handleSubmit, formState: { errors } } = useForm<Inputform>();
@@ -22,15 +21,14 @@ const CreateCompanyAdmin: React.FC = () => {
         const Token = localStorage.getItem("Token")
         console.log(Token);
         try {
-            const response = await axios.post("http://localhost:8000/Company/Register/Admin/Company", data, {
+            // const response = await axios.post("http://localhost:8000/Company/Register/Admin/Company", data, {
+                const response = await axios.post("https://job-portal-app-backend-zm6q.onrender.com/Company/Register/Admin/Company", data, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${Token}`,
                 }
             })
-
             const CompanyResponse = response.data;
-
             if (response.status == 200) {
                 console.log("User registered successfully", CompanyResponse);
                 toast.success(<div className='font-serif text-[15px] text-black'>{CompanyResponse.message}</div>)
@@ -39,7 +37,7 @@ const CreateCompanyAdmin: React.FC = () => {
                     Navigate(`/SetUpCompanyPage/${CompanyResponse.Companystord._id}`)
                 }, 2000)
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
         } catch (error: any) {
             setTimeout(() => {
                 setLoadingOTP(false)

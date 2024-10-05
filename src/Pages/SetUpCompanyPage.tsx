@@ -69,7 +69,8 @@ const SetUpCompanyPage: React.FC = () => {
         formData.append('location', data.location);
 
         try {
-            const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formData, {
+            // const response = await axios.put(`http://localhost:8000/Company/UpdateCompany/${id}`, formData, {
+                const response = await axios.put(`https://job-portal-app-backend-zm6q.onrender.com/Company/UpdateCompany/${id}`, formData, {
                 headers: {
                     // Don't set Content-Type; axios sets it automatically for FormData
                     authorization: `Bearer ${localStorage.getItem('Token')}`,

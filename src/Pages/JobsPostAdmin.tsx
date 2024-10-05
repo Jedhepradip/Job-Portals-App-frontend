@@ -49,7 +49,7 @@ const JobsPostAdmin: React.FC = () => {
             setCompanyId(prevId => (prevId === id ? null : id));
         }
     };
-
+    
     useEffect(() => {
         const filteredJobs = AdminCreatedJobs.filter((job: Job) =>
             job.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||

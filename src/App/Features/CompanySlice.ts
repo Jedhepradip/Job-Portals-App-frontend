@@ -23,9 +23,10 @@ const initialState: CompanyState = {
     Company: [],
 }
 
-export const FetchingCompanyData = () => async (dispatch: AppDispatch) => {       
+export const FetchingCompanyData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get("http://localhost:8000/Company/get", {
+        // const response = await axios.get("http://localhost:8000/Company/get", {
+        const response = await axios.get("https://job-portal-app-backend-zm6q.onrender.com/Company/get", {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`,
             }

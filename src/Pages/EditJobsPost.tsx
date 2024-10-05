@@ -63,7 +63,6 @@ const EditJobsPost: React.FC = () => {
         SetupCompanyJobs(JobsData)
     }, [JobsData])
 
-
     useEffect(() => {
         const FilterJobsData: Job[] = CompanyJobs.filter((e: Job) => e._id == id)
         setJobdDefualt(FilterJobsData)
@@ -85,7 +84,8 @@ const EditJobsPost: React.FC = () => {
         formData.append("experienceLevel", data.experienceLevel);
 
         try {
-            const response = await axios.put(`http://localhost:8000/Jobs/Admin/Jobs/Update/${id}`, formData, {
+            // const response = await axios.put(`http://localhost:8000/Jobs/Admin/Jobs/Update/${id}`, formData, {
+            const response = await axios.put(`https://job-portal-app-backend-zm6q.onrender.com/Jobs/Admin/Jobs/Update/${id}`, formData, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -93,7 +93,6 @@ const EditJobsPost: React.FC = () => {
             });
             const JobsResponses = await response.data;
             if (response.status == 200) {
-                console.log("User registered successfully", JobsResponses);
                 toast.success(<div className='font-serif text-[15px] text-black'>{JobsResponses.message}</div>)
                 setTimeout(() => {
                     setLoadingOTP(false)

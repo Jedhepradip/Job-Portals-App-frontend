@@ -44,7 +44,8 @@ const ApplicantsJobs: React.FC = () => {
     const ApplyJobsUser = async () => {
       const Token = localStorage.getItem("Token");
       try {
-        const response = await axios.get(`http://localhost:8000/Application/Applicants/Jobs/${id}`, {
+        // const response = await axios.get(`http://localhost:8000/Application/Applicants/Jobs/${id}`, {
+        const response = await axios.get(`https://job-portal-app-backend-zm6q.onrender.com/Application/Applicants/Jobs/${id}`, {
           headers: {
             authorization: `Bearer ${Token}`,
           },
@@ -71,7 +72,8 @@ const ApplicantsJobs: React.FC = () => {
     const formdata = new FormData();
     formdata.append("status", status);
     try {
-      const response = await axios.post(`http://localhost:8000/Application/Updata/Status/${ApplicationId}`, formdata, {
+      // const response = await axios.post(`http://localhost:8000/Application/Updata/Status/${ApplicationId}`, formdata, {
+      const response = await axios.post(`https://job-portal-app-backend-zm6q.onrender.com/Application/Updata/Status/${ApplicationId}`, formdata, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("Token")}`,

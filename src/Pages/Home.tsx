@@ -61,7 +61,6 @@ interface Job {
 }
 
 const Home: React.FC = () => {
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [Jobsdefualt, SetupCompanyJobs] = useState<Job[]>([]);
   const [searchJobs, SetSeachdataJobs] = useState<Job[]>([]);
@@ -70,7 +69,6 @@ const Home: React.FC = () => {
   const JobsData = useSelector((state: RootState) => state.Jobs.Jobs);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const User: any = useSelector((state: RootState) => state.User.User);
-
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -90,7 +88,6 @@ const Home: React.FC = () => {
     }
   }, [User])
 
-
   useEffect(() => {
     const SearchJobsShow: Job[] = JobsData.filter((e: Job) =>
       e.title.toLowerCase().includes(Search.toLowerCase())
@@ -98,7 +95,6 @@ const Home: React.FC = () => {
     const arr = [...new Set(SearchJobsShow)]        
     SetSeachdataJobs(arr)
   }, [JobsData, Search])
-
 
   const handelJobsId = (id: string) => {
     const Jobstroed: Job[] = JobsData.filter((e: Job) => e._id == id)

@@ -86,7 +86,8 @@ const PostJobsAdmin: React.FC = () => {
         }
 
         try {
-            const response = await axios.post(`http://localhost:8000/Jobs/Admin/PostJobs/${companyId}`, formData, {
+            // const response = await axios.post(`http://localhost:8000/Jobs/Admin/PostJobs/${companyId}`, formData, {
+                const response = await axios.post(`https://job-portal-app-backend-zm6q.onrender.com/Jobs/Admin/PostJobs/${companyId}`, formData, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("Token")}`,
@@ -94,7 +95,6 @@ const PostJobsAdmin: React.FC = () => {
             });
             const JobsResponses = await response.data;
             if (response.status == 200) {
-                console.log("User registered successfully", JobsResponses);
                 toast.success(<div className='font-serif text-[15px] text-black'>{JobsResponses.message}</div>)
                 setTimeout(() => {
                     setLoadingOTP(false)

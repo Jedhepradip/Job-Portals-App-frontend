@@ -21,7 +21,6 @@ const ForgetPassword: React.FC = () => {
     const [showOtp, setShowOtp] = useState<boolean>(false);
     const [loadingOTP, setLoadingOTP] = useState(false); // For Send OTP button
     const [verifyotp, setOtpVerify] = useState(false); // For Send OTP button
-
     const [userInfo, setUserInfo] = useState<UserResponse | null>(null);
     const Navigate = useNavigate();
 
@@ -34,7 +33,8 @@ const ForgetPassword: React.FC = () => {
             return;
         }
         try {
-            const response = await axios.post("http://localhost:8000/ForgetPassword/ForgetPassword", { email });
+            // const response = await axios.post("http://localhost:8000/ForgetPassword/ForgetPassword", { email });
+            const response = await axios.post("https://job-portal-app-backend-zm6q.onrender.com/ForgetPassword/ForgetPassword", { email });
             const userResponse: UserResponse = response.data;
             if (response.status === 200) {
                 toast.success(<div className='font-serif text-[15px] text-black'>{userResponse.message}</div>);
@@ -58,9 +58,6 @@ const ForgetPassword: React.FC = () => {
             }
         }
     };
-
-    console.log(userInfo);
-
 
     // Function to handle OTP verification
     const handleSubmitOtp = async (e: React.FormEvent) => {

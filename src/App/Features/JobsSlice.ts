@@ -37,7 +37,8 @@ const initialState: jobsState = {
 export const AdminCreatedJobsdata = () => async (dispatch: AppDispatch) => {
 
     try {
-        const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs/Admin", {
+        // const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs/Admin", {
+        const response = await axios.get("https://job-portal-app-backend-zm6q.onrender.com/Jobs/GetAll/Jobs/Admin", {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
@@ -51,7 +52,8 @@ export const AdminCreatedJobsdata = () => async (dispatch: AppDispatch) => {
 export const FetchingJobsData = () => async (dispatch: AppDispatch) => {
 
     try {
-        const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs", {
+        // const response = await axios.get("http://localhost:8000/Jobs/GetAll/Jobs", {
+        const response = await axios.get("https://job-portal-app-backend-zm6q.onrender.com/Jobs/GetAll/Jobs", {
             headers: {
                 // authorization: `Bearer ${localStorage.getItem("Token")}`
             }

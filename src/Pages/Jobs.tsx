@@ -108,7 +108,6 @@ const Jobs: React.FC = () => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSaveJobs = async (JobId: string) => {
     const Token = localStorage.getItem("Token");
     if (!Token) {
@@ -116,9 +115,11 @@ const Jobs: React.FC = () => {
       return;
     }
     try {
+      // const response = await axios.put(
+      //   `http://localhost:8000/Jobs/Jobs/Save/User/${JobId}`,
       const response = await axios.put(
-        `http://localhost:8000/Jobs/Jobs/Save/User/${JobId}`,
-        {}, // If no data is required in the body, send an empty object
+        `https://job-portal-app-backend-zm6q.onrender.com/Jobs/Jobs/Save/User/${JobId}`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",

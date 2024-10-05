@@ -36,7 +36,8 @@ const SignIn: React.FC = () => {
             toast.error("Email Is Required...")
         }
         try {
-            const response = await axios.post("http://localhost:8000/UserSendOtp", Fordata, {
+            // const response = await axios.post("http://localhost:8000/UserSendOtp", Fordata, {
+            const response = await axios.post("https://job-portal-app-backend-zm6q.onrender.com/UserSendOtp", Fordata, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -81,10 +82,10 @@ const SignIn: React.FC = () => {
             formData.append("role", data.role);
 
             try {
-                const response = await axios.post("http://localhost:8000/User/Registration", formData);
+                // const response = await axios.post("http://localhost:8000/User/Registration", formData);
+                const response = await axios.post("https://job-portal-app-backend-zm6q.onrender.com/User/Registration", formData);
                 const UserResponse = response.data;
                 if (response.status === 200) {
-                    console.log("User registered successfully", UserResponse);
                     toast.success(<div className='font-serif text-[15px] text-black'>{UserResponse.message}</div>);
                     setTimeout(() => {
                         Navigate("/");
@@ -100,7 +101,6 @@ const SignIn: React.FC = () => {
                 }, 2000);
                 if (error.response) {
                     const errorMessage = error.response.data.message;
-
                     if (error.response.status === 409 || errorMessage === "User already exists") {
                         console.log("Error: User already exists.");
                         toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
