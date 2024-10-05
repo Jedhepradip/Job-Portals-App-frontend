@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 import { HiCheck } from 'react-icons/hi';
 import { RxCross2 } from 'react-icons/rx';
+import { FaArrowDown, FaEye } from 'react-icons/fa';
 
 interface Applications {
   Company: string;
@@ -94,7 +95,7 @@ const ApplicantsJobs: React.FC = () => {
   return (
     <>
       <ToastContainer />
-      <div className='container mx-auto p-4  rounded-lg px-20'>
+      <div className='container mx-auto p-4 rounded-lg px-20 '>
         <h1 className='text-2xl md:text-3xl font-serif font-semibold text-center md:text-left mb-8 text-gray-800 mt-5'>
           Applicants ({jobsDefault.length})
         </h1>
@@ -107,13 +108,12 @@ const ApplicantsJobs: React.FC = () => {
           <h1 className='text-sm md:text-lg text-gray-700 font-medium'>Action</h1>
         </div>
 
-        {/* <div className='border-t-2 border-gray-300 mt-3 mb-5'></div> */}
-        <hr className='w-full mt-5 h-[1px] bg-black text-black' />
+        <hr className='w-full mt-5 h-[1px]' />
 
         {jobsDefault.map((val, index) => (
           <div
             key={index}
-            className='grid grid-cols-1 md:grid-cols-6 gap-y-4 md:gap-y-0 items-center text-center md:text-left p-4 bg-white rounded-lg mb-4  duration-200 ease-in-out cursor-pointer'
+            className='grid grid-cols-1 md:grid-cols-6 gap-y-4 md:gap-y-0 items-center text-center md:text-left p-0 mt-2  rounded-lg mb-4  transition-shadow duration-200 ease-in-out'
           >
             <h1 className='text-base md:text-lg text-gray-800 font-serif font-medium'>
               {val?.applicant?.name}
@@ -124,9 +124,17 @@ const ApplicantsJobs: React.FC = () => {
             <h1 className='text-sm md:text-base text-blue-600 font-serif cursor-pointer hover:underline'>
               {val?.applicant?.mobile}
             </h1>
-            <h1 className='text-sm md:text-base text-blue-600 font-serif cursor-pointer hover:underline'>
-              {val?.applicant?.ResumeFile}
-            </h1>
+
+            {/* <div className='flex justify-around'> */}
+            <a
+              href={val?.applicant?.ResumeFile}
+              download // This triggers the download
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 md:mr-20 md:ml-0 mr-20 ml-20 rounded-md mt-2 transition duration-200 ease-in-out"
+            >
+              Download
+            </a>
+
+
             <h1 className='text-sm md:text-base text-gray-700 font-serif'>
               {val?.applicant?.updatedAt ? new Date(val?.applicant?.updatedAt).toLocaleDateString() : 'N/A'}
             </h1>
@@ -155,6 +163,7 @@ const ApplicantsJobs: React.FC = () => {
           </div>
         ))}
       </div>
+
     </>
   );
 };

@@ -298,7 +298,7 @@ const Profile: React.FC = () => {
                 <div className="p-10 shadow shadow-gray-200 rounded-lg ">
                     <div className='flex'>
                         <img
-                            src={`http://localhost:8000/${UserData?.ProfileImg} `}
+                            src={UserData?.ProfileImg}
                             alt=""
                             className='h-20 w-20 mt-3 rounded-full object-cover bg-black'
                         />
@@ -333,8 +333,20 @@ const Profile: React.FC = () => {
                                 ))}
                             </>}
                         </div>
-                        <h1 className='font-bold mt-2 text-[19px]'>Resume</h1>
-                        <h2 className='text-blue-600 mt-1 hover:underline'>{UserData?.ResumeFile}</h2>
+                        <h1 className="font-bold mt-2 text-[19px]">Resume</h1>
+                        <a
+                            href={UserData?.ResumeFile}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded mt-2 inline-block"
+                        >
+                            View Resume
+                        </a>
+
+                        <h2 className="text-blue-600 mt-1 hover:underline">
+                            {UserData?.ResumeFile ? 'Resume Available' : 'No Resume Uploaded'}
+                        </h2>
+
                     </div>
                 </div>
             </div>

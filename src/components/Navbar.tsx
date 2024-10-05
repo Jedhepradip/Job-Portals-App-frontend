@@ -159,7 +159,8 @@ const Navbar: React.FC = () => {
               {token ? (
                 <li>
                   <div className='h-8 w-8 md:mr-14 md:ml-0 ml-3 md:mt-0 mt-2 rounded-full border-1 bg-black overflow-hidden border-black'>
-                    <img src={`http://localhost:8000/${UserData?.ProfileImg}`} alt="Profile" className='object-cover h-full w-full ' onClick={() => SetProfileUser()} />
+                    <img src={UserData?.ProfileImg}
+                      alt="Profile" className='object-cover h-full w-full ' onClick={() => SetProfileUser()} />
                   </div>
                 </li>
               ) : (
@@ -182,7 +183,7 @@ const Navbar: React.FC = () => {
                   <div className="absolute cursor-pointer rounded-lg shadow-lg shadow-gray-400 bg-gray-50 z-50 md:mt-12 mt-[180px] text-black p-2">
                     <div className="flex items-center mb-2 px-4 py-2" onClick={toggleMenu}>
                       <img
-                        src={`http://localhost:8000/${UserData?.ProfileImg}`}
+                        src={UserData?.ProfileImg}
                         alt="Profile"
                         className="object-cover h-12 w-12 rounded-full border-2 border-white"
                       />
