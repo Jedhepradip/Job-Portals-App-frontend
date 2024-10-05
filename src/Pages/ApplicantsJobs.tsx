@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 import { HiCheck } from 'react-icons/hi';
 import { RxCross2 } from 'react-icons/rx';
-import { FaArrowDown, FaEye } from 'react-icons/fa';
 
 interface Applications {
   Company: string;
