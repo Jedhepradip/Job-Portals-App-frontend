@@ -263,7 +263,7 @@ const Jobs: React.FC = () => {
                         </div>
                         <div className='flex'>
                           <div>
-                            <img src={`http://localhost:8000/${val.company?.CompanyLogo}`} alt="Company Logo" className='h-12 w-12 rounded-lg object-cover' />
+                            <img src={val.company?.CompanyLogo} alt="Company Logo" className='h-12 w-12 rounded-lg object-cover' />
                           </div>
                           <div className='px-3'>
                             <h1 className='font-sans font-bold text-[14px]'>{val.companyName}</h1>
